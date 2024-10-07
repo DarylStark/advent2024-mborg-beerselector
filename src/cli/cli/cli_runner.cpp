@@ -1,7 +1,5 @@
 #include "cli_runner.h"
 
-#include <iostream>
-
 #include "../parser/exceptions.h"
 
 std::shared_ptr<ds::PlatformObjectFactory> CLIRunner::_factory = nullptr;

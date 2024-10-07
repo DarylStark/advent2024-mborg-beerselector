@@ -4,7 +4,6 @@
 #include <freertos/task.h>
 
 #include <chrono>
-#include <iostream>
 #include <thread>
 
 namespace ds::esp32

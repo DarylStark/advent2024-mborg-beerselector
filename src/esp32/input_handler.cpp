@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <fstream>
-#include <iostream>
 
 #include "uart.h"
 #include "esp32_lineinput.h"

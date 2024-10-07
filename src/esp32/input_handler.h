@@ -11,13 +11,13 @@
 
 namespace ds::esp32
 {
-    class PCInputHandler : public ds::InputHandler
+    class ESP32InputHandler : public ds::InputHandler
     {
     private:
         std::shared_ptr<ds::esp32::UART> _uart;
 
     public:
-        PCInputHandler(std::shared_ptr<ds::esp32::UART> uart);
+        ESP32InputHandler(std::shared_ptr<ds::esp32::UART> uart);
         std::string get_string(const std::string prompt, std::string default_value) const;
         bool is_break_pressed() const;
     };

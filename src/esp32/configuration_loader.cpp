@@ -2,7 +2,7 @@
 
 namespace ds::esp32
 {
-    void PCConfigurationLoader::load_configuration()
+    void ESP32ConfigurationLoader::load_configuration()
     {
         // Load configuration for PC
     }

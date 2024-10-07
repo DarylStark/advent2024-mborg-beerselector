@@ -5,7 +5,7 @@
 
 namespace ds::esp32
 {
-    class PCOS : public ds::OS
+    class ESP32OS : public ds::OS
     {
     public:
         void sleep_miliseconds(uint32_t miliseconds);

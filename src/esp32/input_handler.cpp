@@ -9,12 +9,12 @@
 
 namespace ds::esp32
 {
-    PCInputHandler::PCInputHandler(std::shared_ptr<ds::esp32::UART> uart)
+    ESP32InputHandler::ESP32InputHandler(std::shared_ptr<ds::esp32::UART> uart)
         : _uart(uart)
     {
     }
 
-    std::string PCInputHandler::get_string(
+    std::string ESP32InputHandler::get_string(
         const std::string prompt,
         std::string default_value
         ) const
@@ -25,7 +25,7 @@ namespace ds::esp32
         return input.get(true);
     }
 
-    bool PCInputHandler::is_break_pressed() const
+    bool ESP32InputHandler::is_break_pressed() const
     {
         char input[4];
         int len = _uart->get_bytes(input, 1, 10);

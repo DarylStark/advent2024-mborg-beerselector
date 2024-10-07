@@ -5,7 +5,7 @@
 
 namespace ds::esp32
 {
-    class PCConfigurationLoader : public ds::ConfigurationLoader
+    class ESP32ConfigurationLoader : public ds::ConfigurationLoader
     {
     public:
         void load_configuration() override;

@@ -1,23 +1,25 @@
 #include "output_handler.h"
 
-#include <iostream>
-
 namespace ds::esp32
 {
-    void PCOutputHandler::print(const std::string text) const
+    ESP32OutputHandler::ESP32OutputHandler(std::shared_ptr<ds::esp32::UART> uart)
+        : _uart(uart)
     {
-        std::cout << text;
-        flush();
     }
 
-    void PCOutputHandler::println(const std::string text) const
+    void ESP32OutputHandler::print(const std::string text) const
     {
-        std::cout << text << "\n";
-        flush();
+        _uart->write_bytes(text.c_str(), text.length());
     }
 
-    void PCOutputHandler::flush() const
+    void ESP32OutputHandler::println(const std::string text) const
     {
-        std::flush(std::cout);
+        print(text);
+        _uart->write_bytes("\r\n", 2);
+    }
+
+    void ESP32OutputHandler::flush() const
+    {
+        // Not needed for ESP32
     }
 }  // namespace ds::esp32

@@ -14,22 +14,22 @@ namespace ds::esp32
 
     std::shared_ptr<ds::OutputHandler> ESP32ObjectFactory::_get_output_handler()
     {
-        return std::make_shared<PCOutputHandler>();
+        return std::make_shared<ESP32OutputHandler>(_uart);
     }
 
     std::shared_ptr<ds::InputHandler> ESP32ObjectFactory::_get_input_handler()
     {
-        return std::make_shared<PCInputHandler>(_uart);
+        return std::make_shared<ESP32InputHandler>(_uart);
     }
 
     std::shared_ptr<ds::OS> ESP32ObjectFactory::_get_os()
     {
-        return std::make_shared<ds::esp32::PCOS>();
+        return std::make_shared<ds::esp32::ESP32OS>();
     }
 
     std::shared_ptr<ds::ConfigurationLoader>
     ESP32ObjectFactory::_get_configuration_loader()
     {
-        return std::make_shared<ds::esp32::PCConfigurationLoader>();
+        return std::make_shared<ds::esp32::ESP32ConfigurationLoader>();
     }
 }  // namespace ds::esp32

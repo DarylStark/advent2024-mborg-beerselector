@@ -96,7 +96,7 @@ void BootingState::_print_device_information() const
 void BootingState::_wait_for_keypress_rommon()
 {
     _output_handler->println(
-        "PRESS THE MODE BUTTON TO SKIP BOOTING AND GO TO ROMMON.");
+        "PRESS CTRL+C OR CTRL+B TO SKIP BOOTING AND GO TO ROMMON.");
     auto os = _factory->get_os();
 
     uint16_t counter = 0;
@@ -104,7 +104,7 @@ void BootingState::_wait_for_keypress_rommon()
     {
         _output_handler->print(".");
         _output_handler->flush();
-        if (_input_handler->is_mode_pressed())
+        if (_input_handler->is_break_pressed())
         {
             _output_handler->println("\n\nGOING TO ROMMON...");
             _go_to_rommon();

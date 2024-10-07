@@ -49,10 +49,10 @@ namespace ds::esp32
         _is_initialized = true;
     }
 
-    int UART::get_bytes(char *data, size_t length) const
+    int UART::get_bytes(char *data, size_t length, uint32_t timeout) const
     {
         // TODO: Make the wait time configurable
-        return uart_read_bytes(UART_PORT_NUM, data, length, pdMS_TO_TICKS(1000));
+        return uart_read_bytes(UART_PORT_NUM, data, length, pdMS_TO_TICKS(timeout));
     }
 
     int UART::write_bytes(const char *data, size_t length) const

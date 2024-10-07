@@ -2,6 +2,7 @@
 #define UART_H
 
 #include <cstddef> // For size_t
+#include <cstdint> // For uint32_t
 
 #define UART_PORT_NUM      UART_NUM_0
 #define UART_BAUD_RATE     115200
@@ -16,7 +17,7 @@ namespace ds::esp32
     public:
         UART();
         void initialize();
-        int get_bytes(char *data, size_t length) const;
+        int get_bytes(char *data, size_t length, uint32_t timeout = 1000) const;
         int write_bytes(const char *data, size_t length) const;
     };
 } // namespace ds::esp32

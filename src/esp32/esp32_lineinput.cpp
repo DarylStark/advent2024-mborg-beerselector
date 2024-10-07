@@ -236,14 +236,6 @@ namespace ds::esp32
 
             if (len > 0)
             {
-                // if (input[0] == 10 || input[0] == 13)
-                // {
-                //     std::cout << "--------------" << std::endl;
-                //     continue;
-                // }
-                // std::cout << static_cast<int>(input[0]) << std::endl;
-                // continue;
-
                 if (input[0] == '\n' || input[0] == '\r')
                 {
                     _finish_buffer();

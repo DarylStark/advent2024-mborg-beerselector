@@ -19,7 +19,7 @@ namespace ds::esp32
     public:
         PCInputHandler(std::shared_ptr<ds::esp32::UART> uart);
         std::string get_string(const std::string prompt, std::string default_value) const;
-        bool is_mode_pressed() const;
+        bool is_break_pressed() const;
     };
 }  // namespace ds::esp32
 

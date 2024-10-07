@@ -25,9 +25,10 @@ namespace ds::esp32
         return input.get(true);
     }
 
-    bool PCInputHandler::is_mode_pressed() const
+    bool PCInputHandler::is_break_pressed() const
     {
-        // TODO: Implement
-        return true;
+        char input[4];
+        int len = _uart->get_bytes(input, 1, 10);
+        return len == 1 && (input[0] == 3 || input[0] == 2);
     }
 }  // namespace ds::esp32

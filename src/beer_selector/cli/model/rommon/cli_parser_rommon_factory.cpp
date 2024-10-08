@@ -1,6 +1,6 @@
 #include "./cli_parser_rommon_factory.h"
 
-#include "../../../beer_selector/cli/commands/auth_credentials.h"
+#include "commands/auth_credentials.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserROMMONFactory::_parser =
     nullptr;

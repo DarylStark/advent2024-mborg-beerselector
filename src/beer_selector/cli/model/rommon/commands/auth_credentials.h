@@ -1,7 +1,7 @@
 #ifndef AUTH_CREDENTIALS_H
 #define AUTH_CREDENTIALS_H
 
-#include "../../../cli/command/command.h"
+#include "../../../../../cli/command/command.h"
 
 class AuthCredentials : public Command
 {

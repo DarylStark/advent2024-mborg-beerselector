@@ -1,7 +1,7 @@
 #include "rommon_state.h"
 
 #include "../cli/cli/cli_runner.h"
-#include "../cli/model/rommon/cli_parser_rommon_factory.h"
+#include "cli/model/rommon/cli_parser_rommon_factory.h"
 
 RommonState::RommonState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                          ds::BaseApplication &application)

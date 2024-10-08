@@ -1,5 +1,5 @@
-#ifndef CLI_PARSER_ROMMON_FACTORY_H
-#define CLI_PARSER_ROMMON_FACTORY_H
+#ifndef CLI_PARSER_SYS_INFO_H
+#define CLI_PARSER_SYS_INFO_H
 
 #include "../../../../cli/model/cli_model.h"
 
@@ -13,4 +13,4 @@ public:
     std::shared_ptr<ArgumentedCommandParser> get_parser();
 };
 
-#endif /* CLI_PARSER_ROMMON_FACTORY_H */
+#endif /* CLI_PARSER_SYS_INFO_H */

@@ -1,5 +1,5 @@
-#ifndef __ARGUMENT_H__
-#define __ARGUMENT_H__
+#ifndef ARGUMENT_H
+#define ARGUMENT_H
 
 #include <algorithm>
 #include <string>
@@ -75,4 +75,4 @@ public:
     void parse(std::string argument) override;
 };
 
-#endif /* __ARGUMENT_H__ */
+#endif /* ARGUMENT_H */

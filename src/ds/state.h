@@ -1,5 +1,5 @@
-#ifndef __STATE_H__
-#define __STATE_H__
+#ifndef STATE_H
+#define STATE_H
 
 namespace ds
 {
@@ -11,4 +11,4 @@ namespace ds
     };
 }  // namespace ds
 
-#endif /* __STATE_H__ */
+#endif /* STATE_H */

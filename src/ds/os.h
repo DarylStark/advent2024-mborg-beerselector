@@ -1,5 +1,5 @@
-#ifndef __OS_H__
-#define __OS_H__
+#ifndef OS_H
+#define OS_H
 
 #include <string>
 
@@ -13,4 +13,4 @@ namespace ds
     };
 }  // namespace ds
 
-#endif /* __OS_H__ */
+#endif /* OS_H */

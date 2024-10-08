@@ -1,5 +1,5 @@
-#ifndef __OUTPUT_HANDLER_H__
-#define __OUTPUT_HANDLER_H__
+#ifndef OUTPUT_HANDLER_H
+#define OUTPUT_HANDLER_H
 
 #include <string>
 
@@ -18,4 +18,4 @@ namespace ds
     };
 }  // namespace ds
 
-#endif /* __OUTPUT_HANDLER_H__ */
+#endif /* OUTPUT_HANDLER_H */

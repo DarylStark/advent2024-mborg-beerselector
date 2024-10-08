@@ -1,5 +1,5 @@
-#ifndef __BASE_STATE_H__
-#define __BASE_STATE_H__
+#ifndef BASE_STATE_H
+#define BASE_STATE_H
 
 #include "base_application.h"
 #include "platform_object_factory.h"
@@ -19,4 +19,4 @@ namespace ds
     };
 }  // namespace ds
 
-#endif /* __BASE_STATE_H__ */
+#endif /* BASE_STATE_H */

@@ -1,5 +1,5 @@
-#ifndef __PC_OS_H__
-#define __PC_OS_H__
+#ifndef ESP32_OS_H
+#define ESP32_OS_H
 
 #include "../ds/os.h"
 
@@ -12,4 +12,4 @@ namespace ds::esp32
     };
 }  // namespace ds::esp32
 
-#endif /* __PC_OS_H__ */
+#endif /* ESP32_OS_H */

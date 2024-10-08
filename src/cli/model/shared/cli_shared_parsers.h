@@ -1,5 +1,5 @@
-#ifndef __CLI_SHARED_PARSERS_H__
-#define __CLI_SHARED_PARSERS_H__
+#ifndef CLI_SHARED_PARSERS_H
+#define CLI_SHARED_PARSERS_H
 
 #include "../cli_model.h"
 
@@ -19,4 +19,4 @@ public:
     std::shared_ptr<ArgumentedCommandParser> get_parser();
 };
 
-#endif /* __CLI_SHARED_PARSERS_H__ */
+#endif /* CLI_SHARED_PARSERS_H */

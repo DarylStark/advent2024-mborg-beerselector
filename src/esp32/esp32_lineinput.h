@@ -1,3 +1,6 @@
+#ifndef ESP32_LINE_INPUT_H
+#define ESP32_LINE_INPUT_H
+
 #include <string>
 #include "uart.h"
 
@@ -48,3 +51,5 @@ namespace ds::esp32
         std::string get(bool break_on_question_mark = false);
     };
 }
+
+#endif /* ESP32_LINE_INPUT_H */

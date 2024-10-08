@@ -1,5 +1,5 @@
-#ifndef __PLATFORM_OBJECT_FACTORY_H__
-#define __PLATFORM_OBJECT_FACTORY_H__
+#ifndef PLATFORM_OBJECT_FACTORY_H
+#define PLATFORM_OBJECT_FACTORY_H
 
 #include <memory>
 
@@ -33,4 +33,4 @@ namespace ds
     };
 };  // namespace ds
 
-#endif /* __PLATFORM_OBJECT_FACTORY_H__ */
+#endif /* PLATFORM_OBJECT_FACTORY_H */

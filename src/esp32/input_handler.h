@@ -1,5 +1,5 @@
-#ifndef __PC_INPUT_HANDLER_H__
-#define __PC_INPUT_HANDLER_H__
+#ifndef ESP32_INPUT_HANDLER_H
+#define ESP32_INPUT_HANDLER_H
 
 #include <memory>
 #include <limits>
@@ -23,4 +23,4 @@ namespace ds::esp32
     };
 }  // namespace ds::esp32
 
-#endif /* __PC_INPUT_HANDLER_H__ */
+#endif /* ESP32_INPUT_HANDLER_H */

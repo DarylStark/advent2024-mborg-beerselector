@@ -1,5 +1,5 @@
-#ifndef __BOOTING_STATE_H__
-#define __BOOTING_STATE_H__
+#ifndef BOOTING_STATE_H
+#define BOOTING_STATE_H
 
 #include "../ds/base_state.h"
 #include "app_info.h"
@@ -40,4 +40,4 @@ public:
     void loop();
 };
 
-#endif /* __BOOTING_STATE_H__ */
+#endif /* BOOTING_STATE_H */

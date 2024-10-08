@@ -1,5 +1,5 @@
-#ifndef __INPUT_HANDLER_H__
-#define __INPUT_HANDLER_H__
+#ifndef INPUT_HANDLER_H
+#define INPUT_HANDLER_H
 
 #include <string>
 
@@ -17,4 +17,4 @@ namespace ds
     };
 }  // namespace ds
 
-#endif /* __INPUT_HANDLER_H__ */
+#endif /* INPUT_HANDLER_H */

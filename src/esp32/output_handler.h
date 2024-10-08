@@ -1,5 +1,5 @@
-#ifndef __PC_OUTPUT_HANDLER_H__
-#define __PC_OUTPUT_HANDLER_H__
+#ifndef ESP32_OUTPUT_HANDLER_H
+#define ESP32_OUTPUT_HANDLER_H
 
 #include <memory>
 #include <string>
@@ -22,4 +22,4 @@ namespace ds::esp32
     };
 }  // namespace ds::esp32
 
-#endif /* __PC_OUTPUT_HANDLER_H__ */
+#endif /* ESP32_OUTPUT_HANDLER_H */

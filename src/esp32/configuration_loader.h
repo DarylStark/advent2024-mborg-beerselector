@@ -1,5 +1,5 @@
-#ifndef __PC_CONFIGURATION_LOADER_H__
-#define __PC_CONFIGURATION_LOADER_H__
+#ifndef ESP32_CONFIGURATION_LOADER_H
+#define ESP32_CONFIGURATION_LOADER_H
 
 #include "../ds/configuration_loader.h"
 
@@ -12,4 +12,4 @@ namespace ds::esp32
     };
 }  // namespace ds::esp32
 
-#endif /* __PC_CONFIGURATION_LOADER_H__ */
+#endif /* ESP32_CONFIGURATION_LOADER_H */

@@ -3,7 +3,6 @@
 
 #include "../../../../cli/model/cli_model.h"
 #include "../../../../cli/model/shared/cli_shared_parsers.h"
-#include "../shared/cli_parser_sys_info.h"
 
 class CLIParserROMMONFactory : public CLIParserFactory
 {

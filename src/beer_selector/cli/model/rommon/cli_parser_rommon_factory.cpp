@@ -2,6 +2,9 @@
 
 #include "commands/auth_credentials.h"
 
+#include "../shared/cli_parser_sys_info.h"
+#include "../shared/cli_parser_rtos_info.h"
+
 std::shared_ptr<ArgumentedCommandParser> CLIParserROMMONFactory::_parser =
     nullptr;
 
@@ -51,8 +54,9 @@ CLIParserROMMONFactory::_get_show_parser()
             "Show information",
             "Show statistics and system information.");
     
-    CLIParserSysInfo sys_info_parser;
-    parser->add_parser("system", sys_info_parser.get_parser());
+    // Add shared parsers
+    parser->add_parser("system", CLIParserSysInfo().get_parser());
+    parser->add_parser("freertos", CLIParserRTOSInfo().get_parser());
 
     return parser;
 }

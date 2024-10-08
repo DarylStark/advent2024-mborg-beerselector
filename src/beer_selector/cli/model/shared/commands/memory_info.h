@@ -1,5 +1,5 @@
-#ifndef AUTH_CREDENTIALS_H
-#define AUTH_CREDENTIALS_H
+#ifndef MEMORY_INFO_H
+#define MEMORY_INFO_H
 
 #include "../../../../../cli/command/command.h"
 
@@ -9,4 +9,4 @@ public:
     bool execute(std::map<std::string, std::string> args) override;
 };
 
-#endif /* AUTH_CREDENTIALS_H */
+#endif /* MEMORY_INFO_H */

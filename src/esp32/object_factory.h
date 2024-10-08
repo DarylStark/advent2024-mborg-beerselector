@@ -1,5 +1,5 @@
-#ifndef __PC_OBJECT_FACTORY_H__
-#define __PC_OBJECT_FACTORY_H__
+#ifndef ESP32_OBJECT_FACTORY_H
+#define ESP32_OBJECT_FACTORY_H
 
 #include <memory>
 
@@ -22,4 +22,4 @@ namespace ds::esp32
     };
 }  // namespace ds::esp32
 
-#endif /* __PC_OBJECT_FACTORY_H__ */
+#endif /* ESP32_OBJECT_FACTORY_H */

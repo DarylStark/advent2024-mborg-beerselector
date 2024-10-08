@@ -1,5 +1,5 @@
-#ifndef __BEER_SELECTOR_H__
-#define __BEER_SELECTOR_H__
+#ifndef BEER_SELECTOR_H
+#define BEER_SELECTOR_H
 
 #include <memory>
 
@@ -20,4 +20,4 @@ public:
     void loop();
 };
 
-#endif /* __BEER_SELECTOR_H__ */
+#endif /* BEER_SELECTOR_H */

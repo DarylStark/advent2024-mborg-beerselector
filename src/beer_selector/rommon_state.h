@@ -1,5 +1,5 @@
-#ifndef __ROMMON_STATE_H__
-#define __ROMMON_STATE_H__
+#ifndef ROMMON_STATE_H
+#define ROMMON_STATE_H
 
 #include <iterator>
 #include <sstream>
@@ -18,4 +18,4 @@ public:
     void loop();
 };
 
-#endif /* __ROMMON_STATE_H__ */
+#endif /* ROMMON_STATE_H */

@@ -1,5 +1,5 @@
-#ifndef __CONFIGURATION_LOADER_H__
-#define __CONFIGURATION_LOADER_H__
+#ifndef CONFIGURATION_LOADER_H
+#define CONFIGURATION_LOADER_H
 
 namespace ds
 {
@@ -10,4 +10,4 @@ namespace ds
     };
 }  // namespace ds
 
-#endif  // __CONFIGURATION_LOADER_H__
+#endif  // CONFIGURATION_LOADER_H

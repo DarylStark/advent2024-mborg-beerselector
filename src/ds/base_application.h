@@ -1,5 +1,5 @@
-#ifndef __BASE_APPLICATION_H__
-#define __BASE_APPLICATION_H__
+#ifndef BASE_APPLICATION_H
+#define BASE_APPLICATION_H
 
 #include <memory>
 
@@ -28,4 +28,4 @@ namespace ds
     };
 }  // namespace ds
 
-#endif /* __BASE_APPLICATION_H__ */
+#endif /* BASE_APPLICATION_H */

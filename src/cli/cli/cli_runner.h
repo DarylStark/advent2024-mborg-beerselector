@@ -1,5 +1,5 @@
-#ifndef __CLI_RUNNER_H__
-#define __CLI_RUNNER_H__
+#ifndef CLI_RUNNER_H
+#define CLI_RUNNER_H
 
 #include <iterator>
 #include <memory>
@@ -25,4 +25,4 @@ public:
     bool run();
 };
 
-#endif /* __CLI_RUNNER_H__ */
+#endif /* CLI_RUNNER_H */

@@ -1,5 +1,5 @@
-#ifndef __CLI_MODEL_H__
-#define __CLI_MODEL_H__
+#ifndef CLI_MODEL_H
+#define CLI_MODEL_H
 
 #include <memory>
 
@@ -11,4 +11,4 @@ public:
     virtual std::shared_ptr<ArgumentedCommandParser> get_parser() = 0;
 };
 
-#endif /* __CLI_MODEL_H__ */
+#endif /* CLI_MODEL_H */

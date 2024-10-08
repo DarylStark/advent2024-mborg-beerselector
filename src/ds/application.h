@@ -1,5 +1,5 @@
-#ifndef __APPLICATION_H__
-#define __APPLICATION_H__
+#ifndef APPLICATION_H
+#define APPLICATION_H
 
 namespace ds
 {
@@ -12,4 +12,4 @@ namespace ds
     };
 }  // namespace ds
 
-#endif /* __APPLICATION_H__ */
+#endif /* APPLICATION_H */

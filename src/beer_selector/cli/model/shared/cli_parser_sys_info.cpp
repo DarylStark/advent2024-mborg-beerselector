@@ -1,6 +1,7 @@
 #include "./cli_parser_sys_info.h"
 
 #include "commands/memory_info.h"
+#include "commands/chip_info.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserSysInfo::_parser =
     nullptr;
@@ -23,7 +24,9 @@ CLIParserSysInfo::_create_parser()
     // Parser for chip information
     std::shared_ptr<ArgumentedCommandParser> chip_parser =
         std::make_shared<ArgumentedCommandParser>(
-            "Chip information", "Get information about the chip");
+            "Chip information",
+            "Get information about the chip",
+            std::make_shared<ChipInfo>());
 
     // Add parsers
     parser->add_parser("memory", memory_parser);

@@ -34,11 +34,11 @@ NotImplementedCommandException::NotImplementedCommandException()
 
 WrongArgumentCountException::WrongArgumentCountException(
     std::vector<std::shared_ptr<Argument>> arguments)
-    : ParseException("\nWrong argument count. Expected arguments:\n")
+    : ParseException("\r\nWrong argument count. Expected arguments:\r\n")
 {
     for (const auto& argument : arguments)
     {
-        _message += "> " + argument->get_name() + "\n";
+        _message += "> " + argument->get_name() + "\r\n";
     }
 }
 
@@ -57,6 +57,6 @@ WrongEnumArgumentException::WrongEnumArgumentException(
 {
     for (const auto& possibility : possibilities)
     {
-        _message += "> " + possibility + "\n";
+        _message += "> " + possibility + "\r\n";
     }
 }

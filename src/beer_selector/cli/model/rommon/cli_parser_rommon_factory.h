@@ -3,6 +3,7 @@
 
 #include "../../../../cli/model/cli_model.h"
 #include "../../../../cli/model/shared/cli_shared_parsers.h"
+#include "../shared/cli_parser_sys_info.h"
 
 class CLIParserROMMONFactory : public CLIParserFactory
 {
@@ -11,6 +12,7 @@ private:
 
     std::shared_ptr<ArgumentedCommandParser> _create_parser();
     std::shared_ptr<ArgumentedCommandParser> _get_auth_parser();
+    std::shared_ptr<ArgumentedCommandParser> _get_show_parser();
 
 public:
     std::shared_ptr<ArgumentedCommandParser> get_parser();

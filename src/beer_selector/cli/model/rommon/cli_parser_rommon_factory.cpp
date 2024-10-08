@@ -43,6 +43,21 @@ CLIParserROMMONFactory::_get_auth_parser()
 }
 
 std::shared_ptr<ArgumentedCommandParser>
+CLIParserROMMONFactory::_get_show_parser()
+{
+    // Show
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Show information",
+            "Show statistics and system information.");
+    
+    CLIParserSysInfo sys_info_parser;
+    parser->add_parser("system", sys_info_parser.get_parser());
+
+    return parser;
+}
+
+std::shared_ptr<ArgumentedCommandParser>
 CLIParserROMMONFactory::_create_parser()
 {
     // Parser for the ROMMON mode
@@ -56,6 +71,7 @@ CLIParserROMMONFactory::_create_parser()
 
     // Add specific parsers
     parser->add_parser("auth", _get_auth_parser());
+    parser->add_parser("show", _get_show_parser());
 
     return parser;
 }

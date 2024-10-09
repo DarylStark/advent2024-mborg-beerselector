@@ -2,7 +2,8 @@
 
 bool AuthCredentials::execute(std::map<std::string, std::string> args)
 {
-    Command::_factory->get_output_handler()->println(
-        "AuthCredentials command executed");
+    // Save the credentials in the configuration
+    _factory->get_configuration_loader()->set("auth.user", args["username"]);
+    _factory->get_configuration_loader()->set("auth.pass", args["password"]);
     return true;
 }

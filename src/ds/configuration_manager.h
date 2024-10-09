@@ -12,6 +12,7 @@ namespace ds
         virtual void save_configuration() = 0;
         virtual const std::string get(const std::string& key) const = 0;
         virtual void set(const std::string& key, const std::string) = 0;
+        virtual void erase_all() = 0;
     };
 }  // namespace ds
 

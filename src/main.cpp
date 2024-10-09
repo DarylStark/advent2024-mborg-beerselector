@@ -18,6 +18,7 @@ std::shared_ptr<BeerSelector> beer_selector = std::make_shared<BeerSelector>(obj
 extern "C"
 void app_main(void)
 {
+    // TODO: REMOVE THIS!!!!
     object_factory->get_output_handler()->println("Starting Beer Selector...");
     
     object_factory->get_output_handler()->println(object_factory->get_configuration_manager()->get("auth.user"));

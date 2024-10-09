@@ -12,6 +12,7 @@ private:
     std::shared_ptr<ArgumentedCommandParser> _create_parser();
     std::shared_ptr<ArgumentedCommandParser> _get_auth_parser();
     std::shared_ptr<ArgumentedCommandParser> _get_show_parser();
+    std::shared_ptr<ArgumentedCommandParser> _get_write_parser();
 
 public:
     std::shared_ptr<ArgumentedCommandParser> get_parser();

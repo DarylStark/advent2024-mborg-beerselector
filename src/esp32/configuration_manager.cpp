@@ -119,4 +119,11 @@ namespace ds::esp32
         // Set configuration for ESP32
         _configuration.at(key) = value;
     }
+
+    void ESP32ConfigurationManager::erase_all()
+    {
+        // Erase all configuration for ESP32
+        _configuration.clear();
+        _nvs->format();
+    }
 }  // namespace ds::esp32

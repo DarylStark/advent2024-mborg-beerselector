@@ -50,6 +50,7 @@ namespace ds::esp32
         void save_configuration();
         const std::string get(const std::string& key) const;
         void set(const std::string& key, const std::string);
+        void erase_all();
     };
 }  // namespace ds::esp32
 

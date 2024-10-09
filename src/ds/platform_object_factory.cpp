@@ -20,11 +20,11 @@ namespace ds
         return _os;
     }
 
-    std::shared_ptr<ConfigurationLoader>
-    PlatformObjectFactory::get_configuration_loader()
+    std::shared_ptr<ConfigurationManager>
+    PlatformObjectFactory::get_configuration_manager()
     {
-        if (!_configuration_loader)
-            _configuration_loader = _get_configuration_loader();
-        return _configuration_loader;
+        if (!_configuration_manager)
+            _configuration_manager = _get_configuration_manager();
+        return _configuration_manager;
     }
 }  // namespace ds

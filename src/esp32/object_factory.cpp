@@ -1,14 +1,14 @@
 #include "object_factory.h"
 
-#include "configuration_loader.h"
+#include "configuration_manager.h"
 #include "input_handler.h"
 #include "os.h"
 #include "output_handler.h"
 
 namespace ds::esp32
 {
-    ESP32ObjectFactory::ESP32ObjectFactory(std::shared_ptr<ds::esp32::UART> uart)
-        : _uart(uart)
+    ESP32ObjectFactory::ESP32ObjectFactory(std::shared_ptr<ds::esp32::UART> uart, std::shared_ptr<ds::esp32::NVS> nvs)
+        : _uart(uart), _nvs(nvs)
     {
     }
 
@@ -27,9 +27,9 @@ namespace ds::esp32
         return std::make_shared<ds::esp32::ESP32OS>();
     }
 
-    std::shared_ptr<ds::ConfigurationLoader>
-    ESP32ObjectFactory::_get_configuration_loader()
+    std::shared_ptr<ds::ConfigurationManager>
+    ESP32ObjectFactory::_get_configuration_manager()
     {
-        return std::make_shared<ds::esp32::ESP32ConfigurationLoader>();
+        return std::make_shared<ds::esp32::ESP32ConfigurationManager>(_nvs);
     }
 }  // namespace ds::esp32

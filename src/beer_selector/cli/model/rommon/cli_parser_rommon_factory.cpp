@@ -1,6 +1,7 @@
 #include "./cli_parser_rommon_factory.h"
 
 #include "commands/auth_credentials.h"
+#include "commands/auth_enable.h"
 
 #include "../shared/cli_parser_sys_info.h"
 #include "../shared/cli_parser_rtos_info.h"
@@ -34,7 +35,8 @@ CLIParserROMMONFactory::_get_auth_parser()
         std::make_shared<ArgumentedCommandParser>(
             "Set password for privilegd mode",
             "Set the password that is used "
-            "to enter privileged mode.");
+            "to enter privileged mode.",
+            std::make_shared<AuthEnable>());
     enable->add_argument(std::make_shared<StringArgument>(
         "password", true, "The password to set"));
 

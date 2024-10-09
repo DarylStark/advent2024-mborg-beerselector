@@ -10,7 +10,7 @@ ScopedAction::ScopedAction(std::string title,
     : _success(true), _output_handler(output_handler)
 {
     std::stringstream out;
-    out << "\n" << std::setw(50) << std::setfill('.') << std::left << title;
+    out << "\r\n" << std::setw(50) << std::setfill('.') << std::left << title;
     _output_handler->print(out.str());
     _output_handler->flush();
 }
@@ -106,14 +106,14 @@ void BootingState::_wait_for_keypress_rommon()
         _output_handler->flush();
         if (_input_handler->is_break_pressed())
         {
-            _output_handler->println("\n\nGOING TO ROMMON...");
+            _output_handler->println("\r\n\r\nGOING TO ROMMON...");
             _go_to_rommon();
             return;
         }
         os->sleep_miliseconds(10);
     }
 
-    _output_handler->println("\n\nCONTINUE BOOTING SYSTEM NORMALLY...");
+    _output_handler->println("\r\n\r\nCONTINUE BOOTING SYSTEM NORMALLY...");
 }
 
 void BootingState::_load_configuration()

@@ -13,17 +13,17 @@ RommonState::RommonState(std::shared_ptr<ds::PlatformObjectFactory> factory,
 
 void RommonState::loop()
 {
-    _output_handler->println("INITIALIZING ROMMON\n\n");
+    _output_handler->println("INITIALIZING ROMMON\r\n\r\n");
 
     CLIParserROMMONFactory parser_factory;
     std::shared_ptr<ArgumentedCommandParser> word_parser =
         parser_factory.get_parser();
 
-    _output_handler->println("ROMMON INITIALIZED\n\n");
+    _output_handler->println("ROMMON INITIALIZED\r\n\r\n");
 
     CLIRunner runner(word_parser, "ROMMON> ");
     while (runner.run())
         ;
 
-    _output_handler->println("EXITING ROMMON\n\n");
+    _output_handler->println("EXITING ROMMON\r\n\r\n");
 }

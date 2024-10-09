@@ -15,7 +15,7 @@ bool HelpCommand::execute(std::map<std::string, std::string> args)
     output_handler->println();
     output_handler->println(_parser->get_help());
 
-    output_handler->println("\nSubcommands");
+    output_handler->println("\r\nSubcommands");
     for (const auto &subparser : _parser->get_parsers())
     {
         if (!subparser.second->show_in_help()) continue;
@@ -26,7 +26,7 @@ bool HelpCommand::execute(std::map<std::string, std::string> args)
         output_handler->println(subparser_help.str());
     }
 
-    output_handler->println("\nArguments");
+    output_handler->println("\r\nArguments");
     for (const auto &argument : _parser->get_argumentes())
     {
         std::stringstream arg_name;

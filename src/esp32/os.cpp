@@ -10,7 +10,7 @@
 
 namespace ds::esp32
 {
-    void ESP32OS::sleep_miliseconds(uint32_t miliseconds)
+    void ESP32OS::sleep_miliseconds(uint32_t miliseconds) const
     {
         vTaskDelay(pdMS_TO_TICKS(miliseconds));
     }

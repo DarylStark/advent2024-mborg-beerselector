@@ -8,7 +8,7 @@ namespace ds::esp32
     class ESP32OS : public ds::OS
     {
     public:
-        void sleep_miliseconds(uint32_t miliseconds);
+        void sleep_miliseconds(uint32_t miliseconds) const;
         void restart() const;
     };
 }  // namespace ds::esp32

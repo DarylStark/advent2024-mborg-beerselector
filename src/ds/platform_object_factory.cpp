@@ -20,7 +20,7 @@ namespace ds
         return _os;
     }
 
-    std::shared_ptr<ConfigurationLoader>
+    std::shared_ptr<ConfigurationManager>
     PlatformObjectFactory::get_configuration_loader()
     {
         if (!_configuration_loader)

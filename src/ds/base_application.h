@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "application.h"
-#include "configuration_loader.h"
+#include "configuration_manager.h"
 #include "platform_object_factory.h"
 #include "state.h"
 
@@ -15,7 +15,7 @@ namespace ds
     protected:
         // Object factory (platform specific)
         std::shared_ptr<PlatformObjectFactory> _factory;
-        std::shared_ptr<ConfigurationLoader> _config_loader;
+        std::shared_ptr<ConfigurationManager> _config_loader;
 
         // State
         std::shared_ptr<ds::State> _state;

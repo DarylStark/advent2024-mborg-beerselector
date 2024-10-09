@@ -1,6 +1,6 @@
 #include "object_factory.h"
 
-#include "configuration_loader.h"
+#include "configuration_manager.h"
 #include "input_handler.h"
 #include "os.h"
 #include "output_handler.h"
@@ -27,9 +27,9 @@ namespace ds::esp32
         return std::make_shared<ds::esp32::ESP32OS>();
     }
 
-    std::shared_ptr<ds::ConfigurationLoader>
+    std::shared_ptr<ds::ConfigurationManager>
     ESP32ObjectFactory::_get_configuration_loader()
     {
-        return std::make_shared<ds::esp32::ESP32ConfigurationLoader>();
+        return std::make_shared<ds::esp32::ESP32ConfigurationManager>();
     }
 }  // namespace ds::esp32

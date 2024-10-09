@@ -18,13 +18,6 @@ std::shared_ptr<BeerSelector> beer_selector = std::make_shared<BeerSelector>(obj
 extern "C"
 void app_main(void)
 {
-    // TODO: REMOVE THIS!!!!
-    object_factory->get_output_handler()->println("Starting Beer Selector...");
-    
-    object_factory->get_output_handler()->println(object_factory->get_configuration_manager()->get("auth.user"));
-    object_factory->get_output_handler()->println(object_factory->get_configuration_manager()->get("auth.pass"));
-    object_factory->get_output_handler()->println(object_factory->get_configuration_manager()->get("auth.enable"));
-
     // TODO: Make this less `arduino` and more ESP32 / C++
     beer_selector->setup();
     while (true)

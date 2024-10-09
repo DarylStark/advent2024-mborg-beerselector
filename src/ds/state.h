@@ -7,7 +7,7 @@ namespace ds
     {
         // Interface for the application state.
     public:
-        virtual void loop() = 0;
+        virtual void run() = 0;
     };
 }  // namespace ds
 

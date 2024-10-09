@@ -12,7 +12,7 @@ BeerSelector::BeerSelector(std::shared_ptr<ds::PlatformObjectFactory> factory)
     _input_handler = _factory->get_input_handler();
 }
 
-void BeerSelector::setup()
+void BeerSelector::start()
 {
     // Set the state to booting. The booting state will switch to the correct
     // state after booting. This can be a few states, based on the boot
@@ -20,9 +20,12 @@ void BeerSelector::setup()
 
     _factory->get_os()->sleep_miliseconds(1000);
     set_state(std::make_shared<BootingState>(_factory, *this));
+
+    while(true)
+        run();
 }
 
-void BeerSelector::loop()
+void BeerSelector::run()
 {
-    _state->loop();
+    _state->run();
 }

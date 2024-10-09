@@ -1,10 +1,10 @@
 #ifndef BOOTING_STATE_H
 #define BOOTING_STATE_H
 
+#include "../static_app_config.h"
+
 #include "../ds/base_state.h"
 #include "app_info.h"
-
-#define SECONDS_WAIT_FOR_KEYPRESS 10  // TODO: Set to a normal number
 
 class ScopedAction
 {
@@ -28,7 +28,7 @@ private:
 
     void _print_logo() const;
     void _print_device_information() const;
-    void _wait_for_keypress_rommon();
+    bool _wait_for_keypress_rommon();
 
     // Boot methods
     void _go_to_rommon();
@@ -37,7 +37,8 @@ private:
 public:
     BootingState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                  ds::BaseApplication &application);
-    void loop();
+    ~BootingState();
+    void run();
 };
 
 #endif /* BOOTING_STATE_H */

@@ -11,7 +11,7 @@ RommonState::RommonState(std::shared_ptr<ds::PlatformObjectFactory> factory,
 {
 }
 
-void RommonState::loop()
+void RommonState::run()
 {
     _output_handler->println("INITIALIZING ROMMON\r\n\r\n");
 

@@ -19,8 +19,5 @@ std::shared_ptr<BeerSelector> beer_selector = std::make_shared<BeerSelector>(obj
 extern "C"
 void app_main(void)
 {
-    // TODO: Make this less `arduino` and more ESP32 / C++
-    beer_selector->setup();
-    while (true)
-        beer_selector->loop();
+    beer_selector->start();
 }

@@ -7,8 +7,8 @@
 
 namespace ds::esp32
 {
-    ESP32ObjectFactory::ESP32ObjectFactory(std::shared_ptr<ds::esp32::UART> uart)
-        : _uart(uart)
+    ESP32ObjectFactory::ESP32ObjectFactory(std::shared_ptr<ds::esp32::UART> uart, std::shared_ptr<ds::esp32::NVS> nvs)
+        : _uart(uart), _nvs(nvs)
     {
     }
 
@@ -30,6 +30,6 @@ namespace ds::esp32
     std::shared_ptr<ds::ConfigurationManager>
     ESP32ObjectFactory::_get_configuration_loader()
     {
-        return std::make_shared<ds::esp32::ESP32ConfigurationManager>();
+        return std::make_shared<ds::esp32::ESP32ConfigurationManager>(_nvs);
     }
 }  // namespace ds::esp32

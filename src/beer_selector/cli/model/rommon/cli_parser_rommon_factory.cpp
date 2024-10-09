@@ -5,6 +5,7 @@
 
 #include "../shared/cli_parser_sys_info.h"
 #include "../shared/cli_parser_rtos_info.h"
+#include "../shared/cli_parser_write.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserROMMONFactory::_parser =
     nullptr;
@@ -64,6 +65,12 @@ CLIParserROMMONFactory::_get_show_parser()
 }
 
 std::shared_ptr<ArgumentedCommandParser>
+CLIParserROMMONFactory::_get_write_parser()
+{
+    return CLIParserWrite().get_parser();
+}
+
+std::shared_ptr<ArgumentedCommandParser>
 CLIParserROMMONFactory::_create_parser()
 {
     // Parser for the ROMMON mode
@@ -78,6 +85,7 @@ CLIParserROMMONFactory::_create_parser()
     // Add specific parsers
     parser->add_parser("auth", _get_auth_parser());
     parser->add_parser("show", _get_show_parser());
+    parser->add_parser("write", _get_write_parser());
 
     return parser;
 }

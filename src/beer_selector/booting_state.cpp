@@ -119,7 +119,7 @@ void BootingState::_wait_for_keypress_rommon()
 void BootingState::_load_configuration()
 {
     ScopedAction action("Loading configuration", _output_handler);
-    _factory->get_configuration_loader()->load_configuration();
+    _factory->get_configuration_manager()->load_configuration();
 }
 
 void BootingState::_go_to_rommon()

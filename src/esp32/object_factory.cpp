@@ -28,7 +28,7 @@ namespace ds::esp32
     }
 
     std::shared_ptr<ds::ConfigurationManager>
-    ESP32ObjectFactory::_get_configuration_loader()
+    ESP32ObjectFactory::_get_configuration_manager()
     {
         return std::make_shared<ds::esp32::ESP32ConfigurationManager>(_nvs);
     }

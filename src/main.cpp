@@ -20,9 +20,9 @@ void app_main(void)
 {
     object_factory->get_output_handler()->println("Starting Beer Selector...");
     
-    object_factory->get_output_handler()->println(object_factory->get_configuration_loader()->get("auth.user"));
-    object_factory->get_output_handler()->println(object_factory->get_configuration_loader()->get("auth.pass"));
-    object_factory->get_output_handler()->println(object_factory->get_configuration_loader()->get("auth.enable"));
+    object_factory->get_output_handler()->println(object_factory->get_configuration_manager()->get("auth.user"));
+    object_factory->get_output_handler()->println(object_factory->get_configuration_manager()->get("auth.pass"));
+    object_factory->get_output_handler()->println(object_factory->get_configuration_manager()->get("auth.enable"));
 
     // TODO: Make this less `arduino` and more ESP32 / C++
     beer_selector->setup();

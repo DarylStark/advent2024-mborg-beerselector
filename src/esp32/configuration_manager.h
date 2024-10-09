@@ -1,5 +1,5 @@
-#ifndef ESP32_CONFIGURATION_LOADER_H
-#define ESP32_CONFIGURATION_LOADER_H
+#ifndef ESP32_CONFIGURATION_MANAGER_H
+#define ESP32_CONFIGURATION_MANAGER_H
 
 #include <map>
 #include <memory>
@@ -53,4 +53,4 @@ namespace ds::esp32
     };
 }  // namespace ds::esp32
 
-#endif /* ESP32_CONFIGURATION_LOADER_H */
+#endif /* ESP32_CONFIGURATION_MANAGER_H */

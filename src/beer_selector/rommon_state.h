@@ -15,6 +15,7 @@ private:
 public:
     RommonState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                 ds::BaseApplication &application);
+    static void rommon_cli_task(void *args);
     void run();
 };
 

@@ -45,11 +45,6 @@ BootingState::BootingState(std::shared_ptr<ds::PlatformObjectFactory> factory,
 {
 }
 
-BootingState::~BootingState()
-{
-    _factory->get_output_handler()->println("Booting state destroyed.");
-}
-
 void BootingState::_print_logo() const
 {
     _output_handler->println("");

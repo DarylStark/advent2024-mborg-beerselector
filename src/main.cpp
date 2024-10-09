@@ -4,6 +4,7 @@
 #include "esp32/object_factory.h"
 #include "esp32/uart.h"
 #include "esp32/configuration_manager.h"
+#include "esp32/nvs.h"
 
 // Dependencies
 std::shared_ptr<ds::esp32::UART> uart = std::make_shared<ds::esp32::UART>();

@@ -10,6 +10,7 @@ namespace ds
         // Interface for OS specific operations
     public:
         virtual void sleep_miliseconds(uint32_t miliseconds) = 0;
+        virtual void restart() const = 0;
     };
 }  // namespace ds
 

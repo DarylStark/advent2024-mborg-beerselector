@@ -9,6 +9,7 @@ namespace ds::esp32
     {
     public:
         void sleep_miliseconds(uint32_t miliseconds);
+        void restart() const;
     };
 }  // namespace ds::esp32
 

@@ -1,4 +1,5 @@
 #include "./cli_shared_parsers.h"
+#include "../../command/reload_command.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLISharedParser::get_reload_parser()
 {
@@ -16,7 +17,8 @@ CLIReloadParserFactory::_create_parser()
     // Parser for the ROMMON mode
     std::shared_ptr<ArgumentedCommandParser> parser =
         std::make_shared<ArgumentedCommandParser>("Reload",
-                                                  "Reload the device.");
+                                                  "Reload the device.",
+                                                  std::make_shared<ReloadCommand>());
 
     return parser;
 }

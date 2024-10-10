@@ -37,7 +37,6 @@ private:
 public:
     BootingState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                  ds::BaseApplication &application);
-    ~BootingState();
     void run();
 };
 

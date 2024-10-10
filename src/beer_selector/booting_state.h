@@ -1,8 +1,6 @@
 #ifndef BOOTING_STATE_H
 #define BOOTING_STATE_H
 
-#include "../static_app_config.h"
-
 #include "../ds/base_state.h"
 #include "app_info.h"
 

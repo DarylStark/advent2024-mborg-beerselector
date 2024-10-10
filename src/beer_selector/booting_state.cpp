@@ -100,8 +100,8 @@ bool BootingState::_wait_for_keypress_rommon()
     auto os = _factory->get_os();
 
     uint16_t counter = 0;
-    uint32_t sleep = 100;
-    uint32_t dots = (BOOT_SECONDS_WAIT_FOR_KEYPRESS * 1000) / sleep;
+    uint32_t sleep = CONFIG_BS_BOOT_DELAY_AFTER_DOT == 0 ? 1 : CONFIG_BS_BOOT_DELAY_AFTER_DOT;
+    uint32_t dots = (CONFIG_BS_BOOT_SECONDS_WAIT_FOR_KEYPRESS * 1000) / sleep;
     while (counter++ < dots)
     {
         _output_handler->print(".");
@@ -112,7 +112,7 @@ bool BootingState::_wait_for_keypress_rommon()
             _go_to_rommon();
             return true;
         }
-        os->sleep_miliseconds(sleep - 5);
+        os->sleep_miliseconds(CONFIG_BS_BOOT_DELAY_AFTER_DOT);
     }
     return false;
 }

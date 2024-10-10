@@ -23,7 +23,7 @@ void CLIRunner::set_prompt(const std::string prompt)
     _prompt = prompt;
 }
 
-bool CLIRunner::run()
+bool CLIRunner::run(bool prepend_with_hostname)
 {
     const auto& output_handler = _factory->get_output_handler();
     const auto& input_handler = _factory->get_input_handler();
@@ -32,7 +32,13 @@ bool CLIRunner::run()
 
     while (true)
     {
-        command = input_handler->get_string(_prompt, command);
+        std::string prompt = _prompt;
+        if (prepend_with_hostname)
+        {
+            std::string hostname = _factory->get_configuration_manager()->get("sys.hostname");
+            prompt = hostname + _prompt;
+        }
+        command = input_handler->get_string(prompt, command);
 
         std::stringstream iss(command);
         std::vector<std::string> words(std::istream_iterator<std::string>{iss},

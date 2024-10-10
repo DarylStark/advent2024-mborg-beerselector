@@ -73,10 +73,8 @@ void NormalState::normal_cli(void *args)
     
     normal_state->log(INFO, "Console is started");
 
-    std::string hostname = normal_state->_factory->get_configuration_manager()->get("sys.hostname");
-
-    CLIRunner runner(word_parser, hostname + "> ");
-    while (runner.run())
+    CLIRunner runner(word_parser, "> ");
+    while (runner.run(true))
         ;
     
     normal_state->log(INFO, "Console ended");

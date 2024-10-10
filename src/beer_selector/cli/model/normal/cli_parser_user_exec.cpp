@@ -21,6 +21,17 @@ CLIParserUserExec::_get_show_parser()
     return parser;
 }
 
+std::shared_ptr<ArgumentedCommandParser> CLIParserUserExec::_get_enable_parser()
+{
+    // enable
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Enter privileged mode",
+            "Go to privileged exec mode.");
+
+    return parser;
+}
+
 std::shared_ptr<ArgumentedCommandParser>
 CLIParserUserExec::_create_parser()
 {
@@ -34,6 +45,7 @@ CLIParserUserExec::_create_parser()
     parser->add_parser("exit", CLISharedParser::get_exit_parser());
 
     // Add specific parsers
+    parser->add_parser("enable", _get_enable_parser());
     parser->add_parser("show", _get_show_parser());
 
     return parser;

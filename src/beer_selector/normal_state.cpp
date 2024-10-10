@@ -6,6 +6,8 @@
 #include "cli/model/normal/cli_parser_user_exec.h"
 #include "../cli/cli/cli_runner.h"
 
+#include "globals.h"
+
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
     : ds::BaseState(factory, application)
@@ -66,16 +68,17 @@ void NormalState::login_prompt(void *args) {
 void NormalState::normal_cli(void *args)
 {
     NormalState *normal_state = (NormalState *)args;
-
-    CLIParserUserExec parser_factory;
-    std::shared_ptr<ArgumentedCommandParser> word_parser =
-        parser_factory.get_parser();
-    
+  
     normal_state->log(INFO, "Console is started");
 
-    CLIRunner runner(word_parser, "> ");
-    while (runner.run(true))
-        ;
+    next_parser = CLIParserUserExec().get_parser();
+    prompt = "> ";
+
+    while (next_parser != nullptr) {
+        CLIRunner runner(next_parser, prompt);
+        while (runner.run(true))
+            ;
+    }
     
     normal_state->log(INFO, "Console ended");
     normal_state->start_login_service();

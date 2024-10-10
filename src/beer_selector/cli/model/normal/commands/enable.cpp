@@ -1,5 +1,6 @@
 #include "enable.h"
 #include "../../../../globals.h"
+#include "../../../../logging.h"
 #include "../cli_parser_priv_exec.h"
 
 bool Enable::execute(std::map<std::string, std::string> args)
@@ -20,5 +21,6 @@ bool Enable::execute(std::map<std::string, std::string> args)
     }
 
     _factory->get_output_handler()->println("Incorrect password");
+    log(WARNING, "Enable password entered incorrect");
     return false;
 }

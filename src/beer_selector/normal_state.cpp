@@ -7,18 +7,12 @@
 #include "../cli/cli/cli_runner.h"
 
 #include "globals.h"
+#include "logging.h"
 
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
     : ds::BaseState(factory, application)
 {
-}
-
-
-void NormalState::log(Severity severity, const std::string message)
-{
-    std::lock_guard<std::mutex> lock(_queue_mutex);
-    _logging_queue.push(LoggingData(severity, message));
 }
 
 void NormalState::login_prompt(void *args) {
@@ -48,14 +42,14 @@ void NormalState::login_prompt(void *args) {
         {
             normal_state->_factory->get_output_handler()->println("\r\n\r\nCredentials are incorrect!");
             incorrect_counter++;
-            normal_state->log(WARNING, "Incorrect login attempt on console! Username: \"" + username + "\"");
+            log(WARNING, "Incorrect login attempt on console! Username: \"" + username + "\"");
             if (incorrect_counter >= CONFIG_BS_LOGIN_INCORRECT_TRIES_BEFORE_LOCK)
             {
-                normal_state->log(WARNING, "Too many incorrect login attempts on console. Blocking console");
+                log(WARNING, "Too many incorrect login attempts on console. Blocking console");
                 normal_state->_factory->get_output_handler()->println("\r\nBlocking login for " + std::to_string(CONFIG_BS_LOGIN_BLOCKING_TIME) + " seconds");
                 normal_state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_LOGIN_BLOCKING_TIME * 1000);
                 incorrect_counter = 0;
-                normal_state->log(INFO, "Unblocking console");
+                log(INFO, "Unblocking console");
             }
         }
     }
@@ -69,7 +63,7 @@ void NormalState::normal_cli(void *args)
 {
     NormalState *normal_state = (NormalState *)args;
   
-    normal_state->log(INFO, "Console is started");
+    log(INFO, "Console is started");
 
     next_parser = CLIParserUserExec().get_parser();
     prompt = "> ";
@@ -80,7 +74,7 @@ void NormalState::normal_cli(void *args)
             ;
     }
     
-    normal_state->log(INFO, "Console ended");
+    log(INFO, "Console ended");
     normal_state->start_login_service();
     vTaskDelete(NULL);
 }
@@ -88,17 +82,17 @@ void NormalState::normal_cli(void *args)
 void NormalState::logging_service(void *args)
 {
     NormalState *state = (NormalState *)args;
-    state->log(INFO, "Logging service is started");
+    log(INFO, "Logging service is started");
 
     state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);
 
     while (true)
     {
-        std::lock_guard<std::mutex> lock(state->_queue_mutex);
-        while (!state->_logging_queue.empty())
+        std::lock_guard<std::mutex> lock(queue_mutex);
+        while (!logging_queue.empty())
         {
-            LoggingData data = state->_logging_queue.front();
-            state->_logging_queue.pop();
+            LoggingData data = logging_queue.front();
+            logging_queue.pop();
             state->_factory->get_output_handler()->println(data.get_message());
         }
         state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_LOGGING_TIMEOUT);

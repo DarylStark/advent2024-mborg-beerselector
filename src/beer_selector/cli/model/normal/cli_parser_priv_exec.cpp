@@ -2,6 +2,7 @@
 
 #include "../shared/cli_parser_sys_info.h"
 #include "../shared/cli_parser_rtos_info.h"
+#include "../shared/cli_parser_write.h"
 
 #include "commands/disable.h"
 #include "commands/configure.h"
@@ -52,6 +53,12 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserPrivExec::_get_config_parser()
 }
 
 std::shared_ptr<ArgumentedCommandParser>
+CLIParserPrivExec::_get_write_parser()
+{
+    return CLIParserWrite().get_parser();
+}
+
+std::shared_ptr<ArgumentedCommandParser>
 CLIParserPrivExec::_create_parser()
 {
     // Parser for the ROMMON mode
@@ -63,10 +70,11 @@ CLIParserPrivExec::_create_parser()
     parser->add_parser("reload", CLISharedParser::get_reload_parser());
 
     // Add specific parsers
-    parser->add_parser("exit", _get_disable_parser());
-    parser->add_parser("disable", _get_disable_parser());
-    parser->add_parser("show", _get_show_parser());
     parser->add_parser("configure", _get_config_parser());
+    parser->add_parser("disable", _get_disable_parser());
+    parser->add_parser("exit", _get_disable_parser());
+    parser->add_parser("show", _get_show_parser());
+    parser->add_parser("write", _get_write_parser());
 
     return parser;
 }

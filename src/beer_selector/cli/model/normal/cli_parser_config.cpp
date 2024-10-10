@@ -1,4 +1,5 @@
 #include "cli_parser_config.h"
+#include "commands/config_exit.h"
 #include "./config_commands/hostname.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_parser = nullptr;
@@ -18,6 +19,18 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_hostname_parser()
     return parser;
 }
 
+std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_exit_parser()
+{
+    // exit
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Go back to privileged exec mode",
+            "Go back to privileged exec mode.",
+            std::make_shared<ConfigExit>());
+
+    return parser;
+}
+
 std::shared_ptr<ArgumentedCommandParser>
 CLIParserConfig::_create_parser()
 {
@@ -28,9 +41,9 @@ CLIParserConfig::_create_parser()
 
     // Add shared parsers
     parser->add_parser("reload", CLISharedParser::get_reload_parser());
-    parser->add_parser("exit", CLISharedParser::get_exit_parser());
 
     // Add specific parsers
+    parser->add_parser("exit", _get_exit_parser());
     parser->add_parser("hostname", _get_hostname_parser());
 
     return parser;

@@ -10,6 +10,7 @@ private:
     static std::shared_ptr<ArgumentedCommandParser> _parser;
 
     std::shared_ptr<ArgumentedCommandParser> _get_hostname_parser();
+    std::shared_ptr<ArgumentedCommandParser> _get_exit_parser();
     std::shared_ptr<ArgumentedCommandParser> _create_parser();
 
 public:

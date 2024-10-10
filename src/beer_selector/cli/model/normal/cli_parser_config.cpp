@@ -1,6 +1,7 @@
 #include "cli_parser_config.h"
 #include "commands/config_exit.h"
 #include "./config_commands/hostname.h"
+#include "cli_parser_priv_exec.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_parser = nullptr;
 
@@ -43,6 +44,8 @@ CLIParserConfig::_create_parser()
     parser->add_parser("reload", CLISharedParser::get_reload_parser());
 
     // Add specific parsers
+    parser->add_parser("do", CLIParserPrivExec().get_parser());
+    parser->add_parser("end", _get_exit_parser());
     parser->add_parser("exit", _get_exit_parser());
     parser->add_parser("hostname", _get_hostname_parser());
 

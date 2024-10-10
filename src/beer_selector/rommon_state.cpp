@@ -39,7 +39,7 @@ void RommonState::run()
         "rommon_cli",
         4096,
         this,
-        2,
+        1,
         NULL,
         1);
     vTaskDelete(NULL);

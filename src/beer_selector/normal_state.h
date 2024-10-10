@@ -9,16 +9,9 @@
 
 class NormalState : public ds::BaseState
 {
-private:
-    std::queue<LoggingData> _logging_queue;
-    std::mutex _queue_mutex;
-
 public:
     NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                  ds::BaseApplication &application);
-
-    // Logging
-    void log(Severity severity, const std::string message);
 
     // Service starts
     void start_logging_service();

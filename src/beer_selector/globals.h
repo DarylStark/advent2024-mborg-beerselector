@@ -1,6 +1,9 @@
-#include <memory>
-#include "../cli/model/cli_model.h"
+#ifndef GLOBALS_H
+#define GLOBALS_H
 
+#include <memory>
+
+#include "../cli/model/cli_model.h"
 //
 // Global variables
 //
@@ -13,5 +16,8 @@
 // display the current mode in the CLI.
 //
 
+// Parser switching
 extern std::shared_ptr<ArgumentedCommandParser> next_parser;
 extern std::string prompt;
+
+#endif /* GLOBALS_H */

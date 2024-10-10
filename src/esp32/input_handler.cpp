@@ -24,6 +24,17 @@ namespace ds::esp32
         return input.get(true);
     }
 
+    std::string ESP32InputHandler::get_password(
+        const std::string prompt,
+        std::string default_value
+        ) const
+    {
+        ESP32_LineInput input(*_uart, '*');
+        _uart->write_bytes(prompt.c_str(), prompt.length());
+        input.set_string(default_value);
+        return input.get(true);
+    }
+
     bool ESP32InputHandler::is_break_pressed() const
     {
         char input[4];

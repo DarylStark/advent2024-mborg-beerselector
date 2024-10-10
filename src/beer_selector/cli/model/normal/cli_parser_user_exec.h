@@ -9,6 +9,7 @@ class CLIParserUserExec : public CLIParserFactory
 private:
     static std::shared_ptr<ArgumentedCommandParser> _parser;
 
+    std::shared_ptr<ArgumentedCommandParser> _get_show_parser();
     std::shared_ptr<ArgumentedCommandParser> _create_parser();
 
 public:

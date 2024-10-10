@@ -119,7 +119,7 @@ void NormalState::start_cli_service() {
         "console_cli",
         4096,
         this,
-        2,
+        1,
         NULL,
         1);
 }

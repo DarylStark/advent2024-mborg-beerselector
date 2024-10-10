@@ -1,6 +1,7 @@
 #include "freertos/FreeRTOS.h"
 #include <freertos/task.h>
 #include "normal_state.h"
+#include "logging_data.h"
 
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
@@ -8,9 +9,18 @@ NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
 {
 }
 
+
+void NormalState::log(Severity severity, const std::string message)
+{
+    _logging_queue.push(LoggingData(severity, message));
+}
+
 void NormalState::login_prompt(void *args) {
     NormalState *normal_state = (NormalState *)args;
     uint32_t incorrect_counter = 0;
+
+    // Give the logger some time to start up
+    normal_state->_factory->get_os()->sleep_miliseconds(500);
     
     while (true)
     {
@@ -36,11 +46,15 @@ void NormalState::login_prompt(void *args) {
         {
             normal_state->_factory->get_output_handler()->println("\r\n\r\nCredentials are incorrect!");
             incorrect_counter++;
+            normal_state->log(WARNING, "Incorrect login attempt on console! Username: \"" + username + "\"");
             if (incorrect_counter >= 3)
             {
+                // TODO: Make timeout configurable
+                normal_state->log(WARNING, "Too many incorrect login attempts on console. Blocking console");
                 normal_state->_factory->get_output_handler()->println("\r\nBlocking login for 10 seconds");
                 normal_state->_factory->get_os()->sleep_miliseconds(10 * 1000);
                 incorrect_counter = 0;
+                normal_state->log(INFO, "Unblocking console");
             }
         }
     }
@@ -59,17 +73,45 @@ void NormalState::login_prompt(void *args) {
 void NormalState::normal_cli(void *args)
 {
     NormalState *normal_state = (NormalState *)args;
-    normal_state->_factory->get_output_handler()->println("Welkom in the normal CLI");
     vTaskSuspend(NULL);
 }
 
+void NormalState::logging_service(void *args)
+{
+    NormalState *state = (NormalState *)args;
+    state->log(INFO, "Logging service is started");
+
+    // TODO: Make the sleep time configurable in menuconfig
+
+    while (true)
+    {
+        while (!state->_logging_queue.empty())
+        {
+            LoggingData data = state->_logging_queue.front();
+            state->_logging_queue.pop();
+            state->_factory->get_output_handler()->println(data.get_message());
+        }
+        state->_factory->get_os()->sleep_miliseconds(500);
+    }
+}
+
 void NormalState::run() {
+    log(INFO, "Bootloader is finished");
+
     xTaskCreatePinnedToCore(
         NormalState::login_prompt,
         "login_prompt",
         4096,
         this,
-        2,
+        1,
+        NULL,
+        1);
+    xTaskCreatePinnedToCore(
+        NormalState::logging_service,
+        "logger",
+        10224,
+        this,
+        1,
         NULL,
         1);
     vTaskDelete(NULL);

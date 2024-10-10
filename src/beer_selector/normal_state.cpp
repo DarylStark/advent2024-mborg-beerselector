@@ -12,6 +12,7 @@ NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
 
 void NormalState::log(Severity severity, const std::string message)
 {
+    std::lock_guard<std::mutex> lock(_queue_mutex);
     _logging_queue.push(LoggingData(severity, message));
 }
 
@@ -78,6 +79,7 @@ void NormalState::logging_service(void *args)
 
     while (true)
     {
+        std::lock_guard<std::mutex> lock(state->_queue_mutex);
         while (!state->_logging_queue.empty())
         {
             LoggingData data = state->_logging_queue.front();

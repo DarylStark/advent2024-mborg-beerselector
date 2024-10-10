@@ -20,12 +20,15 @@ public:
     // Logging
     void log(Severity severity, const std::string message);
 
-    // CLI
-    static void login_prompt(void *args);
-    static void normal_cli(void *args);
+    // Service starts
+    void start_logging_service();
+    void start_cli_service();
+    void start_login_service();
 
-    // Other services
+    // Service workers
+    static void login_prompt(void *args);
     static void logging_service(void *args);
+    static void normal_cli(void *args);
 
     // Run
     void run();

@@ -7,9 +7,20 @@ class CLISharedParser
 {
 public:
     static std::shared_ptr<ArgumentedCommandParser> get_reload_parser();
+    static std::shared_ptr<ArgumentedCommandParser> get_exit_parser();
 };
 
 class CLIReloadParserFactory : public CLIParserFactory
+{
+private:
+    static std::shared_ptr<ArgumentedCommandParser> _parser;
+    std::shared_ptr<ArgumentedCommandParser> _create_parser();
+
+public:
+    std::shared_ptr<ArgumentedCommandParser> get_parser();
+};
+
+class CLIExitParserFactory : public CLIParserFactory
 {
 private:
     static std::shared_ptr<ArgumentedCommandParser> _parser;

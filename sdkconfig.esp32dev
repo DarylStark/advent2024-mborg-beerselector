@@ -153,6 +153,31 @@ CONFIG_COMPILER_STACK_CHECK_MODE_NONE=y
 #
 
 #
+# App - Beer Selector
+#
+
+#
+# Application start
+#
+CONFIG_BS_BOOT_SECONDS_WAIT_FOR_KEYPRESS=10
+CONFIG_BS_BOOT_DELAY_AFTER_DOT=100
+# end of Application start
+
+#
+# Default configuration
+#
+
+#
+# Authentication
+#
+CONFIG_BS_CONFIG_AUTH_USER="bs_ac24_admin"
+CONFIG_BS_CONFIG_AUTH_PASS="bs_ac24_admin_password"
+CONFIG_BS_CONFIG_AUTH_ENABLE="bs_ac24_enable_password"
+# end of Authentication
+# end of Default configuration
+# end of App - Beer Selector
+
+#
 # Application Level Tracing
 #
 # CONFIG_APPTRACE_DEST_TRAX is not set

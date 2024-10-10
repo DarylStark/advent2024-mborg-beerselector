@@ -19,9 +19,9 @@ namespace ds::esp32
     void ESP32ConfigurationManager::load_configuration()
     {
         // Load configuration for ESP32
-        _configuration["auth.user"] = _get_from_nvs("auth.user", "admin_default");
-        _configuration["auth.pass"] = _get_from_nvs("auth.pass", "pass_default");
-        _configuration["auth.enable"] = _get_from_nvs("auth.enable", "cisco");
+        _configuration["auth.user"] = _get_from_nvs("auth.user", CONFIG_BS_CONFIG_AUTH_USER);
+        _configuration["auth.pass"] = _get_from_nvs("auth.pass", CONFIG_BS_CONFIG_AUTH_PASS);
+        _configuration["auth.enable"] = _get_from_nvs("auth.enable", CONFIG_BS_CONFIG_AUTH_ENABLE);
 
         _nvs->close();
     }

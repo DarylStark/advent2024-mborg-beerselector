@@ -1,0 +1,34 @@
+menu "App - Beer Selector"
+    menu "Application start"
+        config BS_BOOT_SECONDS_WAIT_FOR_KEYPRESS
+            int "Boot timeout for ROMMON keypress"
+            default 10
+            help
+                Determines how long to wait before booting. If the user presses the correct key during this time, ROMMON will be started.
+        config BS_BOOT_DELAY_AFTER_DOT
+            int "Delay after each dot during boot"
+            default 100
+            help
+                How long to wai after printing a dot during boottime. This directly affects the number of dots displayed.
+    endmenu
+
+    menu "Default configuration"
+        menu "Authentication"
+            config BS_CONFIG_AUTH_USER
+                string "Username"
+                default "bs_ac24_admin"
+                help
+                    The default username for the project
+            config BS_CONFIG_AUTH_PASS
+                string "Password"
+                default "bs_ac24_admin_password"
+                help
+                    The default password for the project for the user
+            config BS_CONFIG_AUTH_ENABLE
+                string "Enable password"
+                default "bs_ac24_enable_password"
+                help
+                    The default enable password for the project
+        endmenu
+    endmenu
+endmenu

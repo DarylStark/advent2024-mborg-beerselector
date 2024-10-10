@@ -93,14 +93,16 @@ void BootingState::_print_device_information() const
     _output_handler->println("");
 }
 
-void BootingState::_wait_for_keypress_rommon()
+bool BootingState::_wait_for_keypress_rommon()
 {
     _output_handler->println(
         "PRESS CTRL+C OR CTRL+B TO SKIP BOOTING AND GO TO ROMMON.");
     auto os = _factory->get_os();
 
     uint16_t counter = 0;
-    while (counter++ < SECONDS_WAIT_FOR_KEYPRESS * 100)
+    uint32_t sleep = CONFIG_BS_BOOT_DELAY_AFTER_DOT == 0 ? 1 : CONFIG_BS_BOOT_DELAY_AFTER_DOT;
+    uint32_t dots = (CONFIG_BS_BOOT_SECONDS_WAIT_FOR_KEYPRESS * 1000) / sleep;
+    while (counter++ < dots)
     {
         _output_handler->print(".");
         _output_handler->flush();
@@ -108,12 +110,11 @@ void BootingState::_wait_for_keypress_rommon()
         {
             _output_handler->println("\r\n\r\nGOING TO ROMMON...");
             _go_to_rommon();
-            return;
+            return true;
         }
-        os->sleep_miliseconds(10);
+        os->sleep_miliseconds(CONFIG_BS_BOOT_DELAY_AFTER_DOT);
     }
-
-    _output_handler->println("\r\n\r\nCONTINUE BOOTING SYSTEM NORMALLY...");
+    return false;
 }
 
 void BootingState::_load_configuration()
@@ -128,7 +129,7 @@ void BootingState::_go_to_rommon()
         std::make_shared<RommonState>(_factory, _application));
 }
 
-void BootingState::loop()
+void BootingState::run()
 {
     _print_logo();
     _print_device_information();
@@ -144,7 +145,10 @@ void BootingState::loop()
     _output_handler->flush();
 
     // Give the user the option to skip the booting and go to ROMMON
-    _wait_for_keypress_rommon();
+    if (_wait_for_keypress_rommon())
+        return;
+    
+    _output_handler->println("\r\n\r\nCONTINUE BOOTING SYSTEM NORMALLY...");
 
     // Check if a license is given and try to retrieve it if it isn't given.
     // Connect with the configured WiFi if needed for this.

@@ -16,8 +16,8 @@ public:
     BeerSelector(std::shared_ptr<ds::PlatformObjectFactory> factory);
 
     // Overrides
-    void setup();
-    void loop();
+    void start();
+    void run();
 };
 
 #endif /* BEER_SELECTOR_H */

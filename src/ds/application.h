@@ -7,8 +7,7 @@ namespace ds
     {
         // Interface for a application.
     public:
-        virtual void setup() = 0;
-        virtual void loop() = 0;
+        virtual void run() = 0;
     };
 }  // namespace ds
 

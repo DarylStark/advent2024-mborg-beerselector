@@ -72,7 +72,9 @@ bool RTOSTasks::execute(std::map<std::string, std::string> args)
            << std::right << std::setw(10) << task_status_array[i].uxCurrentPriority
            << std::right << std::setw(10) << task_status_array[i].usStackHighWaterMark
            << std::right << std::setw(16) << task_status_array[i].xTaskNumber
-           << std::right << std::setw(10) << task_status_array[i].xCoreID
+           << std::right << std::setw(10) << 
+                (task_status_array[i].xCoreID > 1 || task_status_array[i].xCoreID < 0
+                ? "-" : std::to_string(task_status_array[i].xCoreID))
            << "\r\n";
     }
 

@@ -3,6 +3,8 @@
 #include "../shared/cli_parser_sys_info.h"
 #include "../shared/cli_parser_rtos_info.h"
 
+#include "commands/enable.h"
+
 std::shared_ptr<ArgumentedCommandParser> CLIParserUserExec::_parser = nullptr;
 
 std::shared_ptr<ArgumentedCommandParser>
@@ -27,7 +29,8 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserUserExec::_get_enable_parser()
     std::shared_ptr<ArgumentedCommandParser> parser =
         std::make_shared<ArgumentedCommandParser>(
             "Enter privileged mode",
-            "Go to privileged exec mode.");
+            "Go to privileged exec mode.",
+            std::make_shared<Enable>());
 
     return parser;
 }

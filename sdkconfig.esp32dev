@@ -175,6 +175,25 @@ CONFIG_BS_CONFIG_AUTH_PASS="bs_ac24_admin_password"
 CONFIG_BS_CONFIG_AUTH_ENABLE="bs_ac24_enable_password"
 # end of Authentication
 # end of Default configuration
+
+#
+# Normal state
+#
+CONFIG_BS_NORMAL_START_TIMEOUT=750
+
+#
+# Logging service
+#
+CONFIG_BS_NORMAL_LOGGING_TIMEOUT=500
+# end of Logging service
+
+#
+# Login prompt
+#
+CONFIG_BS_LOGIN_INCORRECT_TRIES_BEFORE_LOCK=3
+CONFIG_BS_LOGIN_BLOCKING_TIME=10
+# end of Login prompt
+# end of Normal state
 # end of App - Beer Selector
 
 #

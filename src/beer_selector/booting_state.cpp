@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "rommon_state.h"
-#include "generic_state.h"
+#include "normal_state.h"
 
 ScopedAction::ScopedAction(std::string title,
                            std::shared_ptr<ds::OutputHandler> output_handler)
@@ -134,7 +134,7 @@ void BootingState::_go_to_normal_state()
 {
     // Go to normal mode.
     _application.set_state(
-        std::make_shared<GenericState>(_factory, _application));
+        std::make_shared<NormalState>(_factory, _application));
 }
 
 void BootingState::run()

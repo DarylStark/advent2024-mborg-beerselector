@@ -1,13 +1,13 @@
-#ifndef GENERIC_STATE_H
-#define GENERIC_STATE_H
+#ifndef NORMAL_STATE_H
+#define NORMAL_STATE_H
 
 #include "../ds/base_state.h"
 #include "app_info.h"
 
-class GenericState : public ds::BaseState
+class NormalState : public ds::BaseState
 {
 public:
-    GenericState(std::shared_ptr<ds::PlatformObjectFactory> factory,
+    NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                  ds::BaseApplication &application);
 
     // Cli
@@ -18,4 +18,4 @@ public:
     void run();
 };
 
-#endif /* GENERIC_STATE_H */
+#endif /* NORMAL_STATE_H */

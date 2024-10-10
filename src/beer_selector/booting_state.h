@@ -30,6 +30,7 @@ private:
 
     // Boot methods
     void _go_to_rommon();
+    void _go_to_normal_state();
     void _load_configuration();
 
 public:

@@ -19,6 +19,7 @@ namespace ds::esp32
     public:
         ESP32InputHandler(std::shared_ptr<ds::esp32::UART> uart);
         std::string get_string(const std::string prompt, std::string default_value) const;
+        std::string get_password(const std::string prompt, std::string default_value) const;
         bool is_break_pressed() const;
     };
 }  // namespace ds::esp32

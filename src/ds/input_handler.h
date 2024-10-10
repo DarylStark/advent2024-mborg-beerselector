@@ -11,6 +11,7 @@ namespace ds
     public:
         // Methods to retrieve data
         virtual std::string get_string(const std::string prompt, std::string default_value) const = 0;
+        virtual std::string get_password(const std::string prompt, std::string default_value) const = 0;
 
         // Methods to check if a specific button is pressed
         virtual bool is_break_pressed() const = 0;

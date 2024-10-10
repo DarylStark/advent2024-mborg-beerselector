@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "rommon_state.h"
+#include "generic_state.h"
 
 ScopedAction::ScopedAction(std::string title,
                            std::shared_ptr<ds::OutputHandler> output_handler)
@@ -129,6 +130,13 @@ void BootingState::_go_to_rommon()
         std::make_shared<RommonState>(_factory, _application));
 }
 
+void BootingState::_go_to_normal_state()
+{
+    // Go to normal mode.
+    _application.set_state(
+        std::make_shared<GenericState>(_factory, _application));
+}
+
 void BootingState::run()
 {
     _print_logo();
@@ -149,6 +157,7 @@ void BootingState::run()
         return;
     
     _output_handler->println("\r\n\r\nCONTINUE BOOTING SYSTEM NORMALLY...");
+    _go_to_normal_state();
 
     // Check if a license is given and try to retrieve it if it isn't given.
     // Connect with the configured WiFi if needed for this.

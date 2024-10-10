@@ -17,11 +17,7 @@ void NormalState::log(Severity severity, const std::string message)
 
 void NormalState::login_prompt(void *args) {
     NormalState *normal_state = (NormalState *)args;
-    uint32_t incorrect_counter = 0;
-
-    // Give the logger some time to start up
-    normal_state->_factory->get_os()->sleep_miliseconds(500);
-    
+    uint32_t incorrect_counter = 0;    
     while (true)
     {
         normal_state->_factory->get_output_handler()->println("\r\n\r\nLOGIN TO CONTINUE\r\n\r\n");
@@ -47,12 +43,11 @@ void NormalState::login_prompt(void *args) {
             normal_state->_factory->get_output_handler()->println("\r\n\r\nCredentials are incorrect!");
             incorrect_counter++;
             normal_state->log(WARNING, "Incorrect login attempt on console! Username: \"" + username + "\"");
-            if (incorrect_counter >= 3)
+            if (incorrect_counter >= CONFIG_BS_LOGIN_INCORRECT_TRIES_BEFORE_LOCK)
             {
-                // TODO: Make timeout configurable
                 normal_state->log(WARNING, "Too many incorrect login attempts on console. Blocking console");
-                normal_state->_factory->get_output_handler()->println("\r\nBlocking login for 10 seconds");
-                normal_state->_factory->get_os()->sleep_miliseconds(10 * 1000);
+                normal_state->_factory->get_output_handler()->println("\r\nBlocking login for " + std::to_string(CONFIG_BS_LOGIN_BLOCKING_TIME) + " seconds");
+                normal_state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_LOGIN_BLOCKING_TIME * 1000);
                 incorrect_counter = 0;
                 normal_state->log(INFO, "Unblocking console");
             }
@@ -81,8 +76,6 @@ void NormalState::logging_service(void *args)
     NormalState *state = (NormalState *)args;
     state->log(INFO, "Logging service is started");
 
-    // TODO: Make the sleep time configurable in menuconfig
-
     while (true)
     {
         while (!state->_logging_queue.empty())
@@ -91,7 +84,7 @@ void NormalState::logging_service(void *args)
             state->_logging_queue.pop();
             state->_factory->get_output_handler()->println(data.get_message());
         }
-        state->_factory->get_os()->sleep_miliseconds(500);
+        state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_LOGGING_TIMEOUT);
     }
 }
 
@@ -99,17 +92,21 @@ void NormalState::run() {
     log(INFO, "Bootloader is finished");
 
     xTaskCreatePinnedToCore(
-        NormalState::login_prompt,
-        "login_prompt",
-        4096,
+        NormalState::logging_service,
+        "logger",
+        10224,
         this,
         1,
         NULL,
         1);
+
+    // Give the logger some time to start up
+    _factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);
+
     xTaskCreatePinnedToCore(
-        NormalState::logging_service,
-        "logger",
-        10224,
+        NormalState::login_prompt,
+        "login_prompt",
+        4096,
         this,
         1,
         NULL,

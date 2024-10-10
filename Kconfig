@@ -31,4 +31,33 @@ menu "App - Beer Selector"
                     The default enable password for the project
         endmenu
     endmenu
+
+    menu "Normal state"
+        config BS_NORMAL_START_TIMEOUT
+            int "Start timeout in ms"
+            default 750
+            help
+                The time the login task waits to start. This is to give the logging service time to start
+
+        menu "Logging service"
+            config BS_NORMAL_LOGGING_TIMEOUT
+                int "Logging timeout in ms"
+                default 500
+                help
+                    How often the logging service checks for new log messages. Lower results in faster logging but less performance.
+        endmenu
+
+        menu "Login prompt"
+            config BS_LOGIN_INCORRECT_TRIES_BEFORE_LOCK
+                int "Incorrect tries before lock"
+                default 3
+                help
+                    The number of incorrect login attempts before the login prompt locks.
+            config BS_LOGIN_BLOCKING_TIME
+                int "Block time after incorrect login attempts in seconds"
+                default 10
+                help
+                    If a user enters the wrong password too many times, the login prompt will block for this time.
+        endmenu
+    endmenu
 endmenu

@@ -30,6 +30,14 @@ menu "App - Beer Selector"
                 help
                     The default enable password for the project
         endmenu
+
+        menu "System"
+            config BS_CONFIG_SYS_HOSTNAME
+                string "Hostname"
+                default "advent2024"
+                help
+                    The default hostname for the device
+        endmenu
     endmenu
 
     menu "Normal state"

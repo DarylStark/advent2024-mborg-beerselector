@@ -3,6 +3,11 @@
 #include "normal_state.h"
 #include "logging_data.h"
 
+#include "cli/model/normal/cli_parser_user_exec.h"
+#include "../cli/cli/cli_runner.h"
+
+#include "globals.h"
+
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
     : ds::BaseState(factory, application)
@@ -55,27 +60,37 @@ void NormalState::login_prompt(void *args) {
         }
     }
 
-    xTaskCreatePinnedToCore(
-        NormalState::normal_cli,
-        "console_cli",
-        4096,
-        args,
-        2,
-        NULL,
-        1);
+    normal_state->start_cli_service();
+
     vTaskDelete(NULL);
 }
 
 void NormalState::normal_cli(void *args)
 {
     NormalState *normal_state = (NormalState *)args;
-    vTaskSuspend(NULL);
+  
+    normal_state->log(INFO, "Console is started");
+
+    next_parser = CLIParserUserExec().get_parser();
+    prompt = "> ";
+
+    while (next_parser != nullptr) {
+        CLIRunner runner(next_parser, prompt);
+        while (runner.run(true))
+            ;
+    }
+    
+    normal_state->log(INFO, "Console ended");
+    normal_state->start_login_service();
+    vTaskDelete(NULL);
 }
 
 void NormalState::logging_service(void *args)
 {
     NormalState *state = (NormalState *)args;
     state->log(INFO, "Logging service is started");
+
+    state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);
 
     while (true)
     {
@@ -90,21 +105,29 @@ void NormalState::logging_service(void *args)
     }
 }
 
-void NormalState::run() {
-    log(INFO, "Bootloader is finished");
-
+void NormalState::start_logging_service() {
     xTaskCreatePinnedToCore(
         NormalState::logging_service,
         "logger",
-        10224,
+        1024,
         this,
         1,
         NULL,
         1);
+}
 
-    // Give the logger some time to start up
-    _factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);
+void NormalState::start_cli_service() {
+    xTaskCreatePinnedToCore(
+        NormalState::normal_cli,
+        "console_cli",
+        4096,
+        this,
+        1,
+        NULL,
+        1);
+}
 
+void NormalState::start_login_service() {
     xTaskCreatePinnedToCore(
         NormalState::login_prompt,
         "login_prompt",
@@ -113,5 +136,20 @@ void NormalState::run() {
         1,
         NULL,
         1);
+}
+
+void NormalState::run() {
+    log(INFO, "Bootloader is finished");
+
+    // Start the logging service
+    start_logging_service();
+
+    // Give the logger some time to start up
+    _factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);
+
+    // Start the login service
+    start_login_service();
+
+    // End the current task
     vTaskDelete(NULL);
 }

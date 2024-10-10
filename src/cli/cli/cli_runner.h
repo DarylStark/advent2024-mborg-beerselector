@@ -22,7 +22,7 @@ public:
               const std::string prompt);
     static void set_factory(std::shared_ptr<ds::PlatformObjectFactory> factory);
     void set_prompt(const std::string prompt);
-    bool run();
+    bool run(bool prepend_with_hostname = false);
 };
 
 #endif /* CLI_RUNNER_H */

@@ -24,6 +24,7 @@ namespace ds::esp32
         _configuration["auth.user"] = _get_from_nvs("auth.user", CONFIG_BS_CONFIG_AUTH_USER);
         _configuration["auth.pass"] = _get_from_nvs("auth.pass", CONFIG_BS_CONFIG_AUTH_PASS);
         _configuration["auth.enable"] = _get_from_nvs("auth.enable", CONFIG_BS_CONFIG_AUTH_ENABLE);
+        _configuration["sys.hostname"] = _get_from_nvs("sys.hostname", CONFIG_BS_CONFIG_SYS_HOSTNAME);
 
         _nvs->close();
     }

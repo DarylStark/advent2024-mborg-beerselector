@@ -73,7 +73,9 @@ void NormalState::normal_cli(void *args)
     
     normal_state->log(INFO, "Console is started");
 
-    CLIRunner runner(word_parser, "USER EXEC> ");
+    std::string hostname = normal_state->_factory->get_configuration_manager()->get("sys.hostname");
+
+    CLIRunner runner(word_parser, hostname + "> ");
     while (runner.run())
         ;
     

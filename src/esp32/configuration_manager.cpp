@@ -19,6 +19,8 @@ namespace ds::esp32
     void ESP32ConfigurationManager::load_configuration()
     {
         // Load configuration for ESP32
+        // TODO: This shouldnt be in this directory. This has to be in the
+        //       directory of the application. Make something to fix this.
         _configuration["auth.user"] = _get_from_nvs("auth.user", CONFIG_BS_CONFIG_AUTH_USER);
         _configuration["auth.pass"] = _get_from_nvs("auth.pass", CONFIG_BS_CONFIG_AUTH_PASS);
         _configuration["auth.enable"] = _get_from_nvs("auth.enable", CONFIG_BS_CONFIG_AUTH_ENABLE);
@@ -51,7 +53,6 @@ namespace ds::esp32
     void ESP32ConfigurationManager::erase_all()
     {
         // Erase all configuration for ESP32
-        _configuration.clear();
         _nvs->format();
     }
 }  // namespace ds::esp32

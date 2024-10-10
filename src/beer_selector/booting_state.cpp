@@ -98,6 +98,8 @@ bool BootingState::_wait_for_keypress_rommon()
 {
     _output_handler->println(
         "PRESS CTRL+C OR CTRL+B TO SKIP BOOTING AND GO TO ROMMON.");
+    _output_handler->println(
+        "PRESS CTRL+D TO BOOT TO NORMAL MODE IMMEDIATELY.");
     auto os = _factory->get_os();
 
     uint16_t counter = 0;
@@ -107,12 +109,20 @@ bool BootingState::_wait_for_keypress_rommon()
     {
         _output_handler->print(".");
         _output_handler->flush();
-        if (_input_handler->is_break_pressed())
+        int keypress = _input_handler->get_key_press();
+
+        // CTRL + C or CTRL + B --> go to ROMMON
+        if (keypress == 3 || keypress == 2)
         {
             _output_handler->println("\r\n\r\nGOING TO ROMMON...");
             _go_to_rommon();
             return true;
         }
+
+        // CTRL + D --> stop booting and proceed immediately
+        if (keypress == 4)
+            return false;
+
         os->sleep_miliseconds(CONFIG_BS_BOOT_DELAY_AFTER_DOT);
     }
     return false;

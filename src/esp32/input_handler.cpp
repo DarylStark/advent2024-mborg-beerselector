@@ -35,10 +35,24 @@ namespace ds::esp32
         return input.get(true);
     }
 
-    bool ESP32InputHandler::is_break_pressed() const
+    // bool ESP32InputHandler::is_break_pressed() const
+    // {
+    //     char input[4];
+    //     int len = _uart->get_bytes(input, 1, 10);
+    //     return len == 1 && (input[0] == 3 || input[0] == 2);
+    // }
+
+    // bool ESP32InputHandler::is_end_of_file_pressed() const
+    // {
+    //     char input[4];
+    //     int len = _uart->get_bytes(input, 1, 10);
+    //     return len == 1 && input[0] == 4;
+    // }
+
+    int ESP32InputHandler::get_key_press() const
     {
         char input[4];
         int len = _uart->get_bytes(input, 1, 10);
-        return len == 1 && (input[0] == 3 || input[0] == 2);
+        return len == 1 ? input[0] : -1;
     }
 }  // namespace ds::esp32

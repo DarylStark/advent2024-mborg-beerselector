@@ -88,12 +88,17 @@ void NormalState::logging_service(void *args)
 
     while (true)
     {
-        std::lock_guard<std::mutex> lock(queue_mutex);
-        while (!logging_queue.empty())
         {
-            LoggingData data = logging_queue.front();
-            logging_queue.pop();
-            state->_factory->get_output_handler()->println(data.get_message());
+            // Put the lock in a scope so it gets released after the logging.
+            // This way the logging doesn't block the queue. Without this, the
+            // console would block if it sends something to the logger.
+            std::lock_guard<std::mutex> lock(queue_mutex);
+            while (!logging_queue.empty())
+            {
+                LoggingData data = logging_queue.front();
+                logging_queue.pop();
+                state->_factory->get_output_handler()->println(data.get_message());
+            }
         }
         state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_LOGGING_TIMEOUT);
     }

@@ -1,7 +1,7 @@
 #ifndef LICENSE_MANUAL_H
 #define LICENSE_MANUAL_H
 
-#include "../../../../../cli/command/command.h"
+#include "../../../../../../cli/command/command.h"
 
 class LicenseManual : public Command
 {

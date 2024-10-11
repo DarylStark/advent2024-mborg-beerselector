@@ -1,5 +1,4 @@
 #include "license_manual.h"
-#include "../../../../logging.h"
 
 bool LicenseManual::execute(std::map<std::string, std::string> args)
 {

@@ -1,9 +1,9 @@
 #include "cli_parser_config.h"
 #include "commands/config_exit.h"
 #include "cli_parser_priv_exec.h"
+#include "privileged/license_parsers.h"
 
 #include "./config_commands/hostname.h"
-#include "./config_commands/license_manual.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_parser = nullptr;
 
@@ -18,29 +18,6 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_hostname_parser()
     
     parser->add_argument(std::make_shared<StringArgument>(
         "hostname", true, "The hostname to set"));
-
-    return parser;
-}
-
-std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_license_parser()
-{
-    // license
-    std::shared_ptr<ArgumentedCommandParser> parser =
-        std::make_shared<ArgumentedCommandParser>(
-            "Install licenses",
-            "Set licenses for the device");
-    
-    // license manual
-    std::shared_ptr<ArgumentedCommandParser> manual =
-        std::make_shared<ArgumentedCommandParser>(
-            "Enter a license code",
-            "Enter a license code manually.",
-            std::make_shared<LicenseManual>());
-    manual->add_argument(std::make_shared<StringArgument>(
-        "license_code", true, "The code of the license to install"));
-    
-    // Add the parsers
-    parser->add_parser("manual", manual);
 
     return parser;
 }
@@ -75,7 +52,7 @@ CLIParserConfig::_create_parser()
 
     // Configuration
     parser->add_parser("hostname", _get_hostname_parser());
-    parser->add_parser("license", _get_license_parser());
+    parser->add_parser("license", LicenseConfig().get_parser());
 
     return parser;
 }

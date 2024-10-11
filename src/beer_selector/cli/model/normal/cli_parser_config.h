@@ -11,7 +11,6 @@ private:
 
     // Configuration parsers
     std::shared_ptr<ArgumentedCommandParser> _get_hostname_parser();
-    std::shared_ptr<ArgumentedCommandParser> _get_license_parser();
 
     // Leave mode
     std::shared_ptr<ArgumentedCommandParser> _get_exit_parser();

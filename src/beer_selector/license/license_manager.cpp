@@ -4,7 +4,7 @@ std::shared_ptr<LicenseManager> LicenseManager::_instance = nullptr;
 std::shared_ptr<ds::ConfigurationManager> LicenseManager::_cfg_manager = nullptr;
 
 LicenseManager::LicenseManager()
-    : _licenses{true, false, false, false}
+    : _licenses{false, false, false, false}
 {}
 
 std::shared_ptr<LicenseManager> LicenseManager::get_instance()

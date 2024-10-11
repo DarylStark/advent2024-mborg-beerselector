@@ -6,6 +6,8 @@
 #include "esp32/configuration_manager.h"
 #include "esp32/nvs.h"
 
+#include "beer_selector/license/license_manager.h"
+
 // Dependencies
 std::shared_ptr<ds::esp32::UART> uart = std::make_shared<ds::esp32::UART>();
 std::shared_ptr<ds::esp32::NVS> nvs = std::make_shared<ds::esp32::NVS>("ac24");

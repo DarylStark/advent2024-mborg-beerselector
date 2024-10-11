@@ -32,6 +32,7 @@ public:
 
     // Check functions
     bool is_license_valid(uint16_t license_number) const;
+    const std::string get_license_code(uint16_t license_number) const;
 
     // Install license
     bool install_license(uint16_t license_number, const std::string& license_key);

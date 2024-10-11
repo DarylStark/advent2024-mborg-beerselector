@@ -31,7 +31,7 @@ namespace ds::esp32
         _configuration["sys.hostname"] = _get_from_nvs("sys.hostname", CONFIG_BS_CONFIG_SYS_HOSTNAME);
 
         // Licenses
-        _configuration["license.0"] = _get_from_nvs("license.0", "");
+        _configuration["license.0"] = _get_from_nvs("license.0", "FACLICENSE");
         _configuration["license.1"] = _get_from_nvs("license.1", "");
         _configuration["license.2"] = _get_from_nvs("license.2", "");
         _configuration["license.3"] = _get_from_nvs("license.3", "");

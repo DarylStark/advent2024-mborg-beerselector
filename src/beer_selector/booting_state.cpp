@@ -140,6 +140,10 @@ void BootingState::_load_licenses()
 {
     ScopedAction action("Loading licenses", _output_handler);
 
+    // Configure the license manager
+    LicenseManager::set_configuration_manager(_factory->get_configuration_manager());
+    auto license_manager = LicenseManager::get_instance();
+    license_manager->update();
 }
 
 void BootingState::_go_to_rommon()

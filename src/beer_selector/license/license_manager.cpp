@@ -42,6 +42,14 @@ bool LicenseManager::is_license_valid(uint16_t license_number) const
     return false;
 }
 
+const std::string LicenseManager::get_license_code(uint16_t license_number) const
+{
+    if (license_number < 4)
+        return _cfg_manager->get("license." + std::to_string(license_number));
+
+    return "";
+}
+
 bool LicenseManager::install_license(uint16_t license_number, const std::string& license_key)
 {
     if (license_number > 3)

@@ -6,12 +6,14 @@
 #include "rommon_state.h"
 #include "normal_state.h"
 
+#include "license/license_manager.h"
+
 ScopedAction::ScopedAction(std::string title,
                            std::shared_ptr<ds::OutputHandler> output_handler)
     : _success(true), _output_handler(output_handler)
 {
     std::stringstream out;
-    out << "\r\n" << std::setw(50) << std::setfill('.') << std::left << title;
+    out << std::setw(50) << std::setfill('.') << std::left << title;
     _output_handler->print(out.str());
     _output_handler->flush();
 }
@@ -134,6 +136,12 @@ void BootingState::_load_configuration()
     _factory->get_configuration_manager()->load_configuration();
 }
 
+void BootingState::_load_licenses()
+{
+    ScopedAction action("Loading licenses", _output_handler);
+
+}
+
 void BootingState::_go_to_rommon()
 {
     _application.set_state(
@@ -153,11 +161,12 @@ void BootingState::run()
     _print_device_information();
 
     // Start with the system boot
-    _output_handler->println("SYSTEM BOOTING ...");
+    _output_handler->println("SYSTEM BOOTING ...\r\n");
     _output_handler->flush();
 
-    // Retrieve the configuration
+    // Retrieve the configuration and licenses
     _load_configuration();
+    _load_licenses();
 
     _output_handler->println("");
     _output_handler->flush();

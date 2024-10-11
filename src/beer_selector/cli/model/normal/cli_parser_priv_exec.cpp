@@ -4,6 +4,8 @@
 #include "../shared/cli_parser_rtos_info.h"
 #include "../shared/cli_parser_write.h"
 
+#include "privileged/license_parsers.h"
+
 #include "commands/disable.h"
 #include "commands/configure.h"
 
@@ -21,6 +23,9 @@ CLIParserPrivExec::_get_show_parser()
     // Add shared parsers
     parser->add_parser("system", CLIParserSysInfo().get_parser());
     parser->add_parser("freertos", CLIParserRTOSInfo().get_parser());
+
+    // Specific parsers
+    parser->add_parser("license", LicenseParserShow().get_parser());
 
     return parser;
 }

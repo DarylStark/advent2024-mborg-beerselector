@@ -21,10 +21,20 @@ namespace ds::esp32
         // Load configuration for ESP32
         // TODO: This shouldnt be in this directory. This has to be in the
         //       directory of the application. Make something to fix this.
+
+        // Authentication
         _configuration["auth.user"] = _get_from_nvs("auth.user", CONFIG_BS_CONFIG_AUTH_USER);
         _configuration["auth.pass"] = _get_from_nvs("auth.pass", CONFIG_BS_CONFIG_AUTH_PASS);
         _configuration["auth.enable"] = _get_from_nvs("auth.enable", CONFIG_BS_CONFIG_AUTH_ENABLE);
+
+        // System
         _configuration["sys.hostname"] = _get_from_nvs("sys.hostname", CONFIG_BS_CONFIG_SYS_HOSTNAME);
+
+        // Licenses
+        _configuration["license.0"] = _get_from_nvs("license.0", "FACLICENSE");
+        _configuration["license.1"] = _get_from_nvs("license.1", "");
+        _configuration["license.2"] = _get_from_nvs("license.2", "");
+        _configuration["license.3"] = _get_from_nvs("license.3", "");
 
         _nvs->close();
     }

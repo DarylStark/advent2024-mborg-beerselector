@@ -6,12 +6,15 @@
 #include "rommon_state.h"
 #include "normal_state.h"
 
+#include "license/license_manager.h"
+#include "license/simple_validator.h"
+
 ScopedAction::ScopedAction(std::string title,
                            std::shared_ptr<ds::OutputHandler> output_handler)
     : _success(true), _output_handler(output_handler)
 {
     std::stringstream out;
-    out << "\r\n" << std::setw(50) << std::setfill('.') << std::left << title;
+    out << std::setw(50) << std::setfill('.') << std::left << title;
     _output_handler->print(out.str());
     _output_handler->flush();
 }
@@ -134,6 +137,25 @@ void BootingState::_load_configuration()
     _factory->get_configuration_manager()->load_configuration();
 }
 
+void BootingState::_load_licenses()
+{
+    ScopedAction action("Loading licenses", _output_handler);
+
+    // Configure the license manager
+    LicenseManager::set_configuration_manager(_factory->get_configuration_manager());
+    auto license_manager = LicenseManager::get_instance();
+
+    // Set the validators
+    // TODO: Better keys!
+    license_manager->set_validator(0, std::make_shared<SimpleValidator>("FACLICENSE"));
+    license_manager->set_validator(1, std::make_shared<SimpleValidator>("LICENSE001"));
+    license_manager->set_validator(2, std::make_shared<SimpleValidator>("LICENSE002"));
+    license_manager->set_validator(3, std::make_shared<SimpleValidator>("LICENSE003"));
+
+    // Update the licenses
+    license_manager->update();
+}
+
 void BootingState::_go_to_rommon()
 {
     _application.set_state(
@@ -153,11 +175,12 @@ void BootingState::run()
     _print_device_information();
 
     // Start with the system boot
-    _output_handler->println("SYSTEM BOOTING ...");
+    _output_handler->println("SYSTEM BOOTING ...\r\n");
     _output_handler->flush();
 
-    // Retrieve the configuration
+    // Retrieve the configuration and licenses
     _load_configuration();
+    _load_licenses();
 
     _output_handler->println("");
     _output_handler->flush();

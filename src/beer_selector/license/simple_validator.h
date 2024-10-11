@@ -7,12 +7,11 @@
 class SimpleValidator : public LicenseValidator
 {
 private:
-    const std::string _expected_code;
-    const std::string _license_code;
+    const std::string _expected_key;
 
 public:
-    SimpleValidator(const std::string expected_code, const std::string license_code);
-    bool validate() const override;
+    SimpleValidator(const std::string expected_key);
+    bool validate(const std::string license_key) const override;
 };
 
 #endif /* SIMPLE_VALIDATOR_H */

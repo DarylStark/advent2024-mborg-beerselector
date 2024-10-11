@@ -1,3 +1,4 @@
+#include "../logging.h"
 #include "license_manager.h"
 
 std::shared_ptr<LicenseManager> LicenseManager::_instance = nullptr;
@@ -22,6 +23,12 @@ void LicenseManager::set_configuration_manager(std::shared_ptr<ds::Configuration
     _cfg_manager = cfg_manager;
 }
 
+void LicenseManager::set_validator(uint16_t license_number, std::shared_ptr<LicenseValidator> validator)
+{
+    if (license_number < 4)
+        _validators[license_number] = validator;
+}
+
 void LicenseManager::update()
 {
     // Load licenses from configuration
@@ -29,7 +36,7 @@ void LicenseManager::update()
     {
         _licenses[i] = false;
         std::string license_key = _cfg_manager->get("license." + std::to_string(i));
-        if (license_key.length() > 0)
+        if (_validators[i] != nullptr && _validators[i]->validate(license_key))
             _licenses[i] = true;
     }
 }
@@ -50,17 +57,33 @@ const std::string LicenseManager::get_license_code(uint16_t license_number) cons
     return "";
 }
 
-bool LicenseManager::install_license(uint16_t license_number, const std::string& license_key)
+bool LicenseManager::install_license(const std::string& license_key)
 {
+    // Find the next license number
+    uint16_t license_number = 0;
+    for (uint16_t i = 0; i < 4; i++)
+    {
+        if (!_licenses[i])
+        {
+            license_number = i;
+            break;
+        }
+    }
+
     if (license_number > 3)
         return false;
 
-    if (_licenses[license_number])
-        return false;
-
-    if (license_number > 0 && license_number < 4)
+    if (_validators[license_number] == nullptr)
     {
-        // TODO: Validate the license
+        // TODO: Throw error; no license validator set
+        return false;
+    }
+
+    // Validate the license
+    if (_validators[license_number]->validate(license_key))
+    {
+        _cfg_manager->set("license." + std::to_string(license_number), license_key);
+        log(INFO, "License " + std::to_string(license_number) + " installed");
         _licenses[license_number] = true;
         return true;
     }

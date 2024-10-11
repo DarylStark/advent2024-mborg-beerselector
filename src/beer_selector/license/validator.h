@@ -6,7 +6,7 @@
 class LicenseValidator
 {
 public:
-    virtual bool validate() const = 0;
+    virtual bool validate(const std::string license_key) const = 0;
 };
 
 #endif /* VALIDATOR_H */

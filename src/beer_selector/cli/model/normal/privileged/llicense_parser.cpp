@@ -37,11 +37,11 @@ LicenseConfig::_create_parser()
     // license manual
     std::shared_ptr<ArgumentedCommandParser> manual =
         std::make_shared<ArgumentedCommandParser>(
-            "Enter a license code",
-            "Enter a license code manually.",
+            "Enter a license key",
+            "Enter a license key manually.",
             std::make_shared<LicenseManual>());
     manual->add_argument(std::make_shared<StringArgument>(
-        "license_code", true, "The code of the license to install"));
+        "license_key", true, "The key of the license to install"));
     
     // Add the parsers
     parser->add_parser("manual", manual);

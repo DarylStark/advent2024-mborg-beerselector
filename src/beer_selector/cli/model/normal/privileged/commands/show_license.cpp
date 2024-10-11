@@ -13,8 +13,8 @@ bool ShowLicense::execute(std::map<std::string, std::string> args)
         _factory->get_output_handler()->print(" License " + std::to_string(i) + ": ");
         if (license_manager->is_license_valid(i))
         {
-            _factory->get_output_handler()->print("Installed, license code ");
-            _factory->get_output_handler()->println(license_manager->get_license_code(i));
+            _factory->get_output_handler()->print("Installed, license key: \"");
+            _factory->get_output_handler()->println(license_manager->get_license_code(i) + "\"");
         }
         else
         {

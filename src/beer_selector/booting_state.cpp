@@ -7,6 +7,7 @@
 #include "normal_state.h"
 
 #include "license/license_manager.h"
+#include "license/simple_validator.h"
 
 ScopedAction::ScopedAction(std::string title,
                            std::shared_ptr<ds::OutputHandler> output_handler)
@@ -143,6 +144,15 @@ void BootingState::_load_licenses()
     // Configure the license manager
     LicenseManager::set_configuration_manager(_factory->get_configuration_manager());
     auto license_manager = LicenseManager::get_instance();
+
+    // Set the validators
+    // TODO: Better keys!
+    license_manager->set_validator(0, std::make_shared<SimpleValidator>("FACLICENSE"));
+    license_manager->set_validator(1, std::make_shared<SimpleValidator>("LICENSE001"));
+    license_manager->set_validator(2, std::make_shared<SimpleValidator>("LICENSE002"));
+    license_manager->set_validator(3, std::make_shared<SimpleValidator>("LICENSE003"));
+
+    // Update the licenses
     license_manager->update();
 }
 

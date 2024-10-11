@@ -27,6 +27,9 @@ public:
     static std::shared_ptr<LicenseManager> get_instance();
     static void set_configuration_manager(std::shared_ptr<ds::ConfigurationManager> cfg_manager);
 
+    // Validators
+    void set_validator(uint16_t license_number, std::shared_ptr<LicenseValidator> validator);
+
     // Update
     void update();
 
@@ -35,7 +38,7 @@ public:
     const std::string get_license_code(uint16_t license_number) const;
 
     // Install license
-    bool install_license(uint16_t license_number, const std::string& license_key);
+    bool install_license(const std::string& license_key);
 };
 
 #endif /* LICENSE_MANAGER_H */

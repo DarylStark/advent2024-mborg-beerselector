@@ -16,9 +16,6 @@ std::shared_ptr<ds::PlatformObjectFactory> object_factory = std::make_shared<ds:
 // App object. Dependencies are injected.
 std::shared_ptr<BeerSelector> beer_selector = std::make_shared<BeerSelector>(object_factory);
 
-#include "beer_selector/license/simple_validator.h"
-#include <iostream>
-
 extern "C"
 void app_main(void)
 {

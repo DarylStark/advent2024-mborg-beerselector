@@ -1,7 +1,5 @@
 #include "simple_validator.h"
 
-#include <iostream> // TODO: REMOVE!
-
 SimpleValidator::SimpleValidator(const std::string expected_code, const std::string license_code)
     : _expected_code(expected_code), _license_code(license_code)
 {

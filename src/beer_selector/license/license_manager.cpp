@@ -37,7 +37,10 @@ void LicenseManager::update()
         _licenses[i] = false;
         std::string license_key = _cfg_manager->get("license." + std::to_string(i));
         if (_validators[i] != nullptr && _validators[i]->validate(license_key))
+        {
             _licenses[i] = true;
+            log(INFO, "License " + std::to_string(i) + " is valid and installed");
+        }
     }
 }
 

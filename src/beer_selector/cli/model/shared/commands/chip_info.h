@@ -1,6 +1,7 @@
 #ifndef CHIP_INFO_H
 #define CHIP_INFO_H
 
+#include <map>
 #include "../../../../../cli/command/command.h"
 
 class ChipInfo : public Command

@@ -3,6 +3,8 @@
 
 #include "write.h"
 
+#include "../../../../logging.h"
+
 void Write::_save_configuration()
 {
     _factory->get_output_handler()->print("Saving configuration... ");
@@ -20,8 +22,14 @@ void Write::_erase_configuration()
 bool Write::execute(std::map<std::string, std::string> args)
 {
     if (args["erase"] == "erase")
+    {
         _erase_configuration();
+        log(WARNING, "Startup configuration is erased.");
+    }
     else
+    {
         _save_configuration();
+        log(INFO, "Configuration saved to startup");
+    }
     return true;
 }

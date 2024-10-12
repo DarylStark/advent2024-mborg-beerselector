@@ -84,8 +84,6 @@ void NormalState::logging_service(void *args)
     NormalState *state = (NormalState *)args;
     log(INFO, "Logging service is started");
 
-    state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);
-
     while (true)
     {
         {

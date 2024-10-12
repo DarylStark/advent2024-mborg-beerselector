@@ -5,6 +5,7 @@
 #include "../shared/cli_parser_write.h"
 
 #include "privileged/license_parsers.h"
+#include "privileged/beerlist_parsers.h"
 
 #include "commands/disable.h"
 #include "commands/configure.h"
@@ -26,6 +27,7 @@ CLIParserPrivExec::_get_show_parser()
 
     // Specific parsers
     parser->add_parser("license", LicenseParserShow().get_parser());
+    parser->add_parser("beer-list", ShowBeerList().get_parser());
 
     return parser;
 }

@@ -17,11 +17,13 @@ public:
     void start_logging_service();
     void start_cli_service();
     void start_login_service();
+    void start_display_service();
 
     // Service workers
     static void login_prompt(void *args);
     static void logging_service(void *args);
     static void normal_cli(void *args);
+    static void display_service(void *args);
 
     // Run
     void run();

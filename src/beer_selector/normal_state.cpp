@@ -9,6 +9,8 @@
 #include "globals.h"
 #include "logging.h"
 
+#include "beer_list/beer_list.h"
+
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
     : ds::BaseState(factory, application)
@@ -102,6 +104,32 @@ void NormalState::logging_service(void *args)
     }
 }
 
+void NormalState::display_service(void *args)
+{
+    NormalState *state = (NormalState *)args;
+    BeerList beer_list;
+
+    uint16_t beer = 1;
+
+    while (true) {
+        uint16_t beer_number = beer_list.get_beer_for_day(beer);
+
+        state->_factory->get_display()->set_number((beer * 100) + beer_number);
+
+        if (beer_number == 0)
+        {
+            state->_factory->get_display()->set_digit(2, 16);
+            state->_factory->get_display()->set_digit(3, 16);
+        }
+
+        // NEXT
+        beer++;
+        if (beer > 31)
+            beer = 1;
+        vTaskDelay(10000 / portTICK_PERIOD_MS);
+    }
+}
+
 void NormalState::start_logging_service() {
     xTaskCreatePinnedToCore(
         NormalState::logging_service,
@@ -135,11 +163,23 @@ void NormalState::start_login_service() {
         1);
 }
 
+void NormalState::start_display_service() {
+    xTaskCreatePinnedToCore(
+        NormalState::display_service,
+        "display",
+        1024,
+        this,
+        1,
+        NULL,
+        0);
+}
+
 void NormalState::run() {
     log(INFO, "Bootloader is finished");
 
-    // Start the logging service
+    // Start the "always running" services
     start_logging_service();
+    start_display_service();
 
     // Give the logger some time to start up
     _factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);

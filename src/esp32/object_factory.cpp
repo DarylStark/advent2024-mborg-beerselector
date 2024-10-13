@@ -4,11 +4,16 @@
 #include "input_handler.h"
 #include "os.h"
 #include "output_handler.h"
+#include "tm1637_display.h"
 
 namespace ds::esp32
 {
-    ESP32ObjectFactory::ESP32ObjectFactory(std::shared_ptr<ds::esp32::UART> uart, std::shared_ptr<ds::esp32::NVS> nvs)
-        : _uart(uart), _nvs(nvs)
+    ESP32ObjectFactory::ESP32ObjectFactory(
+        std::shared_ptr<ds::esp32::UART> uart,
+        std::shared_ptr<ds::esp32::NVS> nvs,
+        gpio_num_t display_clk,
+        gpio_num_t display_dta)
+        : _uart(uart), _nvs(nvs), _display_clk(display_clk), _display_dta(display_dta)
     {
     }
 
@@ -31,5 +36,10 @@ namespace ds::esp32
     ESP32ObjectFactory::_get_configuration_manager()
     {
         return std::make_shared<ds::esp32::ESP32ConfigurationManager>(_nvs);
+    }
+
+    std::shared_ptr<ds::Display> ESP32ObjectFactory::_get_display()
+    {
+        return std::make_shared<ds::esp32::TM1637Display>(_display_clk, _display_dta);
     }
 }  // namespace ds::esp32

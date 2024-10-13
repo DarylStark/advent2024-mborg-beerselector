@@ -27,4 +27,11 @@ namespace ds
             _configuration_manager = _get_configuration_manager();
         return _configuration_manager;
     }
+
+    std::shared_ptr<Display> PlatformObjectFactory::get_display()
+    {
+        if (!_display)
+            _display = _get_display();
+        return _display;
+    }
 }  // namespace ds

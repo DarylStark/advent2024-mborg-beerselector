@@ -13,8 +13,6 @@
 
 #include <driver/gpio.h>
 
-#include <iostream> // TODO: REMOVE
-
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
     : ds::BaseState(factory, application), _mode_button_semaphore(xSemaphoreCreateBinary())
@@ -127,7 +125,7 @@ void NormalState::input_service(void *args)
                     pdTRUE,
                     (void *)0,
                     [](TimerHandle_t xTimer) {
-                        std::cout << "Timer expired" << std::endl;
+                        // TODO: Display correct beer
                     });
 
                 if (xTimerStart(state->_display_beer_list_timer, 0) != pdPASS)

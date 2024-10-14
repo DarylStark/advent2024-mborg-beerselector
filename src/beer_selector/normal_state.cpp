@@ -11,9 +11,13 @@
 
 #include "beer_list/beer_list.h"
 
+#include <driver/gpio.h>
+
+#include <iostream> // TODO: REMOVE
+
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
-    : ds::BaseState(factory, application)
+    : ds::BaseState(factory, application), _mode_button_semaphore(xSemaphoreCreateBinary())
 {
 }
 
@@ -104,30 +108,57 @@ void NormalState::logging_service(void *args)
     }
 }
 
-void NormalState::display_service(void *args)
+void NormalState::input_service(void *args)
 {
     NormalState *state = (NormalState *)args;
-    BeerList beer_list;
-
-    uint16_t beer = 1;
+    log(INFO, "Input service is started");
 
     while (true) {
-        uint16_t beer_number = beer_list.get_beer_for_day(beer);
-
-        state->_factory->get_display()->set_number((beer * 100) + beer_number);
-
-        if (beer_number == 0)
+        if (xSemaphoreTake(state->_mode_button_semaphore, portMAX_DELAY) == pdTRUE)
         {
-            state->_factory->get_display()->set_digit(2, 16);
-            state->_factory->get_display()->set_digit(3, 16);
+            // Debounce delay
+            vTaskDelay(50 / portTICK_PERIOD_MS);
+
+            if (gpio_get_level(GPIO_NUM_23) == 0)
+            {
+                state->_display_beer_list_timer = xTimerCreate(
+                    "display_beer_list_timer",
+                    1000 / portTICK_PERIOD_MS,
+                    pdTRUE,
+                    (void *)0,
+                    [](TimerHandle_t xTimer) {
+                        std::cout << "Timer expired" << std::endl;
+                    });
+
+                if (xTimerStart(state->_display_beer_list_timer, 0) != pdPASS)
+                {
+                    log(ERROR, "Failed to start the timer for the beer-list");
+                    continue;
+                }
+
+                xTimerStart(state->_display_beer_list_timer, portMAX_DELAY);
+            }
+
+            if (gpio_get_level(GPIO_NUM_23) == 1)
+            {
+                if (state->_display_beer_list_timer != nullptr)
+                {
+                    xTimerDelete(state->_display_beer_list_timer, 0);
+                    state->_display_beer_list_timer = nullptr;
+                } else {
+                    log(ERROR, "Timer is not running");
+                }
+            }
         }
 
-        // NEXT
-        beer++;
-        if (beer > 31)
-            beer = 1;
-        vTaskDelay(10000 / portTICK_PERIOD_MS);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
+}
+
+void NormalState::_isr_mode_button_state_change(void * args)
+{
+    NormalState* state = static_cast<NormalState*>(args);
+    xSemaphoreGiveFromISR(state->_mode_button_semaphore, 0);
 }
 
 void NormalState::start_logging_service() {
@@ -163,10 +194,10 @@ void NormalState::start_login_service() {
         1);
 }
 
-void NormalState::start_display_service() {
+void NormalState::start_input_service() {
     xTaskCreatePinnedToCore(
-        NormalState::display_service,
-        "display",
+        NormalState::input_service,
+        "input",
         1024,
         this,
         1,
@@ -177,9 +208,25 @@ void NormalState::start_display_service() {
 void NormalState::run() {
     log(INFO, "Bootloader is finished");
 
+    // Configure the GPIO for the 'mode' button
+    gpio_config_t button_gpio_config = {
+        .pin_bit_mask = 1ULL << GPIO_NUM_23,
+        .mode = GPIO_MODE_INPUT,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_ANYEDGE,
+    };
+    gpio_config(&button_gpio_config);
+
+    // Install the ISR service
+    gpio_install_isr_service(0);
+
+    // Add the ISR handler
+    gpio_isr_handler_add(GPIO_NUM_23, NormalState::_isr_mode_button_state_change, this);
+
     // Start the "always running" services
     start_logging_service();
-    start_display_service();
+    start_input_service();
 
     // Give the logger some time to start up
     _factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);

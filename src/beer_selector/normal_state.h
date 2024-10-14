@@ -17,6 +17,7 @@ private:
     static void _isr_mode_button_state_change(void * args);
     TimerHandle_t _display_beer_list_timer;
     SemaphoreHandle_t _mode_button_semaphore;
+    uint16_t _beer_list_index;
 
 public:
     NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
@@ -33,6 +34,9 @@ public:
     static void logging_service(void *args);
     static void normal_cli(void *args);
     static void input_service(void *args);
+
+    // Beer list display
+    static void display_beer_list(TimerHandle_t xTimer);
 
     // Run
     void run();

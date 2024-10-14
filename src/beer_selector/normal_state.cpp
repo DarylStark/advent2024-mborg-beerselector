@@ -250,7 +250,7 @@ void NormalState::run() {
     // TODO: Extract this to a method
     _display_beer_list_timer = xTimerCreate(
         "display_beer_list_timer",
-        1000 / portTICK_PERIOD_MS, // TODO: Make this configurable
+        250 / portTICK_PERIOD_MS, // TODO: Make this configurable
         pdTRUE,
         (void *)this,
         NormalState::display_beer_list);

@@ -12,6 +12,7 @@ private:
     // Configuration parsers
     std::shared_ptr<ArgumentedCommandParser> _get_hostname_parser();
     std::shared_ptr<ArgumentedCommandParser> _get_beer_list_parser();
+    std::shared_ptr<ArgumentedCommandParser> _get_logging_buffer_parser();
 
     // Leave mode
     std::shared_ptr<ArgumentedCommandParser> _get_exit_parser();

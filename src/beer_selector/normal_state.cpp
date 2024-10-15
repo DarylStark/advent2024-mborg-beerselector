@@ -107,10 +107,7 @@ void NormalState::logging_service(void *args)
 
                 // Add to log buffer
                 if (log_buffer_size > 0)
-                {
-                    if (data.get_severity() <= log_buffer_level)
-                        log_buffer.push_back(data.get_message());
-                }
+                    log_buffer.push_back(data.get_message());
             }
         }
         state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_LOGGING_TIMEOUT);

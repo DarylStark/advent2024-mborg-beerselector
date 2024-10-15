@@ -11,7 +11,6 @@ extern std::queue<LoggingData> logging_queue;
 extern std::mutex queue_mutex;
 extern CircularBuffer log_buffer;
 extern uint16_t log_buffer_size;
-extern uint8_t log_buffer_level;
 
 void log(Severity severity, const std::string message);
 

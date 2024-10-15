@@ -271,7 +271,7 @@ void NormalState::run() {
     _factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);
 
     // Set max size for the logging buffer
-    uint16_t max_log_buffer_size = std::stoi(_factory->get_configuration_manager()->get("log.buf.sev"));
+    uint16_t max_log_buffer_size = std::stoi(_factory->get_configuration_manager()->get("log.buf.len"));
     log_buffer.set_max_size(max_log_buffer_size);
     log_buffer_size = max_log_buffer_size;
 

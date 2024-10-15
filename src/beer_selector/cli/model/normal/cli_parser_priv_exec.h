@@ -10,6 +10,7 @@ private:
     static std::shared_ptr<ArgumentedCommandParser> _parser;
 
     std::shared_ptr<ArgumentedCommandParser> _get_show_parser();
+    std::shared_ptr<ArgumentedCommandParser> _get_show_log_parser();
     std::shared_ptr<ArgumentedCommandParser> _get_disable_parser();
     std::shared_ptr<ArgumentedCommandParser> _get_config_parser();
     std::shared_ptr<ArgumentedCommandParser> _get_write_parser();

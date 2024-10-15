@@ -47,3 +47,8 @@ const std::string LoggingData::get_message() const
     out << _message;
     return out.str();
 }
+
+const Severity LoggingData::get_severity() const
+{
+    return _severity;
+}

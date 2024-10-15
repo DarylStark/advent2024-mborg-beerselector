@@ -101,7 +101,16 @@ void NormalState::logging_service(void *args)
             {
                 LoggingData data = logging_queue.front();
                 logging_queue.pop();
+
+                // Display to console
                 state->_factory->get_output_handler()->println(data.get_message());
+
+                // Add to log buffer
+                if (log_buffer_size > 0)
+                {
+                    if (data.get_severity() <= log_buffer_level)
+                        log_buffer.push_back(data.get_message());
+                }
             }
         }
         state->_factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_LOGGING_TIMEOUT);
@@ -260,6 +269,11 @@ void NormalState::run() {
 
     // Give the logger some time to start up
     _factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);
+
+    // Set max size for the logging buffer
+    uint16_t max_log_buffer_size = std::stoi(_factory->get_configuration_manager()->get("log.buf.sev"));
+    log_buffer.set_max_size(max_log_buffer_size);
+    log_buffer_size = max_log_buffer_size;
 
     // Start the login service
     start_login_service();

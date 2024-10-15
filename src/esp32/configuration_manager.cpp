@@ -39,6 +39,10 @@ namespace ds::esp32
         // Display configuration
         _configuration["dp.t_beer"] = _get_from_nvs("dp.t_beer", CONFIG_BS_CONFIG_DISPLAY_TIMEOUT);
 
+        // Logging configuration
+        _configuration["log.buf.len"] = _get_from_nvs("log.buf.len", CONFIG_BS_CONFIG_LOG_BUFFER_LENGTH);
+        _configuration["log.buf.sev"] = _get_from_nvs("log.buf.sev", CONFIG_BS_CONFIG_LOG_BUFFER_SEVERITY);
+
         _nvs->close();
     }
 

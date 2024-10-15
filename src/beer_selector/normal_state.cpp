@@ -223,6 +223,20 @@ void NormalState::start_input_service() {
         0);
 }
 
+void NormalState::create_display_beer_list_timer()
+{
+    // Get the timeout from configuration
+    uint32_t timeout = std::stoi(_factory->get_configuration_manager()->get("display.time_per_beer"));
+
+    // Create a timer to display the beers periodically
+    _display_beer_list_timer = xTimerCreate(
+        "display_beer_list_timer",
+        (timeout * 1000) / portTICK_PERIOD_MS,
+        pdTRUE,
+        (void *)this,
+        NormalState::display_beer_list);
+}
+
 void NormalState::run() {
     log(INFO, "Bootloader is finished");
 
@@ -246,14 +260,8 @@ void NormalState::run() {
     start_logging_service();
     start_input_service();
 
-    // Create a timer to display the beers periodically
-    // TODO: Extract this to a method
-    _display_beer_list_timer = xTimerCreate(
-        "display_beer_list_timer",
-        250 / portTICK_PERIOD_MS, // TODO: Make this configurable
-        pdTRUE,
-        (void *)this,
-        NormalState::display_beer_list);
+    // Start the timer for the beer display
+    create_display_beer_list_timer();
 
     // Give the logger some time to start up
     _factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);

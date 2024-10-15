@@ -29,13 +29,16 @@ public:
     void start_login_service();
     void start_input_service();
 
+    // Timer creations
+    void create_display_beer_list_timer();
+
     // Service workers
     static void login_prompt(void *args);
     static void logging_service(void *args);
     static void normal_cli(void *args);
     static void input_service(void *args);
 
-    // Beer list display
+    // Timer services
     static void display_beer_list(TimerHandle_t xTimer);
 
     // Run

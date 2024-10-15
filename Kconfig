@@ -38,6 +38,14 @@ menu "App - Beer Selector"
                 help
                     The default hostname for the device
         endmenu
+
+        menu "Display"
+            config BS_CONFIG_DISPLAY_TIMEOUT
+                string "Display timeout"
+                default "30"
+                help
+                    How long each beer is visible (in seconds)
+        endmenu
     endmenu
 
     menu "Normal state"

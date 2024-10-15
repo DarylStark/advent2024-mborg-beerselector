@@ -113,11 +113,7 @@ void NormalState::input_service(void *args)
     NormalState *state = (NormalState *)args;
     log(INFO, "Input service is started");
 
-    // TODO: Move to a function
-    state->_factory->get_display()->set_digit(0, 16);
-    state->_factory->get_display()->set_digit(1, 16);
-    state->_factory->get_display()->set_digit(2, 16);
-    state->_factory->get_display()->set_digit(3, 16);
+    state->_factory->get_display()->set_all_dashes();
 
     while (true) {
         if (xSemaphoreTake(state->_mode_button_semaphore, portMAX_DELAY) == pdTRUE)
@@ -137,11 +133,7 @@ void NormalState::input_service(void *args)
             {
                 state->_beer_list_index = 1;
 
-                // TODO: Move to a function
-                state->_factory->get_display()->set_digit(0, 16);
-                state->_factory->get_display()->set_digit(1, 16);
-                state->_factory->get_display()->set_digit(2, 16);
-                state->_factory->get_display()->set_digit(3, 16);
+                state->_factory->get_display()->set_all_dashes();
 
                 if (state->_display_beer_list_timer != nullptr)
                 {
@@ -237,7 +229,7 @@ void NormalState::create_display_beer_list_timer()
 
 uint32_t NormalState::get_display_beer_list_timer_period() const
 {
-    return (std::stoi(_factory->get_configuration_manager()->get("display.time_per_beer")) * 1000) / portTICK_PERIOD_MS;
+    return (std::stoi(_factory->get_configuration_manager()->get("dp.t_beer")) * 1000) / portTICK_PERIOD_MS;
 }
 
 void NormalState::run() {

@@ -12,6 +12,7 @@ RommonState::RommonState(std::shared_ptr<ds::PlatformObjectFactory> factory,
       _output_handler(_factory->get_output_handler()),
       _input_handler(_factory->get_input_handler())
 {
+    _factory->get_display()->set_text_help();
 }
 
 void RommonState::rommon_cli_task(void *args)

@@ -12,6 +12,6 @@ bool BeerListSetTimeOut::execute(std::map<std::string, std::string> args)
         return false;
     }
 
-    _factory->get_configuration_manager()->set("display.time_per_beer", args.at("timeout"));
+    _factory->get_configuration_manager()->set("dp.t_beer", args.at("timeout"));
     return false;
 }

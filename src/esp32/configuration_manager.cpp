@@ -37,7 +37,7 @@ namespace ds::esp32
         _configuration["license.3"] = _get_from_nvs("license.3", "");
 
         // Display configuration
-        _configuration["display.time_per_beer"] = _get_from_nvs("display.time_per_beer", CONFIG_BS_CONFIG_DISPLAY_TIMEOUT);
+        _configuration["dp.t_beer"] = _get_from_nvs("dp.t_beer", CONFIG_BS_CONFIG_DISPLAY_TIMEOUT);
 
         _nvs->close();
     }

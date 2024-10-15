@@ -40,6 +40,7 @@ public:
 
     // Timer services
     static void display_beer_list(TimerHandle_t xTimer);
+    uint32_t get_display_beer_list_timer_period() const;
 
     // Run
     void run();

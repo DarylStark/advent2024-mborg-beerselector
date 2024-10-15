@@ -13,7 +13,7 @@
 
 #include <driver/gpio.h>
 
-#include <iostream>
+#include <iostream> // TODO: REMOVE
 
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
@@ -129,7 +129,10 @@ void NormalState::input_service(void *args)
 
             if (gpio_get_level(GPIO_NUM_23) == 0)
             {
-                xTimerStart(state->_display_beer_list_timer, portMAX_DELAY);
+                xTimerChangePeriod(
+                    state->_display_beer_list_timer,
+                    state->get_display_beer_list_timer_period(),
+                    portMAX_DELAY);
                 NormalState::display_beer_list(state->_display_beer_list_timer);
             }
             else if (gpio_get_level(GPIO_NUM_23) == 1)
@@ -225,16 +228,19 @@ void NormalState::start_input_service() {
 
 void NormalState::create_display_beer_list_timer()
 {
-    // Get the timeout from configuration
-    uint32_t timeout = std::stoi(_factory->get_configuration_manager()->get("display.time_per_beer"));
-
     // Create a timer to display the beers periodically
     _display_beer_list_timer = xTimerCreate(
         "display_beer_list_timer",
-        (timeout * 1000) / portTICK_PERIOD_MS,
+        get_display_beer_list_timer_period(),
         pdTRUE,
         (void *)this,
         NormalState::display_beer_list);
+}
+
+uint32_t NormalState::get_display_beer_list_timer_period() const
+{
+    std::cout << _factory->get_configuration_manager()->get("display.time_per_beer") << std::endl;
+    return (std::stoi(_factory->get_configuration_manager()->get("display.time_per_beer")) * 1000) / portTICK_PERIOD_MS;
 }
 
 void NormalState::run() {

@@ -5,6 +5,7 @@
 
 #include "./config_commands/hostname.h"
 #include "./config_commands/beer_list.h"
+#include "./config_commands/log_buffer.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_parser = nullptr;
 
@@ -58,6 +59,31 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_exit_parser()
     return parser;
 }
 
+std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_logging_buffer_parser()
+{
+    // logging-buffer
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Configure logging buffer",
+            "Set configuration for the in-memory logging buffer");
+    
+    // logging-buffer size
+    std::shared_ptr<ArgumentedCommandParser> buffer_size =
+        std::make_shared<ArgumentedCommandParser>(
+            "Set the maximum size of the logging buffer",
+            "Set the maximum size of the logging buffer. Setting this to 0 disables the log-buffer",
+            std::make_shared<LogBufferSetSize>());
+    buffer_size->add_argument(std::make_shared<IntArgument>(
+        "max_items",
+        true,
+        "The maximum number of items in the buffer"));
+
+    // Tie them together
+    parser->add_parser("size", buffer_size);
+
+    return parser;
+}
+
 std::shared_ptr<ArgumentedCommandParser>
 CLIParserConfig::_create_parser()
 {
@@ -78,6 +104,7 @@ CLIParserConfig::_create_parser()
     parser->add_parser("hostname", _get_hostname_parser());
     parser->add_parser("beer-list", _get_beer_list_parser());
     parser->add_parser("license", LicenseConfig().get_parser());
+    parser->add_parser("log-buffer", _get_logging_buffer_parser());
 
     return parser;
 }

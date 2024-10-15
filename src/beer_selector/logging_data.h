@@ -26,6 +26,7 @@ private:
 public:
     LoggingData(Severity severity, const std::string message);
     const std::string get_message() const;
+    const Severity get_severity() const;
 };
 
 #endif /* LOGGING_DATA_H */

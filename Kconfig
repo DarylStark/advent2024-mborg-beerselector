@@ -44,7 +44,20 @@ menu "App - Beer Selector"
                 string "Display timeout"
                 default "30"
                 help
-                    How long each beer is visible (in seconds)
+                    Default timeout for how long each beer is visible (in seconds)
+        endmenu
+
+        menu "Logging"
+            config BS_CONFIG_LOG_BUFFER_LENGTH
+                string "Logging buffer length"
+                default "32"
+                help
+                    Default length for the logging buffer (in items)
+            config BS_CONFIG_LOG_BUFFER_SEVERITY
+                string "Logging buffer severity"
+                default "7"
+                help
+                    Default max severity for the logging buffer
         endmenu
     endmenu
 

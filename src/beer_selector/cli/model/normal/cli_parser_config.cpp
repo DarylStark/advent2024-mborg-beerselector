@@ -4,6 +4,7 @@
 #include "privileged/license_parsers.h"
 
 #include "./config_commands/hostname.h"
+#include "./config_commands/beer_list.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_parser = nullptr;
 
@@ -18,6 +19,29 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_hostname_parser()
     
     parser->add_argument(std::make_shared<StringArgument>(
         "hostname", true, "The hostname to set"));
+
+    return parser;
+}
+
+std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_beer_list_parser()
+{
+    // beer-list
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Configure the beer-list display",
+            "Configure the beer-list display");
+    
+    // Timeout parser
+    std::shared_ptr<ArgumentedCommandParser> timeout_parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Configure the beer-list display",
+            "Configure the beer-list display",
+            std::make_shared<BeerListSetTimeOut>());
+    timeout_parser->add_argument(std::make_shared<IntArgument>(
+        "timeout", true, "The timeout to set"));
+    
+    // Tie them together
+    parser->add_parser("timeout", timeout_parser);
 
     return parser;
 }
@@ -52,6 +76,7 @@ CLIParserConfig::_create_parser()
 
     // Configuration
     parser->add_parser("hostname", _get_hostname_parser());
+    parser->add_parser("beer-list", _get_beer_list_parser());
     parser->add_parser("license", LicenseConfig().get_parser());
 
     return parser;

@@ -11,7 +11,11 @@ std::shared_ptr<ds::esp32::UART> uart = std::make_shared<ds::esp32::UART>();
 std::shared_ptr<ds::esp32::NVS> nvs = std::make_shared<ds::esp32::NVS>("ac24");
 
 // Object factory
-std::shared_ptr<ds::PlatformObjectFactory> object_factory = std::make_shared<ds::esp32::ESP32ObjectFactory>(uart, nvs);
+std::shared_ptr<ds::PlatformObjectFactory> object_factory = std::make_shared<ds::esp32::ESP32ObjectFactory>(
+    uart,
+    nvs,
+    GPIO_NUM_27,
+    GPIO_NUM_26);
 
 // App object. Dependencies are injected.
 std::shared_ptr<BeerSelector> beer_selector = std::make_shared<BeerSelector>(object_factory);
@@ -21,3 +25,5 @@ void app_main(void)
 {
     beer_selector->start();
 }
+
+#

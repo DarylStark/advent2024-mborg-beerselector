@@ -180,6 +180,12 @@ CONFIG_BS_CONFIG_AUTH_ENABLE="bs_ac24_enable_password"
 #
 CONFIG_BS_CONFIG_SYS_HOSTNAME="advent2024"
 # end of System
+
+#
+# Display
+#
+CONFIG_BS_CONFIG_DISPLAY_TIMEOUT="30"
+# end of Display
 # end of Default configuration
 
 #

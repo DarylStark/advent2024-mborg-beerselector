@@ -9,9 +9,15 @@
 #include "globals.h"
 #include "logging.h"
 
+#include "beer_list/beer_list.h"
+
+#include <driver/gpio.h>
+
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
-    : ds::BaseState(factory, application)
+    : ds::BaseState(factory, application),
+      _mode_button_semaphore(xSemaphoreCreateBinary()),
+      _beer_list_index(1)
 {
 }
 
@@ -102,6 +108,70 @@ void NormalState::logging_service(void *args)
     }
 }
 
+void NormalState::input_service(void *args)
+{
+    NormalState *state = (NormalState *)args;
+    log(INFO, "Input service is started");
+
+    state->_factory->get_display()->set_all_dashes();
+
+    while (true) {
+        if (xSemaphoreTake(state->_mode_button_semaphore, portMAX_DELAY) == pdTRUE)
+        {
+            // Debounce delay
+            vTaskDelay(50 / portTICK_PERIOD_MS);
+
+            if (gpio_get_level(GPIO_NUM_23) == 0)
+            {
+                xTimerChangePeriod(
+                    state->_display_beer_list_timer,
+                    state->get_display_beer_list_timer_period(),
+                    portMAX_DELAY);
+                NormalState::display_beer_list(state->_display_beer_list_timer);
+            }
+            else if (gpio_get_level(GPIO_NUM_23) == 1)
+            {
+                state->_beer_list_index = 1;
+
+                state->_factory->get_display()->set_all_dashes();
+
+                if (state->_display_beer_list_timer != nullptr)
+                {
+                    xTimerStop(state->_display_beer_list_timer, 0);
+                }
+            }
+        }
+
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+void NormalState::display_beer_list(TimerHandle_t xTimer)
+{
+    NormalState *state = (NormalState *)pvTimerGetTimerID(xTimer);
+    if (state == nullptr)
+    {
+        log(ERROR, "Failed to get the state from the timer");
+        return;
+    }
+
+    uint16_t beer = state->_beer_list_index;
+
+    // TODO: Method in NormalState for this
+    state->_factory->get_display()->set_number((beer * 100) + BeerList().get_beer_for_day(beer));
+
+    // TODO: Method in NormalState for this
+    state->_beer_list_index++;
+    if (state->_beer_list_index > 31)
+        state->_beer_list_index = 1;
+}
+
+void NormalState::_isr_mode_button_state_change(void * args)
+{
+    NormalState* state = static_cast<NormalState*>(args);
+    xSemaphoreGiveFromISR(state->_mode_button_semaphore, 0);
+}
+
 void NormalState::start_logging_service() {
     xTaskCreatePinnedToCore(
         NormalState::logging_service,
@@ -135,11 +205,58 @@ void NormalState::start_login_service() {
         1);
 }
 
+void NormalState::start_input_service() {
+    xTaskCreatePinnedToCore(
+        NormalState::input_service,
+        "input",
+        1024,
+        this,
+        1,
+        NULL,
+        0);
+}
+
+void NormalState::create_display_beer_list_timer()
+{
+    // Create a timer to display the beers periodically
+    _display_beer_list_timer = xTimerCreate(
+        "display_beer_list_timer",
+        get_display_beer_list_timer_period(),
+        pdTRUE,
+        (void *)this,
+        NormalState::display_beer_list);
+}
+
+uint32_t NormalState::get_display_beer_list_timer_period() const
+{
+    return (std::stoi(_factory->get_configuration_manager()->get("dp.t_beer")) * 1000) / portTICK_PERIOD_MS;
+}
+
 void NormalState::run() {
     log(INFO, "Bootloader is finished");
 
-    // Start the logging service
+    // Configure the GPIO for the 'mode' button
+    gpio_config_t button_gpio_config = {
+        .pin_bit_mask = 1ULL << GPIO_NUM_23,
+        .mode = GPIO_MODE_INPUT,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_ANYEDGE,
+    };
+    gpio_config(&button_gpio_config);
+
+    // Install the ISR service
+    gpio_install_isr_service(0);
+
+    // Add the ISR handler
+    gpio_isr_handler_add(GPIO_NUM_23, NormalState::_isr_mode_button_state_change, this);
+
+    // Start the "always running" services
     start_logging_service();
+    start_input_service();
+
+    // Start the timer for the beer display
+    create_display_beer_list_timer();
 
     // Give the logger some time to start up
     _factory->get_os()->sleep_miliseconds(CONFIG_BS_NORMAL_START_TIMEOUT);

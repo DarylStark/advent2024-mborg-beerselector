@@ -13,8 +13,6 @@
 
 #include <driver/gpio.h>
 
-#include <iostream> // TODO: REMOVE
-
 NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
                            ds::BaseApplication &application)
     : ds::BaseState(factory, application),
@@ -239,7 +237,6 @@ void NormalState::create_display_beer_list_timer()
 
 uint32_t NormalState::get_display_beer_list_timer_period() const
 {
-    std::cout << _factory->get_configuration_manager()->get("display.time_per_beer") << std::endl;
     return (std::stoi(_factory->get_configuration_manager()->get("display.time_per_beer")) * 1000) / portTICK_PERIOD_MS;
 }
 

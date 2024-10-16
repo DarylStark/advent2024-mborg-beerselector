@@ -59,6 +59,14 @@ menu "App - Beer Selector"
                 help
                     Default max severity for the logging buffer
         endmenu
+
+        menu "Services"
+            config BS_CONFIG_SERVICE_UART_LICENSE
+                string "UART Licensing service"
+                default "0"
+                help
+                    The default value for the UART Licensing service. 0 = disabled, 1 = enabled
+        endmenu
     endmenu
 
     menu "Normal state"

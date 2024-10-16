@@ -2,6 +2,7 @@
 #include <freertos/task.h>
 #include "serial_license_retriever.h"
 #include "license/license_manager.h"
+#include "logging.h"
 
 constexpr size_t BUFFER_SIZE = 16;
 
@@ -15,6 +16,8 @@ void SerialLicenseRetriever::_service(void* args)
     SerialLicenseRetriever* slr = static_cast<SerialLicenseRetriever*>(args);
     std::shared_ptr<LicenseManager> lm = LicenseManager::get_instance();
     const auto& _uart = *slr->_uart;
+
+    log(INFO, "External Licensing Service is started");
 
     while (true)
     {

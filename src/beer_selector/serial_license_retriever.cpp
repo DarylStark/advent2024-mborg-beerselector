@@ -47,7 +47,6 @@ void SerialLicenseRetriever::_service(void* args)
 
         std::string code(buffer);
         lm->install_license(code);
-        _uart.write_bytes(buffer, code.length());
     }
 }
 

@@ -22,6 +22,7 @@ namespace ds::esp32
         void initialize();
         int get_bytes(char *data, size_t length, uint32_t timeout = 1000) const;
         int write_bytes(const char *data, size_t length) const;
+        void flush();
     };
 } // namespace ds::esp32
 

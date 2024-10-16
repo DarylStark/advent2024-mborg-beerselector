@@ -6,8 +6,8 @@
 
 constexpr size_t BUFFER_SIZE = 16;
 
-SerialLicenseRetriever::SerialLicenseRetriever(std::shared_ptr<ds::esp32::UART> uart, ds::PlatformObjectFactory* factory)
-    : _uart(uart), _factory(factory)
+SerialLicenseRetriever::SerialLicenseRetriever(std::shared_ptr<ds::esp32::UART> uart, ds::PlatformObjectFactory *factory)
+    : _uart(uart), _factory(factory), _task_handle(nullptr), _stopping(false)
 {
 }
 
@@ -15,9 +15,11 @@ void SerialLicenseRetriever::_service(void* args)
 {
     SerialLicenseRetriever* slr = static_cast<SerialLicenseRetriever*>(args);
     std::shared_ptr<LicenseManager> lm = LicenseManager::get_instance();
-    const auto& _uart = *slr->_uart;
+    auto& _uart = *slr->_uart;
 
     log(INFO, "External Licensing Service is started");
+
+    _uart.flush();
 
     while (true)
     {
@@ -28,6 +30,9 @@ void SerialLicenseRetriever::_service(void* args)
         {
             char input[BUFFER_SIZE];
             int len = _uart.get_bytes(input, 1);
+            if (slr->_stopping)
+                break;
+
             if (len > 0)
             {
                 if (input[0] == '\n' || input[0] == '\r' || input[0] == 3 || index == (BUFFER_SIZE - 1))
@@ -45,6 +50,12 @@ void SerialLicenseRetriever::_service(void* args)
             }
         }
 
+        if (slr->_stopping)
+        {
+            slr->_task_handle = nullptr;
+            vTaskDelete(NULL);
+        }
+
         std::string code(buffer);
         lm->install_license(code);
     }
@@ -52,6 +63,11 @@ void SerialLicenseRetriever::_service(void* args)
 
 void SerialLicenseRetriever::start()
 {
+    if (_task_handle != nullptr)
+        return;
+
+    _stopping = false;
+
     // Start the FreeRTOS task
     xTaskCreatePinnedToCore(
         SerialLicenseRetriever::_service,
@@ -59,12 +75,15 @@ void SerialLicenseRetriever::start()
         1024,
         this,
         1,
-        NULL,
+        &_task_handle,
         0);
 }
 
 void SerialLicenseRetriever::stop()
 {
-    // Stop the FreeRTOS task
+    if (_task_handle == nullptr)
+        return;
+    log(INFO, "Stopping External Licensing Service");
+    _stopping = true;
 }
 

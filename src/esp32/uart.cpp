@@ -58,4 +58,9 @@ namespace ds::esp32
     {
         return uart_write_bytes(_port, data, length);
     }
+
+    void UART::flush()
+    {
+        uart_flush_input(_port);
+    }
 }  // namespace ds::esp32

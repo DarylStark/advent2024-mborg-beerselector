@@ -272,6 +272,9 @@ void NormalState::run() {
     log_buffer.set_max_size(max_log_buffer_size);
     log_buffer_size = max_log_buffer_size;
 
+    // TODO: Do this only if the service is enabled
+    _factory->get_serial_license_retriever()->start();
+
     // Start the login service
     start_login_service();
 

@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "../cli/model/cli_model.h"
+
 //
 // Global variables
 //

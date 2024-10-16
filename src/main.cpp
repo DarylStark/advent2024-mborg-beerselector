@@ -16,6 +16,7 @@ std::shared_ptr<ds::esp32::NVS> nvs = std::make_shared<ds::esp32::NVS>("ac24");
 // Object factory
 std::shared_ptr<ds::PlatformObjectFactory> object_factory = std::make_shared<ds::esp32::ESP32ObjectFactory>(
     uart,
+    uart_license_retriever,
     nvs,
     GPIO_NUM_27,
     GPIO_NUM_26);

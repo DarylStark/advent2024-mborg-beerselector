@@ -1,7 +1,5 @@
 #include "uart.h"
 
-#include <iostream> // TODO: REMOVE
-
 namespace ds::esp32
 {
     UART::UART(uart_port_t port, int32_t baud_rate, int tx_pin, int rx_pin)
@@ -28,21 +26,21 @@ namespace ds::esp32
 
         // Install UART driver
         if (uart_driver_install(_port, BUF_SIZE * 2, 0, 0, NULL, 0) != ESP_OK) {
-            std::cerr << "Failed to install UART driver" << std::endl;
+            //std::cerr << "Failed to install UART driver" << std::endl;
             // TODO: Exception
             return;
         }
 
         // Configure UART parameters
         if (uart_param_config(_port, &uart_config) != ESP_OK) {
-            std::cerr << "Failed to configure UART parameters" << std::endl;
+            //std::cerr << "Failed to configure UART parameters" << std::endl;
             // TODO: Exception
             return;
         }
 
         // Set UART pins
         if (uart_set_pin(_port, _tx_pin, _rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE) != ESP_OK) {
-            std::cerr << "Failed to set UART pins" << std::endl;
+            //std::cerr << "Failed to set UART pins" << std::endl;
             // TODO: Exception
             return;
         }

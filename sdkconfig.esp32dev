@@ -193,6 +193,12 @@ CONFIG_BS_CONFIG_DISPLAY_TIMEOUT="30"
 CONFIG_BS_CONFIG_LOG_BUFFER_LENGTH="32"
 CONFIG_BS_CONFIG_LOG_BUFFER_SEVERITY="7"
 # end of Logging
+
+#
+# Services
+#
+CONFIG_BS_CONFIG_SERVICE_UART_LICENSE="0"
+# end of Services
 # end of Default configuration
 
 #

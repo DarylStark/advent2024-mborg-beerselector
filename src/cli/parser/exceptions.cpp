@@ -53,7 +53,7 @@ WrongEnumArgumentException::WrongEnumArgumentException(
     const std::string& argument_name,
     const std::vector<std::string>& possibilities)
     : ParseException("Wrong argument value for argument \"" + argument_name +
-                     "\". Expected one of: ")
+                     "\". Expected one of:\r\n")
 {
     for (const auto& possibility : possibilities)
     {

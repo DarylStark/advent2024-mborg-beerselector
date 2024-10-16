@@ -272,6 +272,10 @@ void NormalState::run() {
     log_buffer.set_max_size(max_log_buffer_size);
     log_buffer_size = max_log_buffer_size;
 
+    // Start the Serial License Retriever service, if enabled
+    if (_factory->get_configuration_manager()->get("svc.uart_lic") == "1")
+        _factory->get_serial_license_retriever()->start();
+
     // Start the login service
     start_login_service();
 

@@ -3,9 +3,10 @@
 #include "cli_parser_priv_exec.h"
 #include "privileged/license_parsers.h"
 
-#include "./config_commands/hostname.h"
-#include "./config_commands/beer_list.h"
-#include "./config_commands/log_buffer.h"
+#include "config_commands/hostname.h"
+#include "config_commands/beer_list.h"
+#include "config_commands/log_buffer.h"
+#include "config_commands/service_uart_licensing.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_parser = nullptr;
 
@@ -84,6 +85,33 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_logging_buffer_pa
     return parser;
 }
 
+std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_service_parser()
+{
+    // service
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Configure services",
+            "Configure the state of services");
+    
+    // logging-buffer size
+    std::shared_ptr<ArgumentedCommandParser> external_licensing =
+        std::make_shared<ArgumentedCommandParser>(
+            "Enable or disable the external licensing service",
+            "Enable or disable the external licensing service which can be used to install licenses using a license adapter.",
+            std::make_shared<ServiceUARTLicensing>());
+    std::vector<std::string> states = {"enable", "disable"};
+    external_licensing->add_argument(std::make_shared<EnumArgument>(
+        "state",
+        states,
+        true,
+        "The desired state of the service [enable | disable]"));
+
+    // Tie them together
+    parser->add_parser("external-licensing", external_licensing);
+
+    return parser;
+}
+
 std::shared_ptr<ArgumentedCommandParser>
 CLIParserConfig::_create_parser()
 {
@@ -105,6 +133,7 @@ CLIParserConfig::_create_parser()
     parser->add_parser("beer-list", _get_beer_list_parser());
     parser->add_parser("license", LicenseConfig().get_parser());
     parser->add_parser("log-buffer", _get_logging_buffer_parser());
+    parser->add_parser("service", _get_service_parser());
 
     return parser;
 }

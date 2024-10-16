@@ -42,6 +42,9 @@ namespace ds::esp32
         // Logging configuration
         _configuration["log.buf.len"] = _get_from_nvs("log.buf.len", CONFIG_BS_CONFIG_LOG_BUFFER_LENGTH);
 
+        // Services
+        _configuration["svc.uart_lic"] = _get_from_nvs("svc.uart_lic", CONFIG_BS_CONFIG_SERVICE_UART_LICENSE);
+
         _nvs->close();
     }
 

@@ -34,4 +34,11 @@ namespace ds
             _display = _get_display();
         return _display;
     }
+
+    std::shared_ptr<Service> PlatformObjectFactory::get_serial_license_retriever()
+    {
+        if (!_serial_license_retriever)
+            _serial_license_retriever = _get_serial_license_retriever();
+        return _serial_license_retriever;
+    }
 }  // namespace ds

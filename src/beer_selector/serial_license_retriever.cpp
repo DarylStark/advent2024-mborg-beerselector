@@ -35,15 +35,13 @@ void SerialLicenseRetriever::_service(void* args)
 
             if (len > 0)
             {
-                if (input[0] == '\n' || input[0] == '\r' || input[0] == 3 || index == (BUFFER_SIZE - 1))
+                if (input[0] == '\n' || input[0] == '\r' || input[0] == 3 || input[0] == '\0' || index == (BUFFER_SIZE - 1))
                 {
                     buffer[index] = '\0';
-                    _uart.write_bytes("!", 1);
                     index = 0;
                     break;
                 }
                 else if (input[0] > 31 && input[0] < 127) {
-                    _uart.write_bytes(".", 1);
                     buffer[index] = input[0];
                     index++;
                 }
@@ -58,6 +56,8 @@ void SerialLicenseRetriever::_service(void* args)
 
         std::string code(buffer);
         lm->install_license(code);
+
+        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
 

@@ -74,7 +74,7 @@ void SerialLicenseRetriever::start()
         "license_rx",
         1024,
         this,
-        1,
+        5,
         &_task_handle,
         0);
 }

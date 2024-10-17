@@ -10,6 +10,7 @@
 #include "commands/disable.h"
 #include "commands/configure.h"
 #include "commands/show_log_buffer.h"
+#include "commands/external_license_info.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserPrivExec::_parser = nullptr;
 
@@ -30,6 +31,7 @@ CLIParserPrivExec::_get_show_parser()
     parser->add_parser("license", LicenseParserShow().get_parser());
     parser->add_parser("beer-list", ShowBeerList().get_parser());
     parser->add_parser("log-buffer", _get_show_log_parser());
+    parser->add_parser("external-license", _get_show_external_license_parser());
 
     return parser;
 }
@@ -42,6 +44,18 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserPrivExec::_get_show_log_parser
             "Show the logging buffer",
             "Show the logging buffer in the terminal",
             std::make_shared<ShowLogBuffer>());
+
+    return parser;
+}
+
+std::shared_ptr<ArgumentedCommandParser> CLIParserPrivExec::_get_show_external_license_parser()
+{
+    // disable
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Show information about the external license service",
+            "Show information about the external license service",
+            std::make_shared<ExternalLicenseInfo>());
 
     return parser;
 }

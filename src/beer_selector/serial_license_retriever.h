@@ -16,10 +16,15 @@ private:
 
     static void _service(void* args);
 
+    static uint64_t _received_bytes;
+    static uint64_t _received_codes;
+
 public:
     SerialLicenseRetriever(std::shared_ptr<ds::esp32::UART> uart, ds::PlatformObjectFactory* factory);
     void start();
     void stop();
+    static uint64_t get_received_bytes();
+    static uint64_t get_received_codes();
 };
 
 #endif // SERIAL_LICENSE_RETRIEVER_H

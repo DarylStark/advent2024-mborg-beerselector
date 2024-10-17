@@ -16,6 +16,7 @@ void SerialLicenseRetriever::_service(void* args)
     SerialLicenseRetriever* slr = static_cast<SerialLicenseRetriever*>(args);
     std::shared_ptr<LicenseManager> lm = LicenseManager::get_instance();
     auto& _uart = *slr->_uart;
+    _uart.flush();
 
     log(INFO, "External Licensing Service is started");
 
@@ -23,7 +24,6 @@ void SerialLicenseRetriever::_service(void* args)
     {
         char buffer[BUFFER_SIZE];
         uint16_t index = 0;
-        _uart.flush();
 
         while(true)
         {
@@ -36,6 +36,8 @@ void SerialLicenseRetriever::_service(void* args)
             {
                 if (input[0] == '\n' || input[0] == '\r' || index == (BUFFER_SIZE - 1))
                 {
+                    _received_bytes += index;
+                    _received_codes++;
                     buffer[index] = '\0';
                     index = 0;
                     break;
@@ -85,3 +87,15 @@ void SerialLicenseRetriever::stop()
     _stopping = true;
 }
 
+uint64_t SerialLicenseRetriever::get_received_bytes()
+{
+    return _received_bytes;
+}
+
+uint64_t SerialLicenseRetriever::get_received_codes()
+{
+    return _received_codes;
+}
+
+uint64_t SerialLicenseRetriever::_received_bytes = 0;
+uint64_t SerialLicenseRetriever::_received_codes = 0;

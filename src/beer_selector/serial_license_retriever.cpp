@@ -19,12 +19,11 @@ void SerialLicenseRetriever::_service(void* args)
 
     log(INFO, "External Licensing Service is started");
 
-    _uart.flush();
-
     while (true)
     {
         char buffer[BUFFER_SIZE];
         uint16_t index = 0;
+        _uart.flush();
 
         while(true)
         {
@@ -32,10 +31,10 @@ void SerialLicenseRetriever::_service(void* args)
             int len = _uart.get_bytes(input, 1);
             if (slr->_stopping)
                 break;
-
+            
             if (len > 0)
             {
-                if (input[0] == '\n' || input[0] == '\r' || input[0] == 3 || input[0] == '\0' || index == (BUFFER_SIZE - 1))
+                if (input[0] == '\n' || input[0] == '\r' || input[0] == 3 || index == (BUFFER_SIZE - 1))
                 {
                     buffer[index] = '\0';
                     index = 0;
@@ -55,9 +54,8 @@ void SerialLicenseRetriever::_service(void* args)
         }
 
         std::string code(buffer);
+        slr->_factory->get_os()->sleep_miliseconds(10);
         lm->install_license(code);
-
-        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
 

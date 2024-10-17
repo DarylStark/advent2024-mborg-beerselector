@@ -147,11 +147,10 @@ void BootingState::_load_licenses()
     auto license_manager = LicenseManager::get_instance();
 
     // Set the validators
-    // TODO: Better keys!
-    license_manager->set_validator(0, std::make_shared<SimpleValidator>("FACLICENSE"));
-    license_manager->set_validator(1, std::make_shared<SimpleValidator>("LICENSE001"));
-    license_manager->set_validator(2, std::make_shared<SimpleValidator>("LICENSE002"));
-    license_manager->set_validator(3, std::make_shared<SimpleValidator>("LICENSE003"));
+    license_manager->set_validator(0, std::make_shared<SimpleValidator>("009D7E7A"));
+    license_manager->set_validator(1, std::make_shared<SimpleValidator>("10FC852D"));
+    license_manager->set_validator(2, std::make_shared<SimpleValidator>("208058EC"));
+    license_manager->set_validator(3, std::make_shared<SimpleValidator>("30AE27D9"));
 
     // Update the licenses
     license_manager->update();

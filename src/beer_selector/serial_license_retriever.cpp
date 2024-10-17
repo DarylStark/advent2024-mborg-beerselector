@@ -34,7 +34,7 @@ void SerialLicenseRetriever::_service(void* args)
             
             if (len > 0)
             {
-                if (input[0] == '\n' || input[0] == '\r' || input[0] == 3 || index == (BUFFER_SIZE - 1))
+                if (input[0] == '\n' || input[0] == '\r' || index == (BUFFER_SIZE - 1))
                 {
                     buffer[index] = '\0';
                     index = 0;

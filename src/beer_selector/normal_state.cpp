@@ -275,6 +275,9 @@ void NormalState::run() {
     // Start the Serial License Retriever service, if enabled
     if (_factory->get_configuration_manager()->get("svc.uart_lic") == "1")
         _factory->get_serial_license_retriever()->start();
+    
+    // Start the Wifi Manager service
+    _factory->get_wifi_manager()->start();
 
     // Start the login service
     start_login_service();

@@ -45,6 +45,10 @@ namespace ds::esp32
         // Services
         _configuration["svc.uart_lic"] = _get_from_nvs("svc.uart_lic", CONFIG_BS_CONFIG_SERVICE_UART_LICENSE);
 
+        // Wifi
+        _configuration["wifi.ssid"] = _get_from_nvs("wifi.ssid", "");
+        _configuration["wifi.password"] = _get_from_nvs("wifi.password", "");
+
         _nvs->close();
     }
 

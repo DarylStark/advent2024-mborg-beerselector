@@ -6,8 +6,6 @@
 #include "esp32/configuration_manager.h"
 #include "esp32/nvs.h"
 
-#include <iostream>
-
 // Dependencies
 std::shared_ptr<ds::esp32::UART> uart = std::make_shared<ds::esp32::UART>(UART_NUM_0, 115200);
 std::shared_ptr<ds::esp32::UART> uart_license_retriever = std::make_shared<ds::esp32::UART>(UART_NUM_2, 115200, 17, 16);

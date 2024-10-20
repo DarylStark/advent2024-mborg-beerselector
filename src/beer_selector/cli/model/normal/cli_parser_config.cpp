@@ -123,6 +123,36 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_service_parser()
     return parser;
 }
 
+std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_wifi_parser()
+{
+    std::shared_ptr<SetConfigString> wifi_cmd = std::make_shared<SetConfigString>(
+        std::map<std::string, std::string>{
+            {"ssid", "wifi.ssid"},
+            {"password", "wifi.password"}
+        });
+    wifi_cmd->set_pre_execute([]
+        (std::map<std::string, std::string> args)
+        {
+            log(INFO, "Wifi SSID is set to: \"" + args["ssid"] + "\"");
+            // TODO: Connect to the (new) wifi network
+            return false;
+        });
+
+    // Wifi
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Set wifi credentials",
+            "Set the credentials for the wifi.",
+            wifi_cmd);
+    
+    parser->add_argument(std::make_shared<StringArgument>(
+        "ssid", true, "The SSID to set"));
+    parser->add_argument(std::make_shared<StringArgument>(
+        "password", true, "The password to set"));
+
+    return parser;
+}
+
 std::shared_ptr<ArgumentedCommandParser>
 CLIParserConfig::_create_parser()
 {
@@ -145,6 +175,7 @@ CLIParserConfig::_create_parser()
     parser->add_parser("license", LicenseConfig().get_parser());
     parser->add_parser("log-buffer", _get_logging_buffer_parser());
     parser->add_parser("service", _get_service_parser());
+    parser->add_parser("wifi", _get_wifi_parser());
 
     return parser;
 }

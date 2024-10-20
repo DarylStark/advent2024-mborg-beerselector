@@ -148,7 +148,7 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_wifi_parser()
     parser->add_argument(std::make_shared<StringArgument>(
         "ssid", true, "The SSID to set"));
     parser->add_argument(std::make_shared<StringArgument>(
-        "password", true, "The password to set"));
+        "password", true, "The password to set")); // TODO: Make sure a password with spaces can be entered
 
     return parser;
 }

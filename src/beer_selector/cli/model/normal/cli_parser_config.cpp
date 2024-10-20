@@ -3,21 +3,32 @@
 #include "cli_parser_priv_exec.h"
 #include "privileged/license_parsers.h"
 
-#include "config_commands/hostname.h"
 #include "config_commands/beer_list.h"
 #include "config_commands/log_buffer.h"
 #include "config_commands/service_uart_licensing.h"
+#include "config_commands/set_config_string.h"
+
+#include "../../../logging.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_parser = nullptr;
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_hostname_parser()
 {
+    std::shared_ptr<SetConfigString> hostname_cmd = std::make_shared<SetConfigString>(
+        std::map<std::string, std::string>{{"hostname", "sys.hostname"}});
+    hostname_cmd->set_pre_execute([]
+        (std::map<std::string, std::string> args)
+        {
+            log(INFO, "Hostname set to: \"" + args["hostname"] + "\"");
+            return false;
+        });
+
     // hostname
     std::shared_ptr<ArgumentedCommandParser> parser =
         std::make_shared<ArgumentedCommandParser>(
             "Set device hostname",
             "Set the hostname for the device.",
-            std::make_shared<Hostname>());
+            hostname_cmd);
     
     parser->add_argument(std::make_shared<StringArgument>(
         "hostname", true, "The hostname to set"));

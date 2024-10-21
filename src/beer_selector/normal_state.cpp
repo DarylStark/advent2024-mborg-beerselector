@@ -182,7 +182,7 @@ void NormalState::start_logging_service() {
     xTaskCreatePinnedToCore(
         NormalState::logging_service,
         "logger",
-        1024,
+        1536,
         this,
         1,
         NULL,

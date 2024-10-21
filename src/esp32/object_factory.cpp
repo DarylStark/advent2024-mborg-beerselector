@@ -53,6 +53,6 @@ namespace ds::esp32
 
     std::shared_ptr<ds::WifiManager> ESP32ObjectFactory::_get_wifi_manager()
     {
-        return std::make_shared<ds::esp32::ESP32WifiManager>(_get_configuration_manager());
+        return std::make_shared<ds::esp32::ESP32WifiManager>(get_configuration_manager());
     }
 }  // namespace ds::esp32

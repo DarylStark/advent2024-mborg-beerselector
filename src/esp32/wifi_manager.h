@@ -14,7 +14,8 @@ namespace ds::esp32 {
         bool _initialized;
 
         void _initialize();
-        static void _wifi_event(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data);
+        void _set_wifi_credentials();
+        static void _wifi_event(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data);
 
     public:
         ESP32WifiManager(std::shared_ptr<ds::ConfigurationManager> configuration_manager);

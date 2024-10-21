@@ -7,6 +7,7 @@
 #include "config_commands/log_buffer.h"
 #include "config_commands/service_uart_licensing.h"
 #include "config_commands/set_config_string.h"
+#include "config_commands/set_config_string_wifi.h"
 
 #include "../../../logging.h"
 
@@ -125,7 +126,7 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_service_parser()
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_wifi_parser()
 {
-    std::shared_ptr<SetConfigString> wifi_cmd = std::make_shared<SetConfigString>(
+    std::shared_ptr<SetConfigStringWifi> wifi_cmd = std::make_shared<SetConfigStringWifi>(
         std::map<std::string, std::string>{
             {"ssid", "wifi.ssid"},
             {"password", "wifi.password"}
@@ -134,7 +135,6 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_wifi_parser()
         (std::map<std::string, std::string> args)
         {
             log(INFO, "Wifi SSID is set to: \"" + args["ssid"] + "\"");
-            // TODO: Connect to the (new) wifi network
             return false;
         });
 

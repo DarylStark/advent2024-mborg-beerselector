@@ -12,7 +12,7 @@ private:
 
 public:
     SetConfigString(std::map<std::string, std::string> arg_config_keys);
-    bool execute(std::map<std::string, std::string> args) override;
+    virtual bool execute(std::map<std::string, std::string> args) override;
     void set_pre_execute(std::function<bool(std::map<std::string, std::string> args)> pre_execute);
     void set_post_execute(std::function<bool(std::map<std::string, std::string> args)> post_execute);
 };

@@ -7,7 +7,11 @@ bool ShowWifi::execute(std::map<std::string, std::string> args)
 {
     // Get information about the connected access point
     wifi_ap_record_t ap_info;
-    esp_wifi_sta_get_ap_info(&ap_info);
+    esp_err_t err = esp_wifi_sta_get_ap_info(&ap_info);
+    if (err != ESP_OK) {
+        _factory->get_output_handler()->println("Not connected to WiFi");
+        return false;
+    }
 
     // Get IP information for the STA interface
     tcpip_adapter_ip_info_t ip_info;

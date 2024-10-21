@@ -7,7 +7,9 @@ SetConfigString::SetConfigString(std::map<std::string, std::string> arg_config_k
 
 bool SetConfigString::execute(std::map<std::string, std::string> args) {
     if (_pre_execute)
-        _pre_execute(args);
+        if (!_pre_execute(args))
+            return false;
+    
     for (const auto& arg: _arg_config_keys) {
         _factory->get_configuration_manager()->set(arg.second, args[arg.first]);
     }
@@ -17,7 +19,7 @@ bool SetConfigString::execute(std::map<std::string, std::string> args) {
     return false;
 }
 
-void SetConfigString::set_pre_execute(std::function<void(std::map<std::string, std::string> args)> pre_execute)
+void SetConfigString::set_pre_execute(std::function<bool(std::map<std::string, std::string> args)> pre_execute)
 {
     _pre_execute = pre_execute;
 }

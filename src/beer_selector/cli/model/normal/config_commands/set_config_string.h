@@ -7,13 +7,13 @@
 class SetConfigString: public Command {
 private:
     std::map<std::string, std::string> _arg_config_keys;
-    std::function<void(std::map<std::string, std::string> args)> _pre_execute;
+    std::function<bool(std::map<std::string, std::string> args)> _pre_execute;
     std::function<bool(std::map<std::string, std::string> args)> _post_execute;
 
 public:
     SetConfigString(std::map<std::string, std::string> arg_config_keys);
     bool execute(std::map<std::string, std::string> args) override;
-    void set_pre_execute(std::function<void(std::map<std::string, std::string> args)> pre_execute);
+    void set_pre_execute(std::function<bool(std::map<std::string, std::string> args)> pre_execute);
     void set_post_execute(std::function<bool(std::map<std::string, std::string> args)> post_execute);
 };
 

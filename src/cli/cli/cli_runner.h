@@ -23,6 +23,7 @@ public:
     static void set_factory(std::shared_ptr<ds::PlatformObjectFactory> factory);
     void set_prompt(const std::string prompt);
     bool run(bool prepend_with_hostname = false);
+    std::vector<std::string> split_command_line(std::string command_line) const;
 };
 
 #endif /* CLI_RUNNER_H */

@@ -23,6 +23,13 @@ void CLIRunner::set_prompt(const std::string prompt)
     _prompt = prompt;
 }
 
+std::vector<std::string> CLIRunner::split_command_line(std::string command_line) const
+{
+    std::stringstream iss(command_line);
+    return std::vector<std::string>(std::istream_iterator<std::string>{iss},
+                                    std::istream_iterator<std::string>());
+}
+
 bool CLIRunner::run(bool prepend_with_hostname)
 {
     const auto& output_handler = _factory->get_output_handler();
@@ -40,9 +47,7 @@ bool CLIRunner::run(bool prepend_with_hostname)
         }
         command = input_handler->get_string(prompt, command);
 
-        std::stringstream iss(command);
-        std::vector<std::string> words(std::istream_iterator<std::string>{iss},
-                                       std::istream_iterator<std::string>());
+        const auto& words = split_command_line(command);
 
         output_handler->println();
         if (words.empty()) continue;

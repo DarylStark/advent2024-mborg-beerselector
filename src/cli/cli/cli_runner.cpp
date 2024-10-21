@@ -1,3 +1,4 @@
+#include <regex>
 #include "cli_runner.h"
 
 #include "../parser/exceptions.h"
@@ -23,11 +24,28 @@ void CLIRunner::set_prompt(const std::string prompt)
     _prompt = prompt;
 }
 
-std::vector<std::string> CLIRunner::split_command_line(std::string command_line) const
+std::vector<std::string> CLIRunner::split_command_line(const std::string& command_line) const
 {
-    std::stringstream iss(command_line);
-    return std::vector<std::string>(std::istream_iterator<std::string>{iss},
-                                    std::istream_iterator<std::string>());
+    std::vector<std::string> words;
+    std::regex word_regex(R"((\"[^\"]+\"|\S+))");
+    auto words_begin = std::sregex_iterator(command_line.begin(), command_line.end(), word_regex);
+    auto words_end = std::sregex_iterator();
+    
+    for (std::sregex_iterator i = words_begin; i != words_end; ++i)
+    {
+        std::smatch match = *i;
+        std::string match_str = match.str();
+
+        // Remove quotes from the beginning and end of the string
+        if (match_str.front() == '"' && match_str.back() == '"') 
+        {
+            match_str = match_str.substr(1, match_str.size() - 2);
+        }
+
+        words.push_back(match_str);
+    }
+
+    return words;
 }
 
 bool CLIRunner::run(bool prepend_with_hostname)

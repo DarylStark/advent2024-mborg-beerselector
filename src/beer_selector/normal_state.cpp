@@ -193,7 +193,7 @@ void NormalState::start_cli_service() {
     xTaskCreatePinnedToCore(
         NormalState::normal_cli,
         "console_cli",
-        4096,
+        8192,
         this,
         1,
         NULL,

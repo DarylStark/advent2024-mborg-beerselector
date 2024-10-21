@@ -16,7 +16,7 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_hostname_parser()
 {
     std::shared_ptr<SetConfigString> hostname_cmd = std::make_shared<SetConfigString>(
         std::map<std::string, std::string>{{"hostname", "sys.hostname"}});
-    hostname_cmd->set_pre_execute([]
+    hostname_cmd->set_post_execute([]
         (std::map<std::string, std::string> args)
         {
             log(INFO, "Hostname set to: \"" + args["hostname"] + "\"");
@@ -130,7 +130,7 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_wifi_parser()
             {"ssid", "wifi.ssid"},
             {"password", "wifi.password"}
         });
-    wifi_cmd->set_pre_execute([]
+    wifi_cmd->set_post_execute([]
         (std::map<std::string, std::string> args)
         {
             log(INFO, "Wifi SSID is set to: \"" + args["ssid"] + "\"");

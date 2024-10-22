@@ -1,3 +1,4 @@
+#include <ctime>
 #include "tm1637_display.h"
 namespace ds::esp32
 {
@@ -41,5 +42,20 @@ namespace ds::esp32
         tm1637_set_segment_raw(_lcd, 1, 121); // E
         tm1637_set_segment_raw(_lcd, 2, 56); // L
         tm1637_set_segment_raw(_lcd, 3, 115); // P
+    }
+
+    void TM1637Display::show_time() const
+    {
+        time_t now;
+        tm timeinfo;
+
+        time(&now);
+
+        localtime_r(&now, &timeinfo);
+        tm1637_set_number_lead_dot(
+            _lcd,
+            (timeinfo.tm_hour * 100) + timeinfo.tm_min,
+            true,
+            4);
     }
 }

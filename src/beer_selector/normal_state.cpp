@@ -119,7 +119,8 @@ void NormalState::input_service(void *args)
     NormalState *state = (NormalState *)args;
     log(INFO, "Input service is started");
 
-    state->_factory->get_display()->set_all_dashes();
+    // Resume the suspended task
+    vTaskResume(state->_display_time_service_task);
 
     while (true) {
         if (xSemaphoreTake(state->_mode_button_semaphore, portMAX_DELAY) == pdTRUE)
@@ -129,6 +130,7 @@ void NormalState::input_service(void *args)
 
             if (gpio_get_level(GPIO_NUM_23) == 0)
             {
+                vTaskSuspend(state->_display_time_service_task);
                 xTimerChangePeriod(
                     state->_display_beer_list_timer,
                     state->get_display_beer_list_timer_period(),
@@ -139,7 +141,8 @@ void NormalState::input_service(void *args)
             {
                 state->_beer_list_index = 1;
 
-                state->_factory->get_display()->set_all_dashes();
+                state->_factory->get_display()->show_time();
+                vTaskResume(state->_display_time_service_task);
 
                 if (state->_display_beer_list_timer != nullptr)
                 {
@@ -149,6 +152,16 @@ void NormalState::input_service(void *args)
         }
 
         vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+void NormalState::display_time_service(void *args)
+{
+    NormalState *state = (NormalState *)args;
+    while (true)
+    {
+        state->_factory->get_display()->show_time();
+        vTaskDelay(500 / portTICK_PERIOD_MS);
     }
 }
 
@@ -222,6 +235,18 @@ void NormalState::start_input_service() {
         0);
 }
 
+void NormalState::start_display_time_service()
+{
+    xTaskCreatePinnedToCore(
+        NormalState::display_time_service,
+        "display_time",
+        1024,
+        this,
+        1,
+        &_display_time_service_task,
+        1);
+}
+
 void NormalState::create_display_beer_list_timer()
 {
     // Create a timer to display the beers periodically
@@ -257,9 +282,14 @@ void NormalState::run() {
     // Add the ISR handler
     gpio_isr_handler_add(GPIO_NUM_23, NormalState::_isr_mode_button_state_change, this);
 
+    // Set timezone
+    setenv("TZ", "CET-1CEST,M3.5.0/2,M10.5.0/3", 1); // TODO: Make this configurable
+    tzset();
+
     // Start the "always running" services
     start_logging_service();
     start_input_service();
+    start_display_time_service();
 
     // Start the timer for the beer display
     create_display_beer_list_timer();

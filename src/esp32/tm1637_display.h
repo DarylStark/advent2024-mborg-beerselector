@@ -20,6 +20,7 @@ namespace ds::esp32
         void set_all_dashes() const override;
         void set_text_boot() const override;
         void set_text_help() const override;
+        void show_time() const override;
     };
 }
 

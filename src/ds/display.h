@@ -14,6 +14,7 @@ namespace ds
         virtual void set_all_dashes() const = 0;
         virtual void set_text_boot() const = 0;
         virtual void set_text_help() const = 0;
+        virtual void show_time() const = 0;
     };
 }
 

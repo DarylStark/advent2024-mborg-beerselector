@@ -9,6 +9,7 @@
 #include "output_handler.h"
 #include "display.h"
 #include "service.h"
+#include "wifi_manager.h"
 
 namespace ds
 {
@@ -21,6 +22,7 @@ namespace ds
         std::shared_ptr<ConfigurationManager> _configuration_manager;
         std::shared_ptr<Display> _display;
         std::shared_ptr<Service> _serial_license_retriever;
+        std::shared_ptr<WifiManager> _wifi_manager;
 
     protected:
         virtual std::shared_ptr<OutputHandler> _get_output_handler() = 0;
@@ -29,6 +31,7 @@ namespace ds
         virtual std::shared_ptr<ConfigurationManager> _get_configuration_manager() = 0;
         virtual std::shared_ptr<Display> _get_display() = 0;
         virtual std::shared_ptr<Service> _get_serial_license_retriever() = 0;
+        virtual std::shared_ptr<WifiManager> _get_wifi_manager() = 0;
 
     public:
         std::shared_ptr<OutputHandler> get_output_handler();
@@ -37,6 +40,7 @@ namespace ds
         std::shared_ptr<ConfigurationManager> get_configuration_manager();
         std::shared_ptr<Display> get_display();
         std::shared_ptr<Service> get_serial_license_retriever();
+        std::shared_ptr<WifiManager> get_wifi_manager();
     };
 };  // namespace ds
 

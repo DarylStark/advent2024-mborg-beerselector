@@ -3,21 +3,33 @@
 #include "cli_parser_priv_exec.h"
 #include "privileged/license_parsers.h"
 
-#include "config_commands/hostname.h"
 #include "config_commands/beer_list.h"
 #include "config_commands/log_buffer.h"
 #include "config_commands/service_uart_licensing.h"
+#include "config_commands/set_config_string.h"
+#include "config_commands/commands_wifi.h"
+
+#include "../../../logging.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_parser = nullptr;
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_hostname_parser()
 {
+    std::shared_ptr<SetConfigString> hostname_cmd = std::make_shared<SetConfigString>(
+        std::map<std::string, std::string>{{"hostname", "sys.hostname"}});
+    hostname_cmd->set_post_execute([]
+        (std::map<std::string, std::string> args)
+        {
+            log(INFO, "Hostname set to: \"" + args["hostname"] + "\"");
+            return false;
+        });
+
     // hostname
     std::shared_ptr<ArgumentedCommandParser> parser =
         std::make_shared<ArgumentedCommandParser>(
             "Set device hostname",
             "Set the hostname for the device.",
-            std::make_shared<Hostname>());
+            hostname_cmd);
     
     parser->add_argument(std::make_shared<StringArgument>(
         "hostname", true, "The hostname to set"));
@@ -112,6 +124,56 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_service_parser()
     return parser;
 }
 
+std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_wifi_parser()
+{
+    std::shared_ptr<SetConfigStringWifi> wifi_cmd = std::make_shared<SetConfigStringWifi>(
+        std::map<std::string, std::string>{
+            {"ssid", "wifi.ssid"},
+            {"password", "wifi.password"}
+        });
+    wifi_cmd->set_post_execute([]
+        (std::map<std::string, std::string> args)
+        {
+            log(INFO, "Wifi SSID is set to: \"" + args["ssid"] + "\"");
+            return false;
+        });
+
+    // Wifi
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Set wifi credentials",
+            "Set the credentials for the wifi.",
+            wifi_cmd);
+    
+    parser->add_argument(std::make_shared<StringArgument>(
+        "ssid", true, "The SSID to set"));
+    parser->add_argument(std::make_shared<StringArgument>(
+        "password", true, "The password to set")); // TODO: Make sure a password with spaces can be entered
+
+    return parser;
+}
+
+std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_no_parser()
+{
+    // no
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Negate a command or set a value to default",
+            "Negate a command or set a value to default");
+    
+    // no wifi
+    std::shared_ptr<ArgumentedCommandParser> no_wifi =
+        std::make_shared<ArgumentedCommandParser>(
+            "Stop and disable WiFi",
+            "Stop and disable WiFi. After stopping WiFi, the FreeRTOS tasks for Wifi will keep running until the device is rebooted.",
+            std::make_shared<DisableWifi>());
+    
+    // Tie them together
+    parser->add_parser("wifi", no_wifi);
+
+    return parser;
+}
+
 std::shared_ptr<ArgumentedCommandParser>
 CLIParserConfig::_create_parser()
 {
@@ -134,6 +196,10 @@ CLIParserConfig::_create_parser()
     parser->add_parser("license", LicenseConfig().get_parser());
     parser->add_parser("log-buffer", _get_logging_buffer_parser());
     parser->add_parser("service", _get_service_parser());
+    parser->add_parser("wifi", _get_wifi_parser());
+
+    // Negations
+    parser->add_parser("no", _get_no_parser());
 
     return parser;
 }

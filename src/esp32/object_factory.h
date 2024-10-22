@@ -28,6 +28,8 @@ namespace ds::esp32
         std::shared_ptr<ds::ConfigurationManager> _get_configuration_manager();
         std::shared_ptr<ds::Display> _get_display();
         std::shared_ptr<ds::Service> _get_serial_license_retriever();
+        std::shared_ptr<ds::WifiManager> _get_wifi_manager();
+        
     public:
         ESP32ObjectFactory(
             std::shared_ptr<ds::esp32::UART> uart,

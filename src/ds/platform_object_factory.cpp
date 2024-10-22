@@ -41,4 +41,10 @@ namespace ds
             _serial_license_retriever = _get_serial_license_retriever();
         return _serial_license_retriever;
     }
+
+    std::shared_ptr<WifiManager> PlatformObjectFactory::get_wifi_manager()
+    {
+        if (!_wifi_manager) _wifi_manager = _get_wifi_manager();
+        return _wifi_manager;
+    }
 }  // namespace ds

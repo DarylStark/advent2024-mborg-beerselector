@@ -5,6 +5,7 @@
 #include "os.h"
 #include "output_handler.h"
 #include "tm1637_display.h"
+#include "wifi_manager.h"
 #include "../beer_selector/serial_license_retriever.h"
 
 namespace ds::esp32
@@ -48,5 +49,10 @@ namespace ds::esp32
     std::shared_ptr<ds::Service> ESP32ObjectFactory::_get_serial_license_retriever()
     {
         return std::make_shared<SerialLicenseRetriever>(_license_uart, this);
+    }
+
+    std::shared_ptr<ds::WifiManager> ESP32ObjectFactory::_get_wifi_manager()
+    {
+        return std::make_shared<ds::esp32::ESP32WifiManager>(get_configuration_manager());
     }
 }  // namespace ds::esp32

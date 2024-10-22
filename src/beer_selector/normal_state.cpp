@@ -182,7 +182,7 @@ void NormalState::start_logging_service() {
     xTaskCreatePinnedToCore(
         NormalState::logging_service,
         "logger",
-        1024,
+        1536,
         this,
         1,
         NULL,
@@ -193,7 +193,7 @@ void NormalState::start_cli_service() {
     xTaskCreatePinnedToCore(
         NormalState::normal_cli,
         "console_cli",
-        4096,
+        8192,
         this,
         1,
         NULL,
@@ -275,6 +275,9 @@ void NormalState::run() {
     // Start the Serial License Retriever service, if enabled
     if (_factory->get_configuration_manager()->get("svc.uart_lic") == "1")
         _factory->get_serial_license_retriever()->start();
+    
+    // Start the Wifi Manager service
+    _factory->get_wifi_manager()->start();
 
     // Start the login service
     start_login_service();

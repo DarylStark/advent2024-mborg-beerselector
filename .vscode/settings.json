@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.asm": "asm-intel-x86-generic",
         "ostream": "cpp",
         "array": "cpp",
         "atomic": "cpp",
@@ -59,6 +60,8 @@
         "typeinfo": "cpp",
         "iomanip": "cpp",
         "unordered_set": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "bitset": "cpp",
+        "regex": "cpp"
     }
 }

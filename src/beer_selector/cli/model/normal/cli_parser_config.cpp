@@ -7,7 +7,7 @@
 #include "config_commands/log_buffer.h"
 #include "config_commands/service_uart_licensing.h"
 #include "config_commands/set_config_string.h"
-#include "config_commands/set_config_string_wifi.h"
+#include "config_commands/commands_wifi.h"
 
 #include "../../../logging.h"
 
@@ -153,6 +153,27 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_wifi_parser()
     return parser;
 }
 
+std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_no_parser()
+{
+    // no
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Negate a command or set a value to default",
+            "Negate a command or set a value to default");
+    
+    // no wifi
+    std::shared_ptr<ArgumentedCommandParser> no_wifi =
+        std::make_shared<ArgumentedCommandParser>(
+            "Stop and disable WiFi",
+            "Stop and disable WiFi. After stopping WiFi, the FreeRTOS tasks for Wifi will keep running until the device is rebooted.",
+            std::make_shared<DisableWifi>());
+    
+    // Tie them together
+    parser->add_parser("wifi", no_wifi);
+
+    return parser;
+}
+
 std::shared_ptr<ArgumentedCommandParser>
 CLIParserConfig::_create_parser()
 {
@@ -176,6 +197,9 @@ CLIParserConfig::_create_parser()
     parser->add_parser("log-buffer", _get_logging_buffer_parser());
     parser->add_parser("service", _get_service_parser());
     parser->add_parser("wifi", _get_wifi_parser());
+
+    // Negations
+    parser->add_parser("no", _get_no_parser());
 
     return parser;
 }

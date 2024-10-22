@@ -1,5 +1,5 @@
-#ifndef SET_CONFIG_STRING_WIFI_H
-#define SET_CONFIG_STRING_WIFI_H
+#ifndef COMMANDS_WIFI_H
+#define COMMANDS_WIFI_H
 
 #include "set_config_string.h"
 
@@ -9,4 +9,9 @@ public:
     bool execute(std::map<std::string, std::string> args) override;
 };
 
-#endif // SET_CONFIG_STRING_WIFI_H
+class DisableWifi: public Command {
+public:
+    bool execute(std::map<std::string, std::string> args) override;
+};
+
+#endif // COMMANDS_WIFI_H

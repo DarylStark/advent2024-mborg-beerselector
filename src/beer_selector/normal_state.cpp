@@ -283,7 +283,7 @@ void NormalState::run() {
     gpio_isr_handler_add(GPIO_NUM_23, NormalState::_isr_mode_button_state_change, this);
 
     // Set timezone
-    setenv("TZ", "CET", 1);
+    setenv("TZ", "CET-1CEST,M3.5.0/2,M10.5.0/3", 1); // TODO: Make this configurable
     tzset();
 
     // Start the "always running" services

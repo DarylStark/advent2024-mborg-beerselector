@@ -1,3 +1,5 @@
+#include "esp_sntp.h"
+
 #include "wifi_manager.h"
 
 #include <cstring>
@@ -23,10 +25,12 @@ namespace ds::esp32
             else if (event_id == WIFI_EVENT_STA_CONNECTED)
             {
                 log(INFO, "Connected to WiFi");
+                sntp_restart();
             }
             else if (event_id == WIFI_EVENT_STA_DISCONNECTED)
             {
                 log(INFO, "Disconnected from Wifi");
+                sntp_stop();
             }
         }
 
@@ -66,6 +70,11 @@ namespace ds::esp32
         esp_wifi_init(&cfg);
         esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, ESP32WifiManager::_wifi_event, this);
         esp_event_handler_register(IP_EVENT, ESP_EVENT_ANY_ID, ESP32WifiManager::_wifi_event, this);
+
+        // Configure SNTP
+        sntp_setoperatingmode(SNTP_OPMODE_POLL);
+        sntp_setservername(0, "pool.ntp.org"); // TODO: Make this configurable
+        sntp_init();
 
         _set_wifi_credentials();
 

@@ -191,7 +191,7 @@ void tm1637_set_number_lead(tm1637_led_t *led, uint16_t number, const bool lead_
 
 void tm1637_set_number_lead_dot(tm1637_led_t *led, uint16_t number, bool lead_zero, const uint8_t dot_mask)
 {
-    uint8_t lead_number = lead_zero ? 0xFF : tm1637_symbols[0];
+    uint8_t lead_number = lead_zero ? 0 : 0xFF;
 
     if (number < 10)
     {

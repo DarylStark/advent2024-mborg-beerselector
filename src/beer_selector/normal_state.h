@@ -18,6 +18,7 @@ private:
     TimerHandle_t _display_beer_list_timer;
     SemaphoreHandle_t _mode_button_semaphore;
     uint16_t _beer_list_index;
+    TaskHandle_t _display_time_service_task;
 
 public:
     NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
@@ -28,6 +29,7 @@ public:
     void start_cli_service();
     void start_login_service();
     void start_input_service();
+    void start_display_time_service();
 
     // Timer creations
     void create_display_beer_list_timer();
@@ -37,6 +39,7 @@ public:
     static void logging_service(void *args);
     static void normal_cli(void *args);
     static void input_service(void *args);
+    static void display_time_service(void *args);
 
     // Timer services
     static void display_beer_list(TimerHandle_t xTimer);

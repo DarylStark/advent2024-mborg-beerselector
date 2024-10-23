@@ -62,6 +62,9 @@
         "unordered_set": "cpp",
         "queue": "cpp",
         "bitset": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "any": "cpp",
+        "forward_list": "cpp",
+        "valarray": "cpp"
     }
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <json.h>
 #include <esp_http_client.h>
+#include <esp_https_ota.h>
 
 #include "online_version_manager.h"
 
@@ -17,6 +18,11 @@ const char* OnlineVersionManagerException::what() const noexcept
 OnlineVersionManager::OnlineVersionManager()
     : _error(""), _up_to_date(false)
 {
+}
+
+std::string Version::download_url() const
+{
+    return std::string("http://mborg.dstark.nl/") + filename;
 }
 
 esp_err_t OnlineVersionManager::_http_event_handler(esp_http_client_event_t *evt) {
@@ -49,6 +55,32 @@ esp_err_t OnlineVersionManager::_http_event_handler(esp_http_client_event_t *evt
     return ESP_OK;
 }
 
+esp_err_t OnlineVersionManager::_http_event_handler_ota(esp_http_client_event_t *evt) {
+    OnlineVersionManager *ovm = static_cast<OnlineVersionManager *>(evt->user_data);
+
+    switch (evt->event_id) {
+        case HTTP_EVENT_ERROR:
+            ovm->_error = "HTTP_EVENT_ERROR";
+            break;
+        case HTTP_EVENT_ON_CONNECTED:
+            ovm->_error = "HTTP_EVENT_ON_CONNECTED";
+            break;
+        case HTTP_EVENT_HEADER_SENT:
+            ovm->_error = "HTTP_EVENT_HEADER_SENT";
+            break;
+        case HTTP_EVENT_ON_HEADER:
+            ovm->_error = "HTTP_EVENT_ON_HEADER";
+            break;
+        case HTTP_EVENT_DISCONNECTED:
+            ovm->_error = "HTTP_EVENT_DISCONNECTED";
+            break;
+        default:
+            ovm->_error = "Unknown error";
+            break;
+        }
+    return ESP_OK;
+}
+
 void OnlineVersionManager::update_versions(bool force)
 {
     using json = nlohmann::json;
@@ -58,8 +90,12 @@ void OnlineVersionManager::update_versions(bool force)
 
     _json_content.clear();
 
+    // Compile the URL
+    // TODO: make this configurable
+    std::string url = std::string("http://mborg.dstark.nl/") + "bs_ac24.json";
+
     esp_http_client_config_t config = {
-        .url = "http://mborg.dstark.nl/bs_ac24.json", // TODO: Make this configurable
+        .url = url.c_str(),
         .event_handler = _http_event_handler,
         .user_data = this // Pass the instance to the event handler
     };
@@ -80,6 +116,9 @@ void OnlineVersionManager::update_versions(bool force)
                 .date = it.value()["date"],
                 .latest = key == j["latest"]
             };
+
+            if (_versions[key].latest)
+                _latest = _versions[key];
         }
         _up_to_date = true;
     }
@@ -98,4 +137,25 @@ const std::map<std::string, Version> &OnlineVersionManager::get_versions()
         update_versions();
 
     return _versions;
+}
+
+const Version &OnlineVersionManager::get_latest()
+{
+    if (!_up_to_date)
+        update_versions();
+
+    return _latest;
+}
+
+void OnlineVersionManager::do_ota(std::string url)
+{
+    esp_http_client_config_t config = {
+        .url = url.c_str(),
+        .event_handler = _http_event_handler_ota,
+        .user_data = this // Pass the instance to the event handler
+    };
+
+    esp_err_t ret = esp_https_ota(&config);
+    if (ret != ESP_OK)
+        throw OnlineVersionManagerException(_error);
 }

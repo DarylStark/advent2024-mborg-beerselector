@@ -127,7 +127,8 @@ std::shared_ptr<ArgumentedCommandParser> CLIParserPrivExec::_get_ota_parser()
     std::shared_ptr<ArgumentedCommandParser> install =
         std::make_shared<ArgumentedCommandParser>(
             "Install a specific version",
-            "Install a specific version of the software. Enter `latest` to install the latest version.");
+            "Install a specific version of the software. Enter `latest` to install the latest version.",
+            std::make_shared<OTAInstall>());
     install->add_argument(
         std::make_shared<StringArgument>(
             "version",

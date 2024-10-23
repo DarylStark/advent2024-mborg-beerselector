@@ -184,8 +184,21 @@ CONFIG_BS_CONFIG_SYS_HOSTNAME="advent2024"
 #
 # Display
 #
-CONFIG_BS_CONFIG_DISPLAY_TIMEOUT="30000"
+CONFIG_BS_CONFIG_DISPLAY_TIMEOUT="30"
 # end of Display
+
+#
+# Logging
+#
+CONFIG_BS_CONFIG_LOG_BUFFER_LENGTH="32"
+CONFIG_BS_CONFIG_LOG_BUFFER_SEVERITY="7"
+# end of Logging
+
+#
+# Services
+#
+CONFIG_BS_CONFIG_SERVICE_UART_LICENSE="0"
+# end of Services
 # end of Default configuration
 
 #

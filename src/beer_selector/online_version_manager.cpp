@@ -22,7 +22,7 @@ OnlineVersionManager::OnlineVersionManager()
 
 std::string Version::download_url() const
 {
-    return std::string("http://mborg.dstark.nl/") + filename;
+    return std::string("http://mborg.dstark.nl:20241/") + filename;
 }
 
 esp_err_t OnlineVersionManager::_http_event_handler(esp_http_client_event_t *evt) {
@@ -92,7 +92,7 @@ void OnlineVersionManager::update_versions(bool force)
 
     // Compile the URL
     // TODO: make this configurable
-    std::string url = std::string("http://mborg.dstark.nl/") + "bs_ac24.json";
+    std::string url = std::string("http://mborg.dstark.nl:20241/") + "bs_ac24.json";
 
     esp_http_client_config_t config = {
         .url = url.c_str(),

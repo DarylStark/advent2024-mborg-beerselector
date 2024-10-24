@@ -1,5 +1,7 @@
 #include <ctime>
 #include "tm1637_display.h"
+#include "../tm1637/tm1637.h"
+
 namespace ds::esp32
 {
     TM1637Display::TM1637Display(gpio_num_t clk, gpio_num_t dta)
@@ -9,7 +11,22 @@ namespace ds::esp32
 
     void TM1637Display::set_number(uint16_t number)
     {
-        tm1637_set_number(_lcd, number);
+        tm1637_set_number_lead_dot(_lcd, number, true, 4);
+    }
+
+    void TM1637Display::set_beer(uint16_t day, uint16_t beer)
+    {
+        tm1637_set_segment_number(_lcd, 0, day / 10, false);
+        tm1637_set_segment_number(_lcd, 1, day % 10, true);
+        if (beer == 0)
+        {
+            set_digit(2, 17);
+            set_digit(3, 17);
+        } else {
+            // We display the beer in hexadecimal
+            tm1637_set_segment_number(_lcd, 2, (beer & 0xf0) >> 4, false);
+            tm1637_set_segment_number(_lcd, 3, beer & 0x0f, false);
+        }
     }
 
     void TM1637Display::set_brightness(uint8_t brightness)

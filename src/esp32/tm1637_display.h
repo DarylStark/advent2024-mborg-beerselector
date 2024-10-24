@@ -15,6 +15,7 @@ namespace ds::esp32
     public:
         TM1637Display(gpio_num_t clk, gpio_num_t dta);
         void set_number(uint16_t number) override;
+        void set_beer(uint16_t day, uint16_t beer);
         void set_brightness(uint8_t brightness) override;
         void set_digit(uint16_t digit, uint16_t number) const override;
         void set_all_dashes() const override;

@@ -93,9 +93,8 @@ bool OTAInstall::execute(std::map<std::string, std::string> args)
     try {
         ovm.do_ota(filename);
     } catch (OnlineVersionManagerException &e) {
-        // TODO: The error looks weird. It has weird characters in it.
-        _factory->get_output_handler()->println(std::string("Error: ") + std::string(e.what()));
-        log(ERROR, "Error during OTA update: " + std::string(e.what()));
+        _factory->get_output_handler()->println(std::string("Error: while downloading the firmware"));
+        log(ERROR, "Error during OTA update");
         return false;
     }
 

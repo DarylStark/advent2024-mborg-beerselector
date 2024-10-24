@@ -2,6 +2,7 @@
 #include "ota.h"
 #include "../../../../app_info.h"
 #include "../../../../online_version_manager.h"
+#include "../../../../logging.h"
 
 static OnlineVersionManager ovm = OnlineVersionManager();
 
@@ -94,10 +95,13 @@ bool OTAInstall::execute(std::map<std::string, std::string> args)
     } catch (OnlineVersionManagerException &e) {
         // TODO: The error looks weird. It has weird characters in it.
         _factory->get_output_handler()->println(std::string("Error: ") + std::string(e.what()));
+        log(ERROR, "Error during OTA update: " + std::string(e.what()));
         return false;
     }
 
     _factory->get_output_handler()->println("Installation successful! Please reboot to start the new version.\r\n");
+    log(INFO, "Software version " + version + " installed successfully.");
+    log(WARNING, "Device should be rebooted!");
 
     return false;
 }

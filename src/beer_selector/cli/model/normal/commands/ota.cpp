@@ -1,5 +1,6 @@
 #include <esp_wifi.h>
 #include "ota.h"
+#include "../../../../app_info.h"
 #include "../../../../online_version_manager.h"
 
 static OnlineVersionManager ovm = OnlineVersionManager();
@@ -28,6 +29,8 @@ bool OTAGetVersions::execute(std::map<std::string, std::string> args)
         _factory->get_output_handler()->print(" - " + std::string(version.second.name));
         if (version.second.latest)
             _factory->get_output_handler()->print(" - LATEST");
+        if (version.first == APP_VERSION)
+            _factory->get_output_handler()->print(" <-- your current version");
         _factory->get_output_handler()->println("");
 
     }
@@ -59,9 +62,13 @@ bool OTAInstall::execute(std::map<std::string, std::string> args)
         return false;
     }
 
-    // TODO: Compare current version
-
     std::string version = args["version"];
+    if (version == APP_VERSION)
+    {
+        _factory->get_output_handler()->println("You are already running this version.");
+        return false;
+    }
+
     std::string bin_file;
 
     try {

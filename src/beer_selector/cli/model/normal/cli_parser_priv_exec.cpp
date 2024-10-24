@@ -12,6 +12,7 @@
 #include "commands/show_log_buffer.h"
 #include "commands/show_wifi.h"
 #include "commands/external_license_info.h"
+#include "commands/ota.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserPrivExec::_parser = nullptr;
 
@@ -107,6 +108,40 @@ CLIParserPrivExec::_get_write_parser()
     return CLIParserWrite().get_parser();
 }
 
+std::shared_ptr<ArgumentedCommandParser> CLIParserPrivExec::_get_ota_parser()
+{
+    // ota
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Over-the-air update",
+            "Install software over the WiFi connection. Updates are installed at the inactive partition. At the next reboot, the inactive partition will become the active partition.");
+    
+    // ota get-versions
+    std::shared_ptr<ArgumentedCommandParser> get =
+        std::make_shared<ArgumentedCommandParser>(
+            "Get installable versions",
+            "Retrieve a list of available versions",
+            std::make_shared<OTAGetVersions>());
+    
+    // ota install
+    std::shared_ptr<ArgumentedCommandParser> install =
+        std::make_shared<ArgumentedCommandParser>(
+            "Install a specific version",
+            "Install a specific version of the software. Enter `latest` to install the latest version.",
+            std::make_shared<OTAInstall>());
+    install->add_argument(
+        std::make_shared<StringArgument>(
+            "version",
+            true,
+            "The version to install"));
+    
+    // Tie the parsers together
+    parser->add_parser("get-versions", get);
+    parser->add_parser("install", install);
+
+    return parser;
+}
+
 std::shared_ptr<ArgumentedCommandParser>
 CLIParserPrivExec::_create_parser()
 {
@@ -124,6 +159,7 @@ CLIParserPrivExec::_create_parser()
     parser->add_parser("exit", _get_disable_parser());
     parser->add_parser("show", _get_show_parser());
     parser->add_parser("write", _get_write_parser());
+    parser->add_parser("ota", _get_ota_parser());
 
     return parser;
 }

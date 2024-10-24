@@ -1,3 +1,4 @@
+#include <esp_wifi.h>
 #include "ota.h"
 #include "../../../../online_version_manager.h"
 
@@ -5,7 +6,12 @@ static OnlineVersionManager ovm = OnlineVersionManager();
 
 bool OTAGetVersions::execute(std::map<std::string, std::string> args)
 {
-    // TODO: Check if online
+    wifi_ap_record_t ap_info;
+    esp_err_t err = esp_wifi_sta_get_ap_info(&ap_info);
+    if (err != ESP_OK) {
+        _factory->get_output_handler()->println("Not connected to WiFi");
+        return false;
+    }
 
     _factory->get_output_handler()->println("\r\nAvailable versions online:\r\n");
 
@@ -46,7 +52,13 @@ std::string OTAInstall::_get_filename(std::string version) const
 
 bool OTAInstall::execute(std::map<std::string, std::string> args)
 {
-    // TODO: Check if online
+    wifi_ap_record_t ap_info;
+    esp_err_t err = esp_wifi_sta_get_ap_info(&ap_info);
+    if (err != ESP_OK) {
+        _factory->get_output_handler()->println("Not connected to WiFi");
+        return false;
+    }
+
     // TODO: Compare current version
 
     std::string version = args["version"];

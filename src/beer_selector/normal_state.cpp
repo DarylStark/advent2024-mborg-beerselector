@@ -176,8 +176,9 @@ void NormalState::display_beer_list(TimerHandle_t xTimer)
 
     uint16_t beer = state->_beer_list_index;
 
-    // TODO: Method in NormalState for this
-    state->_factory->get_display()->set_number((beer * 100) + BeerList().get_beer_for_day(beer));
+    state->_factory->get_display()->set_beer(
+        beer,
+        BeerList().get_beer_for_day(beer));
 
     // TODO: Method in NormalState for this
     state->_beer_list_index++;

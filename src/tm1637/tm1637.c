@@ -54,6 +54,10 @@ static const int8_t tm1637_symbols[] = {
     0x79, // 0b01111001,    // E
     0x71, // 0b01110001     // F
     0x40, // 0b01000000     // minus sign
+    0x08, // 0b01000000     // underscore
+    0x01, // 0b01000000     // top line
+    0x39, // 0b00111001,    // left half of square
+    0x0f, // 0b00111001,    // right half of square
 };
 
 static void tm1637_start(tm1637_led_t *led);

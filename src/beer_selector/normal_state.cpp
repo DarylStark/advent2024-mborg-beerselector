@@ -186,7 +186,7 @@ void NormalState::display_beer_list(TimerHandle_t xTimer)
         state->_beer_list_index = 1;
 }
 
-void NormalState::_isr_mode_button_state_change(void * args)
+void IRAM_ATTR NormalState::_isr_mode_button_state_change(void * args)
 {
     NormalState* state = static_cast<NormalState*>(args);
     xSemaphoreGiveFromISR(state->_mode_button_semaphore, 0);

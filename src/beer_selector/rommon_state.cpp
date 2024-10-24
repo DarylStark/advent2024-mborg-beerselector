@@ -17,7 +17,7 @@ RommonState::RommonState(std::shared_ptr<ds::PlatformObjectFactory> factory,
 
 void RommonState::rommon_cli_task(void *args)
 {
-    RommonState *rommon_state = (RommonState *)args;
+    RommonState *rommon_state = static_cast<RommonState *>(args);
     rommon_state->_factory->get_output_handler()->println("INITIALIZING ROMMON\r\n\r\n");
 
     CLIParserROMMONFactory parser_factory;

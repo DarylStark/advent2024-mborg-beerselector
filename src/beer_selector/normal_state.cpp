@@ -22,7 +22,7 @@ NormalState::NormalState(std::shared_ptr<ds::PlatformObjectFactory> factory,
 }
 
 void NormalState::login_prompt(void *args) {
-    NormalState *normal_state = (NormalState *)args;
+    NormalState *normal_state = static_cast<NormalState *>(args);
     uint32_t incorrect_counter = 0;    
     while (true)
     {
@@ -67,7 +67,7 @@ void NormalState::login_prompt(void *args) {
 
 void NormalState::normal_cli(void *args)
 {
-    NormalState *normal_state = (NormalState *)args;
+    NormalState *normal_state = static_cast<NormalState *>(args);
   
     log(INFO, "Console is started");
 
@@ -87,7 +87,7 @@ void NormalState::normal_cli(void *args)
 
 void NormalState::logging_service(void *args)
 {
-    NormalState *state = (NormalState *)args;
+    NormalState *state = static_cast<NormalState *>(args);
     log(INFO, "Logging service is started");
 
     while (true)
@@ -116,7 +116,7 @@ void NormalState::logging_service(void *args)
 
 void NormalState::input_service(void *args)
 {
-    NormalState *state = (NormalState *)args;
+    NormalState *state = static_cast<NormalState *>(args);
     log(INFO, "Input service is started");
 
     // Resume the suspended task
@@ -157,7 +157,7 @@ void NormalState::input_service(void *args)
 
 void NormalState::display_time_service(void *args)
 {
-    NormalState *state = (NormalState *)args;
+    NormalState *state = static_cast<NormalState *>(args);
     while (true)
     {
         state->_factory->get_display()->show_time();
@@ -167,7 +167,7 @@ void NormalState::display_time_service(void *args)
 
 void NormalState::display_beer_list(TimerHandle_t xTimer)
 {
-    NormalState *state = (NormalState *)pvTimerGetTimerID(xTimer);
+    NormalState *state = static_cast<NormalState *>(pvTimerGetTimerID(xTimer));
     if (state == nullptr)
     {
         log(ERROR, "Failed to get the state from the timer");
@@ -255,7 +255,7 @@ void NormalState::create_display_beer_list_timer()
         "display_beer_list_timer",
         get_display_beer_list_timer_period(),
         pdTRUE,
-        (void *)this,
+        static_cast<void*>(this),
         NormalState::display_beer_list);
 }
 

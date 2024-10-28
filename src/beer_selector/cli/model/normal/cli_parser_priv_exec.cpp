@@ -3,6 +3,7 @@
 #include "../shared/cli_parser_sys_info.h"
 #include "../shared/cli_parser_rtos_info.h"
 #include "../shared/cli_parser_write.h"
+#include "../shared/cli_parser_show_version.h"
 
 #include "privileged/license_parsers.h"
 #include "privileged/beerlist_parsers.h"
@@ -35,6 +36,7 @@ CLIParserPrivExec::_get_show_parser()
     parser->add_parser("log-buffer", _get_show_log_parser());
     parser->add_parser("external-license", _get_show_external_license_parser());
     parser->add_parser("wifi", _get_show_wifi_parser());
+    parser->add_parser("version", CLIParserShowVersion().get_parser());
 
     return parser;
 }

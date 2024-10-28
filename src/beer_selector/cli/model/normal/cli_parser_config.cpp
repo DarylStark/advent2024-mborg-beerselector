@@ -8,10 +8,50 @@
 #include "config_commands/service_uart_licensing.h"
 #include "config_commands/set_config_string.h"
 #include "config_commands/commands_wifi.h"
+#include "config_commands/auth_credentials.h"
+#include "config_commands/auth_enable.h"
 
 #include "../../../logging.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_parser = nullptr;
+
+std::shared_ptr<ArgumentedCommandParser>
+CLIParserConfig::_get_auth_parser()
+{
+    // Auth
+    std::shared_ptr<ArgumentedCommandParser> parser =
+        std::make_shared<ArgumentedCommandParser>(
+            "Authentication configuration",
+            "Configure authentication settings like username and password and "
+            "the password to enter privileged mode.");
+
+    // auth credentials <username> <password>
+    std::shared_ptr<ArgumentedCommandParser> credentials =
+        std::make_shared<ArgumentedCommandParser>(
+            "Authentication credentials",
+            "Set the credentials to log in to the device.",
+            std::make_shared<AuthCredentials>());
+    credentials->add_argument(std::make_shared<StringArgument>(
+        "username", true, "The username to set"));
+    credentials->add_argument(std::make_shared<StringArgument>(
+        "password", true, "The password to set"));
+
+    // auth enable <password>
+    std::shared_ptr<ArgumentedCommandParser> enable =
+        std::make_shared<ArgumentedCommandParser>(
+            "Set password for privilegd mode",
+            "Set the password that is used "
+            "to enter privileged mode.",
+            std::make_shared<AuthEnable>());
+    enable->add_argument(std::make_shared<StringArgument>(
+        "password", true, "The password to set"));
+
+    // Add the `credentials` subparser to the `auth` parser
+    parser->add_parser("credentials", credentials);
+    parser->add_parser("enable", enable);
+
+    return parser;
+}
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserConfig::_get_hostname_parser()
 {
@@ -197,6 +237,7 @@ CLIParserConfig::_create_parser()
     parser->add_parser("log-buffer", _get_logging_buffer_parser());
     parser->add_parser("service", _get_service_parser());
     parser->add_parser("wifi", _get_wifi_parser());
+    parser->add_parser("auth", _get_auth_parser());
 
     // Negations
     parser->add_parser("no", _get_no_parser());

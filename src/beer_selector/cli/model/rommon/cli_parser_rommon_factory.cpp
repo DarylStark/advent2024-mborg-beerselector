@@ -1,52 +1,11 @@
 #include "./cli_parser_rommon_factory.h"
 
-#include "commands/auth_credentials.h"
-#include "commands/auth_enable.h"
-
 #include "../shared/cli_parser_sys_info.h"
 #include "../shared/cli_parser_rtos_info.h"
 #include "../shared/cli_parser_write.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserROMMONFactory::_parser =
     nullptr;
-
-std::shared_ptr<ArgumentedCommandParser>
-CLIParserROMMONFactory::_get_auth_parser()
-{
-    // Auth
-    std::shared_ptr<ArgumentedCommandParser> parser =
-        std::make_shared<ArgumentedCommandParser>(
-            "Authentication configuration",
-            "Configure authentication settings like username and password and "
-            "the password to enter privileged mode.");
-
-    // auth credentials <username> <password>
-    std::shared_ptr<ArgumentedCommandParser> credentials =
-        std::make_shared<ArgumentedCommandParser>(
-            "Authentication credentials",
-            "Set the credentials to log in to the device.",
-            std::make_shared<AuthCredentials>());
-    credentials->add_argument(std::make_shared<StringArgument>(
-        "username", true, "The username to set"));
-    credentials->add_argument(std::make_shared<StringArgument>(
-        "password", true, "The password to set"));
-
-    // auth enable <password>
-    std::shared_ptr<ArgumentedCommandParser> enable =
-        std::make_shared<ArgumentedCommandParser>(
-            "Set password for privilegd mode",
-            "Set the password that is used "
-            "to enter privileged mode.",
-            std::make_shared<AuthEnable>());
-    enable->add_argument(std::make_shared<StringArgument>(
-        "password", true, "The password to set"));
-
-    // Add the `credentials` subparser to the `auth` parser
-    parser->add_parser("credentials", credentials);
-    parser->add_parser("enable", enable);
-
-    return parser;
-}
 
 std::shared_ptr<ArgumentedCommandParser>
 CLIParserROMMONFactory::_get_show_parser()
@@ -83,7 +42,6 @@ CLIParserROMMONFactory::_create_parser()
     parser->add_parser("exit", CLISharedParser::get_reload_parser());
 
     // Add specific parsers
-    parser->add_parser("auth", _get_auth_parser());
     parser->add_parser("show", _get_show_parser());
     parser->add_parser("write", _get_write_parser());
 

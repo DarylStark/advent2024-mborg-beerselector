@@ -2,6 +2,7 @@
 
 #include "../shared/cli_parser_sys_info.h"
 #include "../shared/cli_parser_rtos_info.h"
+#include "../shared/cli_parser_show_version.h"
 
 #include "commands/enable.h"
 
@@ -19,6 +20,7 @@ CLIParserUserExec::_get_show_parser()
     // Add shared parsers
     parser->add_parser("system", CLIParserSysInfo().get_parser());
     parser->add_parser("freertos", CLIParserRTOSInfo().get_parser());
+    parser->add_parser("version", CLIParserShowVersion().get_parser());
 
     return parser;
 }

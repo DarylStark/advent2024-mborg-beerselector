@@ -1,8 +1,10 @@
+
 #include "./cli_parser_rommon_factory.h"
 
 #include "../shared/cli_parser_sys_info.h"
 #include "../shared/cli_parser_rtos_info.h"
 #include "../shared/cli_parser_write.h"
+#include "../shared/cli_parser_show_version.h"
 
 std::shared_ptr<ArgumentedCommandParser> CLIParserROMMONFactory::_parser =
     nullptr;
@@ -19,6 +21,7 @@ CLIParserROMMONFactory::_get_show_parser()
     // Add shared parsers
     parser->add_parser("system", CLIParserSysInfo().get_parser());
     parser->add_parser("freertos", CLIParserRTOSInfo().get_parser());
+    parser->add_parser("version", CLIParserShowVersion().get_parser());
 
     return parser;
 }

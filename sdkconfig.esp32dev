@@ -219,6 +219,12 @@ CONFIG_BS_LOGIN_INCORRECT_TRIES_BEFORE_LOCK=3
 CONFIG_BS_LOGIN_BLOCKING_TIME=10
 # end of Login prompt
 # end of Normal state
+
+#
+# Misc
+#
+CONFIG_BS_DOCUMENTATION_URL="http://mborg.dstark.nl:20241/"
+# end of Misc
 # end of App - Beer Selector
 
 #

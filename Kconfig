@@ -97,4 +97,10 @@ menu "App - Beer Selector"
                     If a user enters the wrong password too many times, the login prompt will block for this time.
         endmenu
     endmenu
+
+    menu "Misc"
+        config BS_DOCUMENTATION_URL
+            string "Web URL where documentation is hosted"
+            default "http://mborg.dstark.nl:20241/"
+    endmenu
 endmenu

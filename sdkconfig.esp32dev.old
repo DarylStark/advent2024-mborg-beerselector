@@ -219,6 +219,12 @@ CONFIG_BS_LOGIN_INCORRECT_TRIES_BEFORE_LOCK=3
 CONFIG_BS_LOGIN_BLOCKING_TIME=10
 # end of Login prompt
 # end of Normal state
+
+#
+# Misc
+#
+CONFIG_BS_DOCUMENTATION_URL="http://mborg.dstark.nl/"
+# end of Misc
 # end of App - Beer Selector
 
 #
@@ -497,7 +503,7 @@ CONFIG_HTTPD_PURGE_BUF_LEN=32
 #
 # ESP HTTPS OTA
 #
-# CONFIG_OTA_ALLOW_HTTP is not set
+CONFIG_OTA_ALLOW_HTTP=y
 # end of ESP HTTPS OTA
 
 #

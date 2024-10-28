@@ -1,6 +1,7 @@
 #include <sstream>
 #include <iomanip>
 #include "version.h"
+#include "qrcode.h"
 #include "../../../../app_info.h"
 
 bool Version::execute(std::map<std::string, std::string> args)
@@ -37,6 +38,11 @@ bool Version::execute(std::map<std::string, std::string> args)
         output_handler->println(out.str());
     }
     output_handler->println("");
+
+    output_handler->println("For documentation, go to " + std::string(CONFIG_BS_DOCUMENTATION_URL));
+
+    esp_qrcode_config_t cfg = ESP_QRCODE_CONFIG_DEFAULT();
+    esp_qrcode_generate(&cfg, CONFIG_BS_DOCUMENTATION_URL);
 
     return true;
 }

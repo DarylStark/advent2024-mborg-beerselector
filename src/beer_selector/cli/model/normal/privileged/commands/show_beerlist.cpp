@@ -27,9 +27,15 @@ bool ShowBeerListCmd::execute(std::map<std::string, std::string> args)
         uint16_t beer = beer_list.get_beer_for_day(day);
         uint16_t licensed = beer_list.is_license_valid_for_day(day);
 
+        std::stringstream beer_number;
+        if (licensed)
+            beer_number << "0x" << std::uppercase << std::hex << std::setw(2) << std::setfill('0') << beer;
+        else
+            beer_number << "____";
+
         std::stringstream ss;
         ss << std::right  << std::setw(6) << (day) << "  | "
-           << std::right  << std::setw(6) << (licensed ? std::to_string(beer) : ".") << "  | "
+           << std::right  << std::setw(6) << beer_number.str() << "  | "
            << std::left  << std::setw(16) << (licensed ? "Licensed" : "Not licensed")
            << "\r\n";
 

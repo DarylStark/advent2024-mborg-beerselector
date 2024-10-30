@@ -198,7 +198,7 @@ void NormalState::start_logging_service() {
         "logger",
         2048,
         this,
-        1,
+        4,
         NULL,
         1);
 }
@@ -207,7 +207,7 @@ void NormalState::start_cli_service() {
     xTaskCreatePinnedToCore(
         NormalState::normal_cli,
         "console_cli",
-        8192,
+        4096,
         this,
         1,
         NULL,
@@ -231,7 +231,7 @@ void NormalState::start_input_service() {
         "input",
         2048,
         this,
-        1,
+        5,
         NULL,
         0);
 }

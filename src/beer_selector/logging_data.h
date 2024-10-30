@@ -19,6 +19,7 @@ class LoggingData
 {
 private:
     uint64_t _time;
+    std::string _datetime;
     std::string _taskname;
     Severity _severity;
     std::string _message;

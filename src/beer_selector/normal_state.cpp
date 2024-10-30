@@ -196,7 +196,7 @@ void NormalState::start_logging_service() {
     xTaskCreatePinnedToCore(
         NormalState::logging_service,
         "logger",
-        1536,
+        2048,
         this,
         1,
         NULL,
@@ -229,7 +229,7 @@ void NormalState::start_input_service() {
     xTaskCreatePinnedToCore(
         NormalState::input_service,
         "input",
-        1024,
+        2048,
         this,
         1,
         NULL,

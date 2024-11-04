@@ -223,7 +223,7 @@ CONFIG_BS_LOGIN_BLOCKING_TIME=10
 #
 # Misc
 #
-CONFIG_BS_DOCUMENTATION_URL="http://mborg.dstark.nl/"
+CONFIG_BS_DOCUMENTATION_URL="http://mborg.dstark.nl:20241/fw/"
 # end of Misc
 # end of App - Beer Selector
 

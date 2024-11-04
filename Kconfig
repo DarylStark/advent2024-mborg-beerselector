@@ -99,8 +99,11 @@ menu "App - Beer Selector"
     endmenu
 
     menu "Misc"
+        config BS_OTA_BASE
+            string "Web URL where documentation is hosted"
+            default "http://mborg.dstark.nl:20241/fw/"
         config BS_DOCUMENTATION_URL
             string "Web URL where documentation is hosted"
-            default "http://mborg.dstark.nl:20241/"
+            default "http://mborg.dstark.nl:20241/docs/"
     endmenu
 endmenu

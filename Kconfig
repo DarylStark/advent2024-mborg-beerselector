@@ -105,5 +105,8 @@ menu "App - Beer Selector"
         config BS_DOCUMENTATION_URL
             string "Web URL where documentation is hosted"
             default "http://mborg.dstark.nl:20241/docs/"
+        config BS_LICENSE_WEBSITE_URL
+            string "Web URL where licensing is hosted"
+            default "http://mborg.dstark.nl:20241/license/"
     endmenu
 endmenu

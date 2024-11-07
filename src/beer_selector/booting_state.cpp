@@ -9,6 +9,8 @@
 #include "license/license_manager.h"
 #include "license/simple_validator.h"
 
+#include "qrcode.h"
+
 ScopedAction::ScopedAction(std::string title,
                            std::shared_ptr<ds::OutputHandler> output_handler)
     : _success(true), _output_handler(output_handler)
@@ -96,6 +98,14 @@ void BootingState::_print_device_information() const
         _output_handler->println(out.str());
     }
     _output_handler->println("");
+
+    _output_handler->println("For documentation go to: ");
+
+    esp_qrcode_config_t cfg = ESP_QRCODE_CONFIG_DEFAULT();
+    esp_qrcode_generate(&cfg, CONFIG_BS_DOCUMENTATION_URL);
+
+    _output_handler->println("");
+
 }
 
 bool BootingState::_wait_for_keypress_rommon()

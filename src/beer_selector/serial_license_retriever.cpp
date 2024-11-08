@@ -72,7 +72,7 @@ void SerialLicenseRetriever::start()
     xTaskCreatePinnedToCore(
         SerialLicenseRetriever::_service,
         "license_rx",
-        1024,
+        2048,
         this,
         5,
         &_task_handle,
